@@ -1,0 +1,11 @@
+{
+  "resource": "https://DOMAIN.com",
+  "resource_name": "Aussie Prop Notes Public Catalog",
+  "authorization_servers": [],
+  "scopes_supported": [],
+  "bearer_methods_supported": [],
+  "resource_documentation": "https://DOMAIN.com/auth.md",
+  "resource_policy_uri": "https://DOMAIN.com/terms/",
+  "tls_client_certificate_bound_access_tokens": false,
+  "note": "All resources on DOMAIN.com are publicly accessible. No OAuth tokens are required."
+}

@@ -1,0 +1,30 @@
+{
+  "protocol": {
+    "name": "acp",
+    "version": "0.1.0"
+  },
+  "name": "Aussie Prop Notes",
+  "description": "Australian prop money supplier: camera-ready AUD prop notes, money stacks, custom prints and event props. Sydney-founded 2022.",
+  "api_base_url": "https://DOMAIN.com",
+  "homepage": "https://DOMAIN.com",
+  "transports": ["https"],
+  "capabilities": {
+    "services": ["product-catalog", "wholesale", "blog", "faq"],
+    "ordering": "human-assisted-whatsapp",
+    "payment_methods": ["crypto-BTC", "crypto-USDT", "bank-transfer", "payid"],
+    "currency": "AUD",
+    "minimum_order_usd": "250 AUD",
+    "free_shipping_threshold_usd": "500 AUD"
+  },
+  "contact": {
+    "whatsapp": "https://wa.me/61400000000",
+    "email": "info&#64;DOMAIN.com"
+  },
+  "legal": {
+    "age_restriction": "none",
+    "region": "Australia",
+    "ships_to": "Australia nationwide",
+    "product_type": "Prop money — clearly marked reproductions for film, photography, events, training",
+    "compliance": "RBA reproduction guidelines: reduced scale, clear prop markings, no security features. Not legal tender."
+  }
+}

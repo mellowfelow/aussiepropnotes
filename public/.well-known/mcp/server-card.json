@@ -1,0 +1,49 @@
+{
+  "$schema": "https://modelcontextprotocol.io/schemas/server-card/v1.json",
+  "serverInfo": {
+    "name": "Aussie Prop Notes",
+    "version": "1.0.0",
+    "description": "Australian prop money supplier: camera-ready AUD prop notes, money stacks, custom prints and event props. Sydney-founded 2022, RBA-guideline compliant.",
+    "homepage": "https://DOMAIN.com",
+    "contact": {
+      "email": "info&#64;DOMAIN.com",
+      "whatsapp": "+61400000000"
+    }
+  },
+  "transport": {
+    "type": "http",
+    "endpoint": "https://DOMAIN.com"
+  },
+  "capabilities": {
+    "resources": [
+      {
+        "name": "product-catalog",
+        "description": "Full prop money catalog: film & TV, photography, events, custom, novelty",
+        "uri": "https://DOMAIN.com/shop/"
+      },
+      {
+        "name": "wholesale-info",
+        "description": "Wholesale tiers: 10-20% trade discounts, priority dispatch",
+        "uri": "https://DOMAIN.com/wholesale/"
+      },
+      {
+        "name": "blog",
+        "description": "Educational guides on prop money legality and buying in Australia",
+        "uri": "https://DOMAIN.com/blog/"
+      }
+    ],
+    "commerce": {
+      "ordering": "WhatsApp or on-site order form (human-in-the-loop)",
+      "payment": ["crypto-BTC", "crypto-USDT", "bank-transfer", "payid"],
+      "currency": "AUD",
+      "minimumOrder": "250 AUD",
+      "freeShipping": "over 500 AUD",
+      "ships": "Australia nationwide"
+    }
+  },
+  "legal": {
+    "ageRestriction": "none",
+    "productType": "Prop money — reduced-scale, clearly marked reproductions for film, photography, event and training use",
+    "compliance": "All products follow Reserve Bank of Australia reproduction guidelines. Not legal tender. Use as genuine currency is a criminal offence."
+  }
+}

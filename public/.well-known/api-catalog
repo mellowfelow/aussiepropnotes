@@ -1,0 +1,21 @@
+{
+  "linkset": [
+    {
+      "anchor": "https://DOMAIN.com/",
+      "https://www.iana.org/assignments/link-relations/service-doc": [
+        { "href": "https://DOMAIN.com/faq/" }
+      ],
+      "title": "Aussie Prop Notes — Camera-Ready Prop Money. Australia-Wide."
+    },
+    {
+      "anchor": "https://DOMAIN.com/shop/",
+      "type": "text/html",
+      "title": "Aussie Prop Notes Product Catalog"
+    },
+    {
+      "anchor": "https://DOMAIN.com/wholesale/",
+      "type": "text/html",
+      "title": "Aussie Prop Notes Wholesale"
+    }
+  ]
+}

@@ -1,0 +1,50 @@
+User-agent: *
+Allow: /
+Disallow: /thank-you-contact/
+Disallow: /thank-you-order/
+Disallow: /thank-you-wholesale/
+
+Sitemap: https://DOMAIN.com/sitemap.xml
+
+# AI crawlers — welcome to index product & content pages
+User-agent: GPTBot
+Allow: /
+
+User-agent: ChatGPT-User
+Allow: /
+
+User-agent: ClaudeBot
+Allow: /
+
+User-agent: Claude-Web
+Allow: /
+
+User-agent: PerplexityBot
+Allow: /
+
+User-agent: Applebot
+Allow: /
+
+User-agent: Amazonbot
+Allow: /
+
+User-agent: Bytespider
+Allow: /
+
+User-agent: CCBot
+Allow: /
+
+User-agent: Google-Extended
+Allow: /
+
+User-agent: Meta-ExternalAgent
+Allow: /
+
+User-agent: cohere-ai
+Allow: /
+
+# Agent-readable resources
+# llms.txt: https://DOMAIN.com/llms.txt
+# API Catalog: https://DOMAIN.com/.well-known/api-catalog
+# Agent Skills: https://DOMAIN.com/.well-known/agent-skills/index.json
+# MCP Server Card: https://DOMAIN.com/.well-known/mcp/server-card.json

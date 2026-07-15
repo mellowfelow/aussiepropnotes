@@ -1,0 +1,6 @@
+node_modules/
+dist/
+dist-ssr/
+src/entry-server.jsx
+.DS_Store
+*.log

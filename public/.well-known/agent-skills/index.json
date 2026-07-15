@@ -1,0 +1,43 @@
+{
+  "$schema": "https://agentskills.io/schema/v0.2.0/index.json",
+  "name": "Aussie Prop Notes",
+  "url": "https://DOMAIN.com",
+  "description": "Camera-Ready Prop Money. Australia-Wide.",
+  "skills": [
+    {
+      "name": "browse-products",
+      "type": "navigation",
+      "description": "Browse the full Australian prop money catalog by category: film & TV, photography, events, custom, novelty",
+      "url": "https://DOMAIN.com/shop/",
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    {
+      "name": "order-via-whatsapp",
+      "type": "commerce",
+      "description": "Place an order via WhatsApp. Minimum order $250 AUD. Accepts crypto (10% off), bank transfer and PayID.",
+      "url": "https://wa.me/61400000000",
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    {
+      "name": "wholesale-inquiry",
+      "type": "commerce",
+      "description": "Wholesale trade pricing: 10-20% tiered discounts for film studios, event companies and trainers",
+      "url": "https://DOMAIN.com/wholesale/",
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    {
+      "name": "product-education",
+      "type": "content",
+      "description": "Guides on prop money legality in Australia and choosing camera-ready notes for productions",
+      "url": "https://DOMAIN.com/blog/",
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    {
+      "name": "contact",
+      "type": "support",
+      "description": "Contact for product questions, orders, custom prints or wholesale inquiries",
+      "url": "https://DOMAIN.com/contact/",
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    }
+  ]
+}
