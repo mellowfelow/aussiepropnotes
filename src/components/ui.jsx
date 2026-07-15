@@ -121,7 +121,7 @@ export function ProductCard({ p }) {
     <article className="pcard">
       {p.badge && <span className={'badge badge-' + p.badge.toLowerCase().replace(/ /g, '-')}>{p.badge}</span>}
       <Link to={'/product/' + p.slug + '/'} className="pcard-img">
-        <img src={'/images/' + p.slug + '.webp'} alt={p.name + ' — Australian prop money product'} width="400" height="400" loading="lazy" />
+        <img src={'/images/' + p.slug + '.webp'} alt={p.name + ' — Australian prop money product'} width="400" height="300" loading="lazy" />
       </Link>
       <div className="pcard-body">
         <h3><Link to={'/product/' + p.slug + '/'}>{p.name}</Link></h3>

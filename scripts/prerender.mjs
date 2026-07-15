@@ -1,6 +1,6 @@
 import fs from 'fs'
 import path from 'path'
-import { fileURLToPath } from 'url'
+import { fileURLToPath, pathToFileURL } from 'url'
 import { execSync } from 'child_process'
 
 // Build an SSR bundle first, then render each route into dist/
@@ -21,7 +21,7 @@ export function render(url) {
 `)
 execSync('npx vite build --ssr src/entry-server.jsx --outDir dist-ssr', { stdio: 'inherit' })
 
-const { render, ROUTES, SITE } = await import(path.join(root, 'dist-ssr/entry-server.js'))
+const { render, ROUTES, SITE } = await import(pathToFileURL(path.join(root, 'dist-ssr/entry-server.js')).href)
 const template = fs.readFileSync('dist/index.html', 'utf8')
 const TODAY = '2026-07-15'
 

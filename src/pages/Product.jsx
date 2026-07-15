@@ -16,7 +16,7 @@ export default function Product() {
       <Breadcrumbs trail={[['Shop', '/shop/'], [cat.name, '/shop/' + cat.slug + '/'], [p.name, null]]} />
       <div className="pdp">
         <div className="pdp-img">
-          <img src={'/images/' + p.slug + '.webp'} alt={p.name + ' — Australian prop money by Aussie Prop Notes'} width="600" height="600" loading="eager" />
+          <img src={'/images/' + p.slug + '.webp'} alt={p.name + ' — Australian prop money by Aussie Prop Notes'} width="600" height="450" loading="eager" />
         </div>
         <div className="pdp-info">
           {p.badge && <span className={'badge badge-' + p.badge.toLowerCase().replace(/ /g, '-')}>{p.badge}</span>}
