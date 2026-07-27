@@ -35,8 +35,10 @@ function htmlToMarkdown(html) {
   s = s.replace(/<h1[^>]*>([\s\S]*?)<\/h1>/g, (_, t) => `\n# ${strip(t)}\n\n`)
   s = s.replace(/<h2[^>]*>([\s\S]*?)<\/h2>/g, (_, t) => `\n## ${strip(t)}\n\n`)
   s = s.replace(/<h3[^>]*>([\s\S]*?)<\/h3>/g, (_, t) => `\n### ${strip(t)}\n\n`)
-  s = s.replace(/<a [^>]*href="([^"]*)"[^>]*>([\s\S]*?)<\/a>/g, (_, href, t) =>
-    `[${strip(t)}](${href.startsWith('http') ? href : SITE.url + href})`)
+  s = s.replace(/<a [^>]*href="([^"]*)"[^>]*>([\s\S]*?)<\/a>/g, (_, href, t) => {
+    const label = strip(t)
+    return label ? `[${label}](${href.startsWith('http') ? href : SITE.url + href})` : ''
+  })
   s = s.replace(/<li[^>]*>([\s\S]*?)<\/li>/g, (_, t) => `- ${strip(t)}\n`)
   s = s.replace(/<\/(p|div|section|summary|details)>/g, '\n\n')
   s = s.replace(/<[^>]+>/g, '')
