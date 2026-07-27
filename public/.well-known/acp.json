@@ -5,8 +5,8 @@
   },
   "name": "Aussie Prop Notes",
   "description": "Australian prop money supplier: camera-ready AUD prop notes, money stacks, custom prints and event props. Sydney-founded 2022.",
-  "api_base_url": "https://DOMAIN.com",
-  "homepage": "https://DOMAIN.com",
+  "api_base_url": "https://aussiepropnotes.com",
+  "homepage": "https://aussiepropnotes.com",
   "transports": ["https"],
   "capabilities": {
     "services": ["product-catalog", "wholesale", "blog", "faq"],
@@ -18,7 +18,7 @@
   },
   "contact": {
     "whatsapp": "https://wa.me/61400000000",
-    "email": "info&#64;DOMAIN.com"
+    "email": "info&#64;aussiepropnotes.com"
   },
   "legal": {
     "age_restriction": "none",

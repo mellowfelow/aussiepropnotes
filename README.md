@@ -2,7 +2,7 @@
 
 Camera-ready prop money for film, TV, photography and events. Sydney-founded, shipping Australia-wide since 2022.
 
-React (Vite) storefront, prerendered to static HTML for Cloudflare Pages.
+React (Vite) storefront, prerendered to static HTML, deployed on Vercel.
 
 ## Stack
 
@@ -31,29 +31,22 @@ npm run build    # vite build + prerender all routes into dist/
 - Security headers, CSP, `Link:` header for agent discovery
 - Content-Types + CORS for `llms.txt`, `auth.md` and `.well-known/*`
 - Cache-Control for `/assets`, `/images`, `/js`
-- www -> apex 301 (update the `www.DOMAIN.com` host value to your real domain)
+- www -> apex 301 to `aussiepropnotes.com`
 
 Import the repo in Vercel and it builds on every push to `main`. http -> https is automatic on Vercel.
 
-### Cloudflare Pages
+### Cloudflare Pages (not the primary target for this site, kept in sync)
 
 `public/_headers` and `public/_redirects` cover the same rules. Build command `npm run build`, output directory `dist`. For ZIP upload, run the build and upload the *contents* of `dist/`.
 
-> Both config sets ship in the repo and are ignored by the other platform, so either target works.
+## Before going live — remaining placeholders
 
-## Before going live — required find & replace
+| Placeholder | Where | Replace with |
+|---|---|---|
+| `YOUR-WEB3FORMS-KEY` | `src/data/site.js` (`SITE.web3formsKey`) | your Web3Forms access key — sign up free at web3forms.com with `info@aussiepropnotes.com`, no DNS changes needed |
+| `61400000000` | `src/data/site.js` (`SITE.whatsapp`) and every `.well-known/*` file + `public/js/webmcp.js` | your real WhatsApp number, in E.164 digits with no `+` |
 
-The repo ships with safe placeholders. Replace across all files:
-
-| Placeholder | Replace with |
-|---|---|
-| `DOMAIN.com` | your real domain |
-| `61400000000` | your real WhatsApp number |
-| `info@ / orders@ / wholesale@DOMAIN.com` | your real inboxes |
-| `YOUR-WEB3FORMS-KEY` | your Web3Forms access key |
-| `GSC-VERIFICATION-CODE` | your Google Search Console tag |
-
-Most live in `src/data/site.js` (SITE object) and `public/` (robots, llms.txt, .well-known/*).
+There is no generator script for the `.well-known/*` files in this project (unlike the Next.js WebForge template) — they're hand-maintained, so the WhatsApp number needs updating in each file listed above once you have it.
 
 Until a Web3Forms key is set, forms redirect to the thank-you page without emailing — **WhatsApp is the live order channel**.
 

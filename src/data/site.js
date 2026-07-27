@@ -1,11 +1,11 @@
 export const SITE = {
   brand: 'Aussie Prop Notes',
   tagline: 'Camera-Ready Prop Money. Australia-Wide.',
-  domain: 'DOMAIN.com',
-  url: 'https://DOMAIN.com',
-  email: 'info@DOMAIN.com',
-  ordersEmail: 'orders@DOMAIN.com',
-  wholesaleEmail: 'wholesale@DOMAIN.com',
+  domain: 'aussiepropnotes.com',
+  url: 'https://aussiepropnotes.com',
+  email: 'info@aussiepropnotes.com',
+  ordersEmail: 'info@aussiepropnotes.com',
+  wholesaleEmail: 'info@aussiepropnotes.com',
   whatsapp: '61400000000',
   currency: 'AUD',
   minOrder: 250,
@@ -14,9 +14,9 @@ export const SITE = {
   cryptoDiscount: 10,
   founded: '2022',
   foundedPlace: 'Sydney, Australia',
-  web3formsKey: 'YOUR-WEB3FORMS-KEY',
-  gscCode: 'GSC-VERIFICATION-CODE',
+  gscCode: 'InVzHA1y2jNP_PAeB-MN9jBJ2qUHMeD6TYMuw-AV4YQ',
   indexNowKey: 'a7f3c9e1b5d24680a7f3c9e1b5d24680',
+  web3formsKey: 'YOUR-WEB3FORMS-KEY',
   payments: ['Crypto (BTC / USDT)', 'Bank Transfer', 'PayID'],
 }
 

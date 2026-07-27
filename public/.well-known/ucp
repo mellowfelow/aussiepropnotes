@@ -3,14 +3,14 @@
   "protocol_version": "1.0",
   "spec": "https://ucp.dev/specification/overview/",
   "schema": "https://ucp.dev/schema/v1.json",
-  "site": "https://DOMAIN.com",
+  "site": "https://aussiepropnotes.com",
   "name": "Aussie Prop Notes",
   "description": "Australian prop money supplier: camera-ready AUD prop notes, money stacks, custom prints and event props.",
   "services": [
     {
       "id": "product-catalog",
       "type": "catalog",
-      "url": "https://DOMAIN.com/shop/",
+      "url": "https://aussiepropnotes.com/shop/",
       "description": "Full prop money catalog"
     },
     {
@@ -22,18 +22,18 @@
     {
       "id": "wholesale",
       "type": "b2b",
-      "url": "https://DOMAIN.com/wholesale/",
+      "url": "https://aussiepropnotes.com/wholesale/",
       "description": "Wholesale trade pricing and bulk ordering"
     }
   ],
   "capabilities": ["browse", "inquiry", "wholesale", "content"],
   "endpoints": {
-    "catalog": "https://DOMAIN.com/shop/",
-    "contact": "https://DOMAIN.com/contact/",
-    "agent_skills": "https://DOMAIN.com/.well-known/agent-skills/index.json",
-    "mcp_server_card": "https://DOMAIN.com/.well-known/mcp/server-card.json",
-    "api_catalog": "https://DOMAIN.com/.well-known/api-catalog",
-    "llms_txt": "https://DOMAIN.com/llms.txt"
+    "catalog": "https://aussiepropnotes.com/shop/",
+    "contact": "https://aussiepropnotes.com/contact/",
+    "agent_skills": "https://aussiepropnotes.com/.well-known/agent-skills/index.json",
+    "mcp_server_card": "https://aussiepropnotes.com/.well-known/mcp/server-card.json",
+    "api_catalog": "https://aussiepropnotes.com/.well-known/api-catalog",
+    "llms_txt": "https://aussiepropnotes.com/llms.txt"
   },
   "currency": "AUD",
   "minimum_order_usd": "250 AUD",
