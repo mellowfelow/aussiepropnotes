@@ -169,6 +169,7 @@ export function Footer() {
             <strong>Company</strong>
             <Link to="/about/">About</Link>
             <Link to="/blog/">Blog</Link>
+            <Link to="/blog/is-prop-money-legal-australia/">Compliance Guide</Link>
             <Link to="/wholesale/">Wholesale</Link>
             <Link to="/contact/">Contact</Link>
             <Link to="/faq/">FAQ</Link>

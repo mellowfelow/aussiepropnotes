@@ -33,7 +33,12 @@ export function BlogPost() {
       <Breadcrumbs trail={[['Blog', '/blog/'], [p.title, null]]} />
       <h1>{p.title}</h1>
       <time dateTime={p.date}>{new Date(p.date).toLocaleDateString('en-AU', { day: 'numeric', month: 'long', year: 'numeric' })} · Aussie Prop Notes</time>
-      {p.body.map(([tag, text], i) => tag === 'h2' ? <h2 key={i}>{text}</h2> : <p key={i}>{text}</p>)}
+      {p.body.map(([tag, text], i) => {
+        if (tag === 'h2') return <h2 key={i}>{text}</h2>
+        if (tag === 'h3') return <h3 key={i}>{text}</h3>
+        if (tag === 'ul') return <ul key={i} className="guide-list">{text.map((li, j) => <li key={j}>{li}</li>)}</ul>
+        return <p key={i}>{text}</p>
+      })}
       <div className="article-cta">
         <p><strong>Ready to order?</strong> Browse our <Link to="/shop/film-tv-props/">film &amp; TV prop money</Link>, the <Link to="/shop/">full range</Link>, or <Link to="/wholesale/">wholesale pricing</Link> for bulk orders.</p>
       </div>
