@@ -1,16 +1,13 @@
 import { next } from '@vercel/functions'
 
-// Vercel static hosting serves these extensionless .well-known files as
-// application/octet-stream (no recognized file extension to sniff from).
-// Force the correct Content-Type so JSON/linkset consumers parse them.
-const JSON_PATHS = new Set([
-  '/.well-known/oauth-authorization-server',
-  '/.well-known/oauth-protected-resource',
-  '/.well-known/openid-configuration',
-  '/.well-known/ucp',
-  '/.well-known/acp.json',
-])
-const LINKSET_PATH = '/.well-known/api-catalog'
+// NOTE: Vercel serves everything under /.well-known/* through a path that
+// bypasses both vercel.json `headers` rules and this middleware entirely
+// (confirmed live: no Link/CSP/security headers reach responses from that
+// path either). That means the Content-Type on the extensionless files in
+// there (ucp, oauth-authorization-server, etc.) can't be corrected from
+// here — a Vercel platform limitation, not a config bug. Those checks
+// already pass on isitagentready.com despite it, except the optional/
+// unscored UCP commerce check, so it isn't worth routing around.
 
 // Paths that never have a markdown counterpart — skip negotiation for these.
 const NO_MARKDOWN_PREFIXES = ['/assets/', '/images/', '/fonts/', '/js/', '/.well-known/']
@@ -21,13 +18,6 @@ export const config = { matcher: '/:path*' }
 export default async function middleware(request) {
   const url = new URL(request.url)
   const { pathname } = url
-
-  if (JSON_PATHS.has(pathname)) {
-    return next({ headers: { 'content-type': 'application/json; charset=utf-8' } })
-  }
-  if (pathname === LINKSET_PATH) {
-    return next({ headers: { 'content-type': 'application/linkset+json; charset=utf-8' } })
-  }
 
   const accept = request.headers.get('accept') || ''
   const wantsMarkdown = accept.includes('text/markdown')
