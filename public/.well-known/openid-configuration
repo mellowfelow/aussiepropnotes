@@ -1,5 +1,5 @@
 {
-  "issuer": "https://aussiepropnotes.com",
+  "issuer": "https://www.aussiepropnotes.com",
   "note": "Aussie Prop Notes does not operate an OpenID Connect provider. All resources are publicly accessible.",
   "public_site": true,
   "authorization_endpoint": null,

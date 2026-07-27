@@ -4,7 +4,7 @@ Disallow: /thank-you-contact/
 Disallow: /thank-you-order/
 Disallow: /thank-you-wholesale/
 
-Sitemap: https://aussiepropnotes.com/sitemap.xml
+Sitemap: https://www.aussiepropnotes.com/sitemap.xml
 
 # AI crawlers — welcome to index product & content pages
 User-agent: GPTBot
@@ -44,7 +44,7 @@ User-agent: cohere-ai
 Allow: /
 
 # Agent-readable resources
-# llms.txt: https://aussiepropnotes.com/llms.txt
-# API Catalog: https://aussiepropnotes.com/.well-known/api-catalog
-# Agent Skills: https://aussiepropnotes.com/.well-known/agent-skills/index.json
-# MCP Server Card: https://aussiepropnotes.com/.well-known/mcp/server-card.json
+# llms.txt: https://www.aussiepropnotes.com/llms.txt
+# API Catalog: https://www.aussiepropnotes.com/.well-known/api-catalog
+# Agent Skills: https://www.aussiepropnotes.com/.well-known/agent-skills/index.json
+# MCP Server Card: https://www.aussiepropnotes.com/.well-known/mcp/server-card.json

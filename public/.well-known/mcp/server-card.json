@@ -4,7 +4,7 @@
     "name": "Aussie Prop Notes",
     "version": "1.0.0",
     "description": "Australian prop money supplier: camera-ready AUD prop notes, money stacks, custom prints and event props. Sydney-founded 2022, RBA-guideline compliant.",
-    "homepage": "https://aussiepropnotes.com",
+    "homepage": "https://www.aussiepropnotes.com",
     "contact": {
       "email": "info&#64;aussiepropnotes.com",
       "whatsapp": "+61400000000"
@@ -12,24 +12,24 @@
   },
   "transport": {
     "type": "http",
-    "endpoint": "https://aussiepropnotes.com"
+    "endpoint": "https://www.aussiepropnotes.com"
   },
   "capabilities": {
     "resources": [
       {
         "name": "product-catalog",
         "description": "Full prop money catalog: film & TV, photography, events, custom, novelty",
-        "uri": "https://aussiepropnotes.com/shop/"
+        "uri": "https://www.aussiepropnotes.com/shop/"
       },
       {
         "name": "wholesale-info",
         "description": "Wholesale tiers: 10-20% trade discounts, priority dispatch",
-        "uri": "https://aussiepropnotes.com/wholesale/"
+        "uri": "https://www.aussiepropnotes.com/wholesale/"
       },
       {
         "name": "blog",
         "description": "Educational guides on prop money legality and buying in Australia",
-        "uri": "https://aussiepropnotes.com/blog/"
+        "uri": "https://www.aussiepropnotes.com/blog/"
       }
     ],
     "commerce": {

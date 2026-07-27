@@ -1,8 +1,8 @@
 export const SITE = {
   brand: 'Aussie Prop Notes',
   tagline: 'Camera-Ready Prop Money. Australia-Wide.',
-  domain: 'aussiepropnotes.com',
-  url: 'https://aussiepropnotes.com',
+  domain: 'www.aussiepropnotes.com',
+  url: 'https://www.aussiepropnotes.com',
   email: 'info@aussiepropnotes.com',
   ordersEmail: 'info@aussiepropnotes.com',
   wholesaleEmail: 'info@aussiepropnotes.com',

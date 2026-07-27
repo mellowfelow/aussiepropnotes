@@ -14,8 +14,8 @@
         },
         execute: async ({ category }) => {
           const url = category
-            ? "https://aussiepropnotes.com/shop/" + category + "/"
-            : "https://aussiepropnotes.com/shop/";
+            ? "https://www.aussiepropnotes.com/shop/" + category + "/"
+            : "https://www.aussiepropnotes.com/shop/";
           window.location.href = url;
           return { url: url };
         }
@@ -42,8 +42,8 @@
         description: "Get wholesale trade pricing tiers (10-20% off) and bulk ordering info",
         inputSchema: { type: "object", properties: {} },
         execute: async () => {
-          window.location.href = "https://aussiepropnotes.com/wholesale/";
-          return { url: "https://aussiepropnotes.com/wholesale/" };
+          window.location.href = "https://www.aussiepropnotes.com/wholesale/";
+          return { url: "https://www.aussiepropnotes.com/wholesale/" };
         }
       },
       {
@@ -51,8 +51,8 @@
         description: "Contact Aussie Prop Notes for product questions, custom prints or support",
         inputSchema: { type: "object", properties: {} },
         execute: async () => {
-          window.location.href = "https://aussiepropnotes.com/contact/";
-          return { url: "https://aussiepropnotes.com/contact/" };
+          window.location.href = "https://www.aussiepropnotes.com/contact/";
+          return { url: "https://www.aussiepropnotes.com/contact/" };
         }
       }
     ]

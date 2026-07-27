@@ -31,7 +31,7 @@ npm run build    # vite build + prerender all routes into dist/
 - Security headers, CSP, `Link:` header for agent discovery
 - Content-Types + CORS for `llms.txt`, `auth.md` and `.well-known/*`
 - Cache-Control for `/assets`, `/images`, `/js`
-- www -> apex 301 to `aussiepropnotes.com`
+- `www.aussiepropnotes.com` is canonical (matches the Vercel dashboard's domain redirect: apex -> www). There is no `redirects` entry in `vercel.json` for this — Vercel's own domain-level redirect already handles apex -> www, and adding a competing www -> apex rule in `vercel.json` created a redirect loop that broke every static asset. Don't re-add one without first checking which direction is set as primary in Vercel -> Project -> Settings -> Domains.
 
 Import the repo in Vercel and it builds on every push to `main`. http -> https is automatic on Vercel.
 

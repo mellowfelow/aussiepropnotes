@@ -1,5 +1,5 @@
 {
-  "issuer": "https://aussiepropnotes.com",
+  "issuer": "https://www.aussiepropnotes.com",
   "authorization_endpoint": null,
   "token_endpoint": null,
   "jwks_uri": null,
@@ -8,14 +8,14 @@
   "scopes_supported": [],
   "note": "Aussie Prop Notes has no protected APIs. All resources are publicly accessible.",
   "public_resources": [
-    "https://aussiepropnotes.com/shop/",
-    "https://aussiepropnotes.com/blog/",
-    "https://aussiepropnotes.com/faq/",
-    "https://aussiepropnotes.com/wholesale/",
-    "https://aussiepropnotes.com/llms.txt",
-    "https://aussiepropnotes.com/.well-known/api-catalog",
-    "https://aussiepropnotes.com/.well-known/agent-skills/index.json",
-    "https://aussiepropnotes.com/.well-known/mcp/server-card.json"
+    "https://www.aussiepropnotes.com/shop/",
+    "https://www.aussiepropnotes.com/blog/",
+    "https://www.aussiepropnotes.com/faq/",
+    "https://www.aussiepropnotes.com/wholesale/",
+    "https://www.aussiepropnotes.com/llms.txt",
+    "https://www.aussiepropnotes.com/.well-known/api-catalog",
+    "https://www.aussiepropnotes.com/.well-known/agent-skills/index.json",
+    "https://www.aussiepropnotes.com/.well-known/mcp/server-card.json"
   ],
   "agent_auth": {
     "register_uri": null,

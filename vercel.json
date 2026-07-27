@@ -4,9 +4,6 @@
   "outputDirectory": "dist",
   "cleanUrls": false,
   "trailingSlash": true,
-  "redirects": [
-    { "source": "/:path*", "has": [{ "type": "host", "value": "www.aussiepropnotes.com" }], "destination": "https://aussiepropnotes.com/:path*", "permanent": true }
-  ],
   "headers": [
     {
       "source": "/(.*)",

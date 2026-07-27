@@ -10,14 +10,14 @@ No authentication or registration is required. All resources on this site are pu
 
 | Resource | URL |
 |---|---|
-| Product catalog | https://aussiepropnotes.com/shop/ |
-| Wholesale info | https://aussiepropnotes.com/wholesale/ |
-| Blog / guides | https://aussiepropnotes.com/blog/ |
-| FAQ | https://aussiepropnotes.com/faq/ |
-| llms.txt | https://aussiepropnotes.com/llms.txt |
-| API Catalog | https://aussiepropnotes.com/.well-known/api-catalog |
-| Agent Skills | https://aussiepropnotes.com/.well-known/agent-skills/index.json |
-| MCP Server Card | https://aussiepropnotes.com/.well-known/mcp/server-card.json |
+| Product catalog | https://www.aussiepropnotes.com/shop/ |
+| Wholesale info | https://www.aussiepropnotes.com/wholesale/ |
+| Blog / guides | https://www.aussiepropnotes.com/blog/ |
+| FAQ | https://www.aussiepropnotes.com/faq/ |
+| llms.txt | https://www.aussiepropnotes.com/llms.txt |
+| API Catalog | https://www.aussiepropnotes.com/.well-known/api-catalog |
+| Agent Skills | https://www.aussiepropnotes.com/.well-known/agent-skills/index.json |
+| MCP Server Card | https://www.aussiepropnotes.com/.well-known/mcp/server-card.json |
 
 ```json
 {
