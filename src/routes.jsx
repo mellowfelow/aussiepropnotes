@@ -7,7 +7,7 @@ import { About, Contact, Wholesale, Faq, Cart, Order, Shipping, Refund, Privacy,
 import { SITE, CATEGORIES, PRODUCTS, POSTS, FAQS } from './data/site.js'
 
 const U = SITE.url
-const TODAY = '2026-07-15'
+const TODAY = new Date().toISOString().slice(0, 10)
 const encEmail = (e) => e.replace('@', '&#64;')
 
 const crumbs = (items) => ({

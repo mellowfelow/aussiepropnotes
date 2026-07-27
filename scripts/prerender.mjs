@@ -23,7 +23,7 @@ execSync('npx vite build --ssr src/entry-server.jsx --outDir dist-ssr', { stdio:
 
 const { render, ROUTES, SITE } = await import(pathToFileURL(path.join(root, 'dist-ssr/entry-server.js')).href)
 const template = fs.readFileSync('dist/index.html', 'utf8')
-const TODAY = '2026-07-15'
+const TODAY = new Date().toISOString().slice(0, 10)
 
 // Minimal HTML -> Markdown conversion of the page's <main> content, for
 // Accept: text/markdown negotiation (see middleware.js). Not pixel-perfect —
