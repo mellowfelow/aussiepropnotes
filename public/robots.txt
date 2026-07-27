@@ -3,6 +3,7 @@ Allow: /
 Disallow: /thank-you-contact/
 Disallow: /thank-you-order/
 Disallow: /thank-you-wholesale/
+Content-Signal: search=yes, ai-input=yes, ai-train=no
 
 Sitemap: https://www.aussiepropnotes.com/sitemap.xml
 

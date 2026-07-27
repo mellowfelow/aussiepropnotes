@@ -25,6 +25,28 @@ const { render, ROUTES, SITE } = await import(pathToFileURL(path.join(root, 'dis
 const template = fs.readFileSync('dist/index.html', 'utf8')
 const TODAY = '2026-07-15'
 
+// Minimal HTML -> Markdown conversion of the page's <main> content, for
+// Accept: text/markdown negotiation (see middleware.js). Not pixel-perfect —
+// good enough for an agent to read the page's actual content as text.
+function htmlToMarkdown(html) {
+  const main = /<main[^>]*>([\s\S]*?)<\/main>/.exec(html)
+  let s = main ? main[1] : html
+  s = s.replace(/<script[\s\S]*?<\/script>/g, '').replace(/<style[\s\S]*?<\/style>/g, '')
+  s = s.replace(/<h1[^>]*>([\s\S]*?)<\/h1>/g, (_, t) => `\n# ${strip(t)}\n\n`)
+  s = s.replace(/<h2[^>]*>([\s\S]*?)<\/h2>/g, (_, t) => `\n## ${strip(t)}\n\n`)
+  s = s.replace(/<h3[^>]*>([\s\S]*?)<\/h3>/g, (_, t) => `\n### ${strip(t)}\n\n`)
+  s = s.replace(/<a [^>]*href="([^"]*)"[^>]*>([\s\S]*?)<\/a>/g, (_, href, t) =>
+    `[${strip(t)}](${href.startsWith('http') ? href : SITE.url + href})`)
+  s = s.replace(/<li[^>]*>([\s\S]*?)<\/li>/g, (_, t) => `- ${strip(t)}\n`)
+  s = s.replace(/<\/(p|div|section|summary|details)>/g, '\n\n')
+  s = s.replace(/<[^>]+>/g, '')
+  s = s.replace(/&amp;/g, '&').replace(/&quot;/g, '"').replace(/&#64;/g, '@')
+    .replace(/&#39;|&#x27;/g, "'").replace(/&nbsp;/g, ' ')
+  s = s.replace(/[ \t]+\n/g, '\n').replace(/\n{3,}/g, '\n\n').trim()
+  return s
+  function strip(t) { return t.replace(/<[^>]+>/g, '').trim() }
+}
+
 for (const r of ROUTES) {
   const html = render(r.path)
   const canonical = SITE.url + r.path
@@ -33,8 +55,9 @@ for (const r of ROUTES) {
     `<meta name="description" content="${r.desc.replace(/"/g, '&quot;')}">`,
     r.noindex ? `<meta name="robots" content="noindex, follow">` : '',
     `<link rel="canonical" href="${canonical}">`,
-    `<link rel="preconnect" href="https://fonts.googleapis.com">`,
-    `<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>`,
+    `<link rel="preload" href="/fonts/inter-latin.woff2" as="font" type="font/woff2" crossorigin>`,
+    `<link rel="preload" href="/fonts/archivo-latin.woff2" as="font" type="font/woff2" crossorigin>`,
+    r.path === '/' ? `<link rel="preload" href="/images/hero.jpg" as="image" fetchpriority="high">` : '',
     `<link rel="icon" type="image/svg+xml" href="/images/favicon.svg">`,
     `<meta name="google-site-verification" content="${SITE.gscCode}">`,
     `<meta name="IndexNow-key" content="${SITE.indexNowKey}">`,
@@ -56,6 +79,11 @@ for (const r of ROUTES) {
   const outDir = path.join('dist', r.path)
   fs.mkdirSync(outDir, { recursive: true })
   fs.writeFileSync(path.join(outDir, 'index.html'), page)
+
+  if (!r.noindex) {
+    const md = `# ${r.title}\n\n> ${r.desc}\n\n${htmlToMarkdown(html)}\n`
+    fs.writeFileSync(path.join(outDir, 'index.md'), md)
+  }
 }
 
 // sitemap.xml (indexable routes only)
@@ -70,8 +98,6 @@ const notFoundHead = [
   `<meta name="description" content="That page could not be found. Browse the full Australian prop money range at Aussie Prop Notes — film, photography, event and custom prop money, shipped Australia-wide.">`,
   `<meta name="robots" content="noindex, follow">`,
   `<link rel="icon" type="image/svg+xml" href="/images/favicon.svg">`,
-  `<link rel="preconnect" href="https://fonts.googleapis.com">`,
-  `<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>`,
 ].join('\n')
 const notFoundBody = `<main class="section narrow center-page"><h1>Page not found</h1><p class="lead">We couldn't find that page. It may have moved. Browse our <a href="/shop/">full prop money range</a> or head <a href="/">home</a>.</p></main>`
 fs.writeFileSync('dist/404.html', template.replace('<!--HEAD-->', notFoundHead).replace('<!--APP-->', notFoundBody))
