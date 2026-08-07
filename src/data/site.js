@@ -16,8 +16,12 @@ export const SITE = {
   foundedPlace: 'Sydney, Australia',
   gscCode: 'InVzHA1y2jNP_PAeB-MN9jBJ2qUHMeD6TYMuw-AV4YQ',
   indexNowKey: 'a7f3c9e1b5d24680a7f3c9e1b5d24680',
-  web3formsKey: 'YOUR-WEB3FORMS-KEY',
+  web3formsKey: '50c0fea2-0c89-4d8c-973e-87889abb4fc2',
   payments: ['Crypto (BTC / USDT)', 'Bank Transfer', 'PayID'],
+}
+
+export const CHAT = {
+  tawkId: '6a76577c4e37a71d3f33dc33/1jvf4bgdd',
 }
 
 export const CATEGORIES = [
@@ -160,7 +164,7 @@ export const POSTS = [
       ['h3','Events, weddings and training'],
       ['p','Event companies distributing prop money to guests (money guns, photo booth props) should keep in mind notes may leave the venue in guests’ pockets. Clearly marked, reduced-scale notes remain legal wherever they end up; unmarked or full-size ones do not.'],
       ['h2','What this means when buying'],
-      ['p','Buy from a supplier that states its compliance approach openly. Every note we sell is reduced scale, clearly marked, and free of replicated security features, which is why productions can use our notes on set without legal review holding up the shoot. Read our full compliance statement on the legal page, and if you are ready to order, our Australian prop money range covers film, photography and events.'],
+      ['p','Buy from a supplier that states its compliance approach openly. Every note we sell is reduced scale, clearly marked, and free of replicated security features, which is why productions can use our notes on set without legal review holding up the shoot. Read our full compliance statement on the [legal page](/terms/), and if you are ready to order, our [Australian prop money range](/shop/) covers film, photography and events.'],
       ['h2','Quick answers'],
       ['h3','Can I be fined for owning prop money?'],
       ['p','No, not for owning compliant prop money — reduced scale, clearly marked, no replicated security features. The Act targets reproductions capable of deceiving someone into accepting them as genuine, and their use as if real, not the mere ownership of a properly designed prop.'],
@@ -170,7 +174,7 @@ export const POSTS = [
       ['p','No. Using any currency reproduction as if it were real money is an offence regardless of intent, humour, or whether it was later revealed as a joke.'],
     ]},
   { slug: 'australian-prop-money-buyers-guide-film-tv',
-    title: "Australian Prop Money: The Complete Buyer's Guide for Film & TV",
+    title: "Australian Prop Money: Complete Buyer's Guide for Film & TV",
     date: '2026-07-12',
     kw: 'australian prop money',
     excerpt: 'How to choose Australian prop money that holds up on 4K cameras: print quality, paper stock, aged vs fresh notes, stacks vs loose, and the compliance checks every production should run.',
@@ -180,9 +184,9 @@ export const POSTS = [
       ['h2','Fresh or aged?'],
       ['p','Fresh full-print notes suit bank scenes, briefcase reveals and anything implying new money. Aged and distressed notes belong anywhere cash is meant to have circulated — wallets, registers, crime scenes, period settings. Most productions order both and dress scenes accordingly.'],
       ['h2','Stacks, bundles and hero props'],
-      ['p','Loose notes dress wallets and registers. Banded stacks read as serious money and cut art-department time dramatically. For table spreads and duffel bags, a bundle such as our $100K money stack set gives uniform, camera-matched stacks out of the box. For a single hero shot, a pre-dressed briefcase set is the fastest route to a finished frame.'],
+      ['p','Loose notes dress wallets and registers. Banded stacks read as serious money and cut art-department time dramatically. For table spreads and duffel bags, a bundle such as our [$100K money stack set](/product/money-stack-bundle-100k/) gives uniform, camera-matched stacks out of the box. For a single hero shot, a [pre-dressed briefcase set](/product/briefcase-money-set/) is the fastest route to a finished frame.'],
       ['h2','The compliance check'],
-      ['p','Before any note reaches set, confirm three things: reduced scale, visible prop markings, and no replicated security features. Compliant notes protect the production and pass legal review without delay. If you are unsure where to start, our film and TV prop money category is organised exactly around these production needs, and our team has supplied Australian features, TVCs and music videos since 2022.'],
+      ['p','Before any note reaches set, confirm three things: reduced scale, visible prop markings, and no replicated security features. Compliant notes protect the production and pass legal review without delay. If you are unsure where to start, our [film and TV prop money category](/shop/film-tv-props/) is organised exactly around these production needs, and our team has supplied Australian features, TVCs and music videos since 2022.'],
     ]},  { slug: 'prop-money-vs-counterfeit-australia',
     title: 'Prop Money vs Counterfeit: The Legal Line in Australia',
     date: '2026-05-06',

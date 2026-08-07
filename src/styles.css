@@ -220,7 +220,7 @@ a:hover{color:var(--gold2)}
 .footer-cols>div{display:flex;flex-direction:column;gap:.5rem;min-width:140px}
 .footer-cols strong{color:var(--paper);font-size:.82rem;letter-spacing:.1em;text-transform:uppercase;margin-bottom:.3rem}
 .footer-bar{border-top:1px solid rgba(255,255,255,.12);padding:1rem 1.2rem;text-align:center;font-size:.75rem;color:#8A97A5;max-width:1180px;margin:0 auto}
-.wa-float{position:fixed;bottom:1.2rem;right:1.2rem;z-index:60;background:var(--wa);color:#fff;width:54px;height:54px;border-radius:50%;display:flex;align-items:center;justify-content:center;box-shadow:0 8px 26px rgba(31,168,85,.45)}
+.wa-float{position:fixed;bottom:6rem;right:1.2rem;z-index:60;background:var(--wa);color:#fff;width:54px;height:54px;border-radius:50%;display:flex;align-items:center;justify-content:center;box-shadow:0 8px 26px rgba(31,168,85,.45)}
 .wa-float:hover{color:#fff;transform:scale(1.06)}
 
 /* responsive */

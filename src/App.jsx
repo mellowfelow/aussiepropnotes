@@ -1,7 +1,7 @@
 import React, { useEffect } from 'react'
 import { Routes, Route, useLocation } from 'react-router-dom'
 import { ROUTES } from './routes.jsx'
-import { AnnouncementBar, Nav, Footer } from './components/ui.jsx'
+import { AnnouncementBar, Nav, Footer, TawkWidget } from './components/ui.jsx'
 import Shop from './pages/Shop.jsx'
 import Product from './pages/Product.jsx'
 import { BlogPost } from './pages/Blog.jsx'
@@ -23,6 +23,7 @@ export default function App() {
   return (
     <>
       <ScrollTop />
+      <TawkWidget />
       <AnnouncementBar />
       <Nav />
       <Routes>

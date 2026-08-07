@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from 'react'
 import { Link, useLocation } from 'react-router-dom'
-import { SITE, CATEGORIES } from '../data/site.js'
+import { SITE, CATEGORIES, CHAT } from '../data/site.js'
 
 // Entity-encoded email renderer (no plaintext emails in DOM/HTML)
 export function Email({ addr, className }) {
@@ -38,6 +38,33 @@ export function useCartCount() {
     return () => window.removeEventListener('apn-cart-change', h)
   }, [])
   return n
+}
+
+// ── Tawk.to chat widget (loaded deferred: first interaction or 3s idle) ──
+export function TawkWidget() {
+  useEffect(() => {
+    if (!CHAT.tawkId) return
+    let loaded = false
+    const load = () => {
+      if (loaded) return
+      loaded = true
+      window.Tawk_API = window.Tawk_API || {}
+      window.Tawk_LoadStart = new Date()
+      const s1 = document.createElement('script')
+      const s0 = document.getElementsByTagName('script')[0]
+      s1.async = true
+      s1.src = 'https://embed.tawk.to/' + CHAT.tawkId
+      s1.charset = 'UTF-8'
+      s1.setAttribute('crossorigin', '*')
+      s0.parentNode.insertBefore(s1, s0)
+      events.forEach(([ev, fn]) => window.removeEventListener(ev, fn))
+    }
+    const events = [['scroll', load], ['click', load], ['keydown', load], ['touchstart', load]]
+    events.forEach(([ev, fn]) => window.addEventListener(ev, fn, { passive: true, once: true }))
+    const t = setTimeout(load, 3000)
+    return () => { clearTimeout(t); events.forEach(([ev, fn]) => window.removeEventListener(ev, fn)) }
+  }, [])
+  return null
 }
 
 // ── Announcement bar ─────────────────────────────────────────────
