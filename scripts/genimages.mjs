@@ -1,4 +1,5 @@
 import fs from 'fs'
+import sharp from 'sharp'
 const dir = 'public/images'
 fs.mkdirSync(dir, { recursive: true })
 
@@ -82,12 +83,15 @@ const imgs = {
 }
 for (const [slug, svg] of Object.entries(imgs)) fs.writeFileSync(`${dir}/${slug}.svg`, svg)
 
-// OG image
-fs.writeFileSync(dir+'/og-home.svg', `<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1200 630">
+// OG image — rasterized to PNG too: most social platforms (Facebook, X,
+// LinkedIn, iMessage) don't render SVG for og:image/twitter:image previews.
+const ogSvg = `<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1200 630">
 <rect width="1200" height="630" fill="#0E1B2A"/>
 <g opacity="0.4" transform="translate(700 40) scale(0.9)">${Array.from({length:20},(_,i)=>`<circle cx="300" cy="300" r="${60+i*16}" stroke="#C9A227" stroke-opacity="${(0.45-i*0.02).toFixed(2)}" stroke-width="1" fill="none"/>`).join('')}</g>
 ${note('#7FBF8E','$100',380,190,90,300,-7)}
 <text x="90" y="150" font-family="Arial" font-size="64" font-weight="900" fill="#F7F5F0">Aussie Prop Notes</text>
 <text x="90" y="215" font-family="Arial" font-size="30" fill="#C9A227">Camera-Ready Prop Money. Australia-Wide.</text>
-</svg>`)
+</svg>`
+fs.writeFileSync(dir+'/og-home.svg', ogSvg)
+await sharp(Buffer.from(ogSvg)).png().toFile(dir+'/og-home.png')
 console.log('images:', Object.keys(imgs).length + 4)

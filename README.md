@@ -43,12 +43,11 @@ Import the repo in Vercel and it builds on every push to `main`. http -> https i
 
 | Placeholder | Where | Replace with |
 |---|---|---|
-| `YOUR-WEB3FORMS-KEY` | `src/data/site.js` (`SITE.web3formsKey`) | your Web3Forms access key — sign up free at web3forms.com with `info@aussiepropnotes.com`, no DNS changes needed |
 | `61400000000` | `src/data/site.js` (`SITE.whatsapp`) and every `.well-known/*` file + `public/js/webmcp.js` | your real WhatsApp number, in E.164 digits with no `+` |
 
 There is no generator script for the `.well-known/*` files in this project (unlike the Next.js WebForge template) — they're hand-maintained, so the WhatsApp number needs updating in each file listed above once you have it.
 
-Until a Web3Forms key is set, forms redirect to the thank-you page without emailing — **WhatsApp is the live order channel**.
+Web3Forms key is set and working. **WhatsApp is still the only fully live order channel** until the real number replaces the placeholder above — the storefront cannot take a WhatsApp order until then.
 
 ## Structure
 
@@ -59,8 +58,8 @@ src/
   components/         # ui.jsx (nav/cart/cards), WebForm.jsx (Web3Forms)
   pages/              # Home, Shop, Product, Blog, Static (about/cart/order/policies)
 scripts/
-  genimages.mjs       # generates logo, guilloche motif, OG image
-  prerender.mjs       # SSR each route -> dist/<path>/index.html + sitemap.xml
+  genimages.mjs       # generates logo, guilloche motif, OG image (og-home.svg + rasterized og-home.png)
+  prerender.mjs       # SSR each route -> dist/<path>/index.html + sitemap.xml, minifies public/js/webmcp.js
 public/               # images, robots.txt, llms.txt, auth.md, .well-known/, _headers, _redirects
 ```
 

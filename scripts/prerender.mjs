@@ -2,6 +2,7 @@ import fs from 'fs'
 import path from 'path'
 import { fileURLToPath, pathToFileURL } from 'url'
 import { execSync } from 'child_process'
+import { minify } from 'terser'
 
 // Build an SSR bundle first, then render each route into dist/
 const root = path.dirname(path.dirname(fileURLToPath(import.meta.url)))
@@ -68,12 +69,15 @@ for (const r of ROUTES) {
     `<meta property="og:title" content="${r.title.replace(/"/g, '&quot;')}">`,
     `<meta property="og:description" content="${r.desc.replace(/"/g, '&quot;')}">`,
     `<meta property="og:url" content="${canonical}">`,
-    `<meta property="og:image" content="${SITE.url}/images/og-home.svg">`,
+    `<meta property="og:image" content="${SITE.url}/images/og-home.png">`,
+    `<meta property="og:image:type" content="image/png">`,
+    `<meta property="og:image:width" content="1200">`,
+    `<meta property="og:image:height" content="630">`,
     `<meta property="og:updated_time" content="${TODAY}T09:00:00+10:00">`,
     `<meta name="twitter:card" content="summary_large_image">`,
     `<meta name="twitter:title" content="${r.title.replace(/"/g, '&quot;')}">`,
     `<meta name="twitter:description" content="${r.desc.replace(/"/g, '&quot;')}">`,
-    `<meta name="twitter:image" content="${SITE.url}/images/og-home.svg">`,
+    `<meta name="twitter:image" content="${SITE.url}/images/og-home.png">`,
     ...r.schema.map(s => `<script type="application/ld+json">${JSON.stringify(s)}</script>`),
   ].filter(Boolean).join('\n')
 
@@ -86,6 +90,14 @@ for (const r of ROUTES) {
     const md = `# ${r.title}\n\n> ${r.desc}\n\n${htmlToMarkdown(html)}\n`
     fs.writeFileSync(path.join(outDir, 'index.md'), md)
   }
+}
+
+// Minify static scripts that ship from public/ as-is (Vite copies public/
+// verbatim, it doesn't run them through the JS bundler/minifier).
+for (const file of ['js/webmcp.js']) {
+  const dest = path.join('dist', file)
+  const { code } = await minify(fs.readFileSync(dest, 'utf8'))
+  fs.writeFileSync(dest, code)
 }
 
 // sitemap.xml (indexable routes only)

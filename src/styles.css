@@ -111,6 +111,10 @@ a:hover{color:var(--gold2)}
 .chip{border:1px solid var(--line);background:#fff;border-radius:99px;padding:.45rem 1rem;font-size:.85rem;text-decoration:none;min-height:40px;display:inline-flex;align-items:center}
 .chip.on{background:var(--ink);color:var(--gold);border-color:var(--ink)}
 .shop-links{margin-top:2.2rem;padding-top:1.4rem;border-top:1px solid var(--line)}
+.sr-only{position:absolute;width:1px;height:1px;padding:0;margin:-1px;overflow:hidden;clip:rect(0,0,0,0);white-space:nowrap;border:0}
+.shop-search{margin:0 0 1rem}
+.shop-search input{width:100%;max-width:420px;min-height:44px;padding:.6rem .9rem;border:1px solid var(--line);border-radius:8px;font-size:1rem;box-sizing:border-box}
+.search-status{color:#555;font-size:.9rem;margin:0 0 1rem}
 
 /* pdp */
 .pdp{display:grid;grid-template-columns:1fr 1fr;gap:2.4rem;margin-bottom:2rem}

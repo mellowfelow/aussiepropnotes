@@ -45,10 +45,10 @@ export default function Home() {
 
       <section className="section authority">
         <h2>About Aussie Prop Notes</h2>
-        <p>Founded in Sydney in {SITE.founded}, Aussie Prop Notes supplies camera-ready prop money to productions, photographers and event companies across Australia. Through 2023 and 2024 our notes appeared in work by leading film productions, music producers, and hundreds of content creators and photographers nationwide. Every note we print follows RBA reproduction guidelines — reduced scale, clear prop markings, no replicated security features — so your production stays on the right side of the law without compromising how the money reads on camera. We ship nationwide from Sydney, with a ${SITE.minOrder} AUD minimum order, free shipping over ${SITE.freeShipOver} AUD, and a {SITE.cryptoDiscount}% discount on every crypto payment.</p>
+        <p>Founded in Sydney in {SITE.founded}, Aussie Prop Notes supplies camera-ready prop money to film and TV productions, photographers, event companies and content creators across Australia. Every note we print follows RBA reproduction guidelines — reduced scale, clear prop markings, no replicated security features — so your production stays on the right side of the law without compromising how the money reads on camera. We ship nationwide from Sydney, with a ${SITE.minOrder} AUD minimum order, free shipping over ${SITE.freeShipOver} AUD, and a {SITE.cryptoDiscount}% discount on every crypto payment.</p>
         <div className="auth-grid">
           <div><strong>{SITE.founded}</strong><span>Founded in Sydney</span></div>
-          <div><strong>12+</strong><span>Product lines in stock</span></div>
+          <div><strong>{PRODUCTS.length}</strong><span>Product lines in stock</span></div>
           <div><strong>1 day</strong><span>Dispatch from Sydney</span></div>
           <div><strong>100%</strong><span>RBA-guideline compliant</span></div>
         </div>

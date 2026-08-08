@@ -11,27 +11,33 @@ export function About() {
       <h1>About Aussie Prop Notes — Australia's Prop Money Specialist</h1>
       <p className="lead">Aussie Prop Notes is a Sydney-founded supplier of camera-ready prop money, serving film productions, photographers, event companies and content creators across Australia since {SITE.founded}.</p>
       <h2>Our story</h2>
-      <p>Aussie Prop Notes was founded in Sydney in {SITE.founded} to solve a problem every Australian production knew too well: prop money either came from overseas marketplaces with unpredictable quality and slow shipping, or it simply didn't hold up on camera. We built a local alternative — offset-printed, matte-finished Australian-style prop notes designed for modern 4K and 8K sensors, stocked in Sydney and dispatched within one business day.</p>
+      <p>Aussie Prop Notes was founded in Sydney in {SITE.founded} to solve a problem every Australian production knew too well: prop money either came from overseas marketplaces with unpredictable quality and slow shipping, or it simply didn't hold up on camera. Notes printed for the US or UK market read wrong on an Australian set the moment they're in frame — wrong colours, wrong size, wrong texture under lighting. We built a local alternative instead: offset-printed, matte-finished Australian-style prop notes designed for modern 4K and 8K sensors, stocked in Sydney and dispatched within one business day.</p>
       <h2>Milestones</h2>
       <ul className="timeline">
-        <li><strong>{SITE.founded}</strong> — Founded in Sydney; first full-print AUD prop note line launched.</li>
-        <li><strong>2023</strong> — Began collaborations with leading Australian film productions and music producers.</li>
-        <li><strong>2024</strong> — Supplied countless content creators and photographers nationwide; expanded into custom branded notes and wholesale supply.</li>
-        <li><strong>2026</strong> — Full product range across film, photography, events, novelty and custom printing.</li>
+        <li><strong>{SITE.founded}</strong> — Founded in Sydney; first full-print AUD prop note line launched, covering the $20, $50 and $100 denominations most requested for Australian sets.</li>
+        <li><strong>2023</strong> — Added aged and distressed finishing for period and gritty-realism work, plus the money stack and briefcase bundles built for reveal and table-spread shots.</li>
+        <li><strong>2024</strong> — Expanded into photography-specific formats (flat-lay sets, 1:6 scale miniatures), event props (money guns, photo booth packs) and custom branded notes for productions needing a fictional bank or logo.</li>
+        <li><strong>2026</strong> — Full range across film, photography, events, novelty, custom printing and foreign currency (USD, Euro, GBP) — {PRODUCTS.length} product lines in total, all held in Sydney stock.</li>
       </ul>
       <h2>What makes us different</h2>
       <div className="diff-grid">
         <div><strong>Reliable shipping</strong><p>Stocked in Sydney, dispatched in one business day, tracked nationwide. No overseas wait, no customs surprises.</p></div>
-        <div><strong>Top-notch quality</strong><p>Offset printing and matte stock engineered for professional cameras — not inkjet novelty prints.</p></div>
-        <div><strong>Client-first flexibility</strong><p>We work to client preferences: custom denominations, aging levels, branded notes and production-specific requests.</p></div>
+        <div><strong>Top-notch quality</strong><p>Offset printing and matte stock engineered for professional cameras — not inkjet novelty prints that glare under studio lighting.</p></div>
+        <div><strong>Client-first flexibility</strong><p>We work to client preferences: custom denominations, aging levels, branded notes and production-specific requests, with a proof supplied before any custom print run.</p></div>
         <div><strong>Compliance you can cite</strong><p>Every note follows RBA reproduction guidelines: reduced scale, clear prop markings, no replicated security features.</p></div>
       </div>
+      <h2>How we print</h2>
+      <p>Every note starts as a reduced-scale reproduction, printed on matte stock so it doesn't reflect studio lighting or camera flash the way glossy paper does. Denominations are clearly marked as props on the design itself, and we never replicate the security features found on genuine Australian currency — no clear windows, no holograms, no UV-reactive ink. That combination is what keeps a note legal under the Crimes (Currency) Act 1981 and the RBA's reproduction guidelines while still reading convincingly in a wide shot or a close-up wallet insert. Aged finishes are applied by hand — creasing, edge-wear and tone-shifting — for productions that need circulated-looking cash rather than crisp fresh notes.</p>
+      <h2>Our product range</h2>
+      <p>Six categories cover most production and event needs: <Link to="/shop/film-tv-props/">film &amp; TV props</Link> (full-print stacks, aged notes, money bundles, the briefcase set), <Link to="/shop/photography-props/">photography props</Link> (flat-lay sets and 1:6 scale miniatures), <Link to="/shop/event-party-props/">event &amp; party props</Link> (money guns, photo booth packs), <Link to="/shop/custom-prop-money/">custom &amp; branded notes</Link>, <Link to="/shop/novelty-money/">novelty &amp; gifts</Link> (gold foil sets), and <Link to="/shop/foreign-currency-props/">foreign currency props</Link> for USD, Euro and GBP storylines shot in Australia.</p>
       <h2>Who we supply</h2>
-      <p>Feature films and TV productions. Music video producers. Commercial and lifestyle photographers. Wedding and corporate event companies. Social content creators. Training organisations teaching cash handling. If your work needs money on camera or in hand, we supply it — retail from ${SITE.minOrder} AUD, and <Link to="/wholesale/">wholesale</Link> for trade volumes.</p>
+      <p>Feature films and TV productions. Music video producers. Commercial and lifestyle photographers. Wedding and corporate event companies. Social content creators. Training organisations teaching cash handling. If your work needs money on camera or in hand, we supply it — retail from ${SITE.minOrder} AUD, and <Link to="/wholesale/">wholesale</Link> for trade volumes with tiered discounts up to 20% off retail.</p>
       <h2>Where we ship</h2>
-      <p>Everywhere in Australia. Free shipping on orders over ${SITE.freeShipOver} AUD, flat ${SITE.flatShip} AUD under that. Most metro orders arrive within 1–3 business days of dispatch.</p>
+      <p>Everywhere in Australia. Free shipping on orders over ${SITE.freeShipOver} AUD, flat ${SITE.flatShip} AUD under that. Most metro orders arrive within 1–3 business days of dispatch, and every payment method — crypto, bank transfer or PayID — earns a {SITE.cryptoDiscount}% discount when paid in crypto.</p>
+      <h2>How ordering works</h2>
+      <p>Browse the <Link to="/shop/">full range</Link> or a single category, add what you need to the cart, and check out via the <Link to="/order/">order form</Link> or WhatsApp — whichever is faster for your production timeline. We confirm stock and send payment details within one business day; crypto payments are invoiced with the {SITE.cryptoDiscount}% discount already applied, and bank transfer or PayID orders are confirmed once payment clears. Custom and branded runs get a printed proof before production starts, so nothing prints until you've signed off on the design.</p>
       <h2>Get in touch</h2>
-      <p>Questions, custom requests or trade enquiries: <Email addr={SITE.email} />, <a href={'https://wa.me/' + SITE.whatsapp} rel="noopener">WhatsApp us</a>, or use the <Link to="/contact/">contact page</Link>.</p>
+      <p>Questions, custom requests or trade enquiries: <Email addr={SITE.email} />, <a href={'https://wa.me/' + SITE.whatsapp} rel="noopener">WhatsApp us</a>, or use the <Link to="/contact/">contact page</Link>. Read our <Link to="/blog/is-prop-money-legal-australia/">guide to prop money legality in Australia</Link> if you're new to sourcing props and want the rules explained in full.</p>
     </main>
   )
 }

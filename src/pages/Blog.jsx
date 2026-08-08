@@ -24,6 +24,21 @@ export function BlogIndex() {
   )
 }
 
+function renderInline(text, keyPrefix) {
+  const parts = text.split(/\[([^\]]+)\]\(([^)]+)\)/)
+  if (parts.length === 1) return text
+  const nodes = []
+  for (let i = 0; i < parts.length; i++) {
+    if (i % 3 === 0) { if (parts[i]) nodes.push(parts[i]); continue }
+    const label = parts[i], href = parts[i + 1]
+    nodes.push(href.startsWith('/')
+      ? <Link key={keyPrefix + '-' + i} to={href}>{label}</Link>
+      : <a key={keyPrefix + '-' + i} href={href}>{label}</a>)
+    i++
+  }
+  return nodes
+}
+
 export function BlogPost() {
   const { slug } = useParams()
   const p = POSTS.find(x => x.slug === slug)
@@ -36,8 +51,8 @@ export function BlogPost() {
       {p.body.map(([tag, text], i) => {
         if (tag === 'h2') return <h2 key={i}>{text}</h2>
         if (tag === 'h3') return <h3 key={i}>{text}</h3>
-        if (tag === 'ul') return <ul key={i} className="guide-list">{text.map((li, j) => <li key={j}>{li}</li>)}</ul>
-        return <p key={i}>{text}</p>
+        if (tag === 'ul') return <ul key={i} className="guide-list">{text.map((li, j) => <li key={j}>{renderInline(li, i + '-' + j)}</li>)}</ul>
+        return <p key={i}>{renderInline(text, i)}</p>
       })}
       <div className="article-cta">
         <p><strong>Ready to order?</strong> Browse our <Link to="/shop/film-tv-props/">film &amp; TV prop money</Link>, the <Link to="/shop/">full range</Link>, or <Link to="/wholesale/">wholesale pricing</Link> for bulk orders.</p>

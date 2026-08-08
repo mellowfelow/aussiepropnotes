@@ -21,15 +21,30 @@ const faqSchema = (list) => ({
   mainEntity: list.map(f => ({ '@type': 'Question', name: f.q, acceptedAnswer: { '@type': 'Answer', text: f.a } }))
 })
 
+// Pulls q/a pairs out of a post's h3/p body content following an h2 titled
+// "Quick answers", so posts get FAQPage schema for free from content already
+// written for readers — no separate FAQ list to keep in sync.
+const postFaqs = (body) => {
+  const start = body.findIndex(([tag, text]) => tag === 'h2' && text === 'Quick answers')
+  if (start === -1) return []
+  const list = []
+  for (let i = start + 1; i < body.length; i++) {
+    const [tag, text] = body[i]
+    if (tag === 'h2') break
+    if (tag === 'h3' && body[i + 1]?.[0] === 'p') list.push({ q: text, a: body[i + 1][1] })
+  }
+  return list
+}
+
 const prices = PRODUCTS.map(p => p.price)
 const storeSchema = {
   '@context': 'https://schema.org', '@type': ['Store', 'Organization'],
-  name: SITE.brand, url: U + '/', logo: U + '/images/logo.svg', image: U + '/images/og-home.svg',
+  name: SITE.brand, url: U + '/', logo: U + '/images/logo.svg', image: U + '/images/og-home.png',
   description: 'Australian prop money supplier: camera-ready AUD prop notes, money stacks, custom printed notes and event money props. RBA-guideline compliant, dispatched from Sydney Australia-wide.',
   foundingDate: SITE.founded,
   foundingLocation: { '@type': 'Place', name: 'Sydney, Australia' },
   address: { '@type': 'PostalAddress', addressLocality: 'Sydney', addressRegion: 'NSW', addressCountry: 'AU' },
-  areaServed: 'AU', numberOfItems: PRODUCTS.length,
+  areaServed: 'AU',
   knowsAbout: ['prop money', 'Australian prop money', 'film props', 'movie prop money', 'photography props', 'event props', 'custom prop money', 'RBA reproduction guidelines'],
   priceRange: '$' + Math.min(...prices) + '-$' + Math.max(...prices) + ' AUD',
   sameAs: [], brand: { '@type': 'Brand', name: SITE.brand },
@@ -88,8 +103,9 @@ export const ROUTES = [
       { '@context': 'https://schema.org', '@type': 'Article', headline: p.title, description: p.excerpt,
         datePublished: p.date, dateModified: TODAY, author: { '@type': 'Organization', name: SITE.brand },
         publisher: { '@type': 'Organization', name: SITE.brand, logo: { '@type': 'ImageObject', url: U + '/images/logo.svg' } },
-        mainEntityOfPage: U + '/blog/' + p.slug + '/', image: U + '/images/og-home.svg' },
-      crumbs([['Blog', '/blog/'], [p.title, null]])
+        mainEntityOfPage: U + '/blog/' + p.slug + '/', image: U + '/images/og-home.png' },
+      crumbs([['Blog', '/blog/'], [p.title, null]]),
+      ...(postFaqs(p.body).length ? [faqSchema(postFaqs(p.body))] : [])
     ]
   })),
 
@@ -109,7 +125,7 @@ export const ROUTES = [
     desc: 'Answers to the questions Australian prop money buyers ask most: is it legal, will it look real on camera, minimum orders, payment methods and shipping.',
     schema: [faqSchema(FAQS), crumbs([['FAQ', null]])] },
 
-  { path: '/cart/', el: <Cart />, title: 'Your Cart | Aussie Prop Notes',
+  { path: '/cart/', el: <Cart />, title: 'Your Cart — Review Your Prop Money Order | Aussie Prop Notes',
     desc: 'Review your prop money order: quantities, crypto discount, shipping threshold and total. Minimum order $250 AUD, free shipping over $500 AUD.',
     schema: [crumbs([['Cart', null]])] },
 
