@@ -25,18 +25,18 @@ export const CHAT = {
 }
 
 export const CATEGORIES = [
-  { slug: 'film-tv-props', name: 'Film & TV Props', kw: 'prop money for film Australia',
-    desc: 'Full-print AUD prop notes, aged notes, money stacks and briefcase sets built for 4K and 8K cameras. Trusted on Australian film and TV sets since 2022.' },
+  { slug: 'film-tv-props', name: 'Film & TV Props', kw: 'film props for sale Australia',
+    desc: 'Film props for sale — full-print AUD prop notes, aged notes, money stacks and briefcase sets built for 4K and 8K cameras, reliable props for filming on Australian sets since 2022.' },
   { slug: 'photography-props', name: 'Photography Props', kw: 'money props for photography Australia',
     desc: 'Flat-lay money sets, miniature scale notes and studio-ready cash stacks that photograph beautifully under professional lighting.' },
   { slug: 'event-party-props', name: 'Event & Party Props', kw: 'event prop money Australia',
     desc: 'Money guns, photo booth props and oversized novelty notes for weddings, corporate galas and unforgettable parties.' },
   { slug: 'custom-prop-money', name: 'Custom & Branded', kw: 'custom prop money Australia',
     desc: 'Custom printed prop notes with your logo, fictional bank names or personalised denominations. Designed and printed to order.' },
-  { slug: 'novelty-money', name: 'Novelty & Gifts', kw: 'novelty money Australia',
-    desc: 'Gold foil notes, collectible sets and gift bundles. Novelty banknotes that make memorable gifts and centrepieces.' },
+  { slug: 'novelty-money', name: 'Novelty & Gifts', kw: 'novelty notes Australia',
+    desc: 'Gold foil notes, collectible sets and gift bundles. Novelty notes and banknotes that make memorable gifts and centrepieces.' },
   { slug: 'foreign-currency-props', name: 'Foreign Currency Props', kw: 'prop american money',
-    desc: 'USD, Euro and GBP prop notes for international scenes, exchange-counter sets and global storylines. Reduced scale, clearly marked, camera-ready.' },
+    desc: 'USD, Euro and GBP prop notes — prop USD, prop Euro and prop GBP — for international scenes, exchange-counter sets and global storylines. Reduced scale, clearly marked, camera-ready.' },
 ]
 
 export const PRODUCTS = [

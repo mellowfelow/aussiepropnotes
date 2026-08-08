@@ -26,3 +26,49 @@ PUBLISHED POSTS (12): legal-guide | film-tv-buyers-guide | prop-vs-counterfeit |
 FUTURE POSTS (remaining clusters): training/education B2B | polymer vs paper | custom branded deep-dive
 
 EXCLUDED: all "prop firm" trading keywords | undetectable | hologram | 1:1 | black money | competitor brands
+
+--- REBALANCE, 8 Aug 2026 (from first 10 days of live GSC data + Semrush site audit) ---
+Live queries earning impressions: prop cash (4), novelty notes (2, pos 7), prop usd (2, pos 9),
+prop notes (2, pos 19), is this legit (1, pos 1 — branded trust query, FAQ/legal post already answers
+it, no action needed), bialla (1, pos 1 — unexplained, likely noise/unrelated match, do not chase),
+prop notes australia (1, pos 7). Semrush AU db: "props for filming" (50/mo, KD28) ranking pos 36 on
+/shop/film-tv-props/ — the one term with real (if weak) traction, worth reinforcing before chasing
+anything new.
+
+Primary keyword stays unchanged — "australian prop money" / "prop money australia" (590/mo each) still
+dwarfs every live query above by 100x+ and is the correct long-term target. The moves below are
+secondary-phrase reinforcement on pages that already rank or show early demand, not a re-target.
+
+--- VERIFIED LIVE, same day, via Semrush Keyword Magic Tool (AU db, logged-in free account — exact
+volumes paywalled to Pro, but the related-keyword universe and intent tags are not) ---
+- "film props for sale" — 90/mo, KD31, TRANSACTIONAL intent — beats "props for filming" (70/mo, KD36,
+  commercial) on every axis: more volume, easier, and better buying intent. This is the real opportunity
+  on /shop/film-tv-props/, not just the term that happens to already rank. kw + desc updated to lead
+  with it.
+- "prop cash" cluster is smaller and murkier than the impression count suggested: real relevant volume
+  is only "prop cash" itself (110/mo, KD30) — the bulk of the 1,540 total cluster volume is unrelated
+  noise ("adrian portelli cash prop" 480/mo is a personality/meme term, "prop.cash"/"props.cash" 90+50/mo
+  look like prop-firm-trading domains, matching the existing EXCLUDED note). Keep it as a light homepage
+  synonym only, as done — do not build a page around it.
+- "novelty notes" cluster (90/mo total) is mostly stationery noise (novelty sticky notes, post-it notes);
+  the only genuinely relevant variant is "novelty bank notes" (too low-volume to register). Lowered
+  priority accordingly — the category-copy tweak already made is enough, don't invest further here.
+- "prop usd" cluster (40/mo total) is small but 100% clean/relevant: prop money usd, usd prop money
+  (both already targeted), plus a new long-tail candidate "realistic prop $20 usd" worth adding to the
+  USD $20 product page description at some point.
+- Domain currently ranks for exactly 1 keyword in Semrush's AU index (unchanged from the audit, checked
+  2 days after last crawl): "props for filming", pos 36 — confirms the domain is still too new for
+  broad visibility; the sales lever right now is intent-matching on the pages that do get organic/direct
+  traffic, not chasing more head terms.
+
+Moves applied:
+- /shop/film-tv-props/ — kw + desc now lead with "film props for sale" (transactional, higher volume,
+  lower KD than what was previously ranking)
+- /shop/novelty-money/ — kw updated to "novelty notes Australia" (low priority, see above)
+- /shop/foreign-currency-props/ — desc now spells out "prop USD / prop Euro / prop GBP" explicitly
+- Homepage authority section — added "prop cash" / "prop notes" as a light synonym line only (confirmed
+  low-value cluster, not worth a dedicated page)
+
+Revisit after ~4-6 weeks of GSC data once query volume is statistically meaningful — 10 days of
+single-digit impressions is a signal to watch, not a basis for a full re-target. Re-run Keyword Magic
+Tool lookups with a Pro trial if exact volumes are needed before then.
