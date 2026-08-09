@@ -258,13 +258,9 @@ export function Order() {
     const waUrl = 'https://wa.me/' + SITE.whatsapp + '?text=' + encodeURIComponent(orderText)
     setWaFallbackUrl(waUrl)
     window.open(waUrl, '_blank', 'noopener')
-
-    const done = () => { window.location.href = '/thank-you-order/?order=' + orderNum }
-    if (!SITE.web3formsKey || SITE.web3formsKey.startsWith('YOUR-')) { done(); return }
-    setBusyChannel('wa')
-    // WhatsApp is the authoritative channel here — this email copy is a
-    // backup record, so we redirect regardless of whether it succeeds.
-    postToWeb3Forms(fd, orderNum, orderText).then(done).catch(done)
+    // WhatsApp-only path — no backup email. Order via email is the
+    // separate, email-only action below.
+    window.location.href = '/thank-you-order/?order=' + orderNum
   }
 
   function onEmail(e) {
@@ -323,7 +319,7 @@ export function Order() {
 
           <div className="checkout-actions">
             <button type="button" className="btn btn-lg btn-wa" disabled={!canSubmit} onClick={onWhatsApp}>
-              {busyChannel === 'wa' ? 'Opening WhatsApp…' : 'Order via WhatsApp'}
+              Order via WhatsApp
             </button>
             <button type="button" className="btn btn-lg btn-ghost" disabled={!canSubmit} onClick={onEmail}>
               {busyChannel === 'email' ? 'Sending…' : 'Order via email'}
