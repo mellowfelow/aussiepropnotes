@@ -6,7 +6,7 @@ export const SITE = {
   email: 'info@aussiepropnotes.com',
   ordersEmail: 'info@aussiepropnotes.com',
   wholesaleEmail: 'info@aussiepropnotes.com',
-  whatsapp: '61400000000',
+  whatsapp: '61420126562',
   currency: 'AUD',
   minOrder: 250,
   freeShipOver: 500,

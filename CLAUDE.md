@@ -35,6 +35,6 @@ There is no `.well-known/*` generator in this project — those files, `robots.t
 
 Only state track record we can actually verify: founded Sydney 2022, ships Australia-wide, RBA-guideline compliant. Do not name specific clients, productions, or quantify "how many" customers/productions unless a real, attributable name or number is supplied — vague claims like "leading productions" or "hundreds of creators" get flagged by AI-visibility audits as unverifiable and read as fabricated if an AI engine cites them as fact. No invented awards, press mentions, or partnerships.
 
-## Live placeholder
+## Live order channel
 
-`SITE.whatsapp` in `src/data/site.js` is still the placeholder `61400000000` — WhatsApp is the only live order channel (Web3Forms key is set and working), so until this is a real number the storefront cannot take an order. Update it in `src/data/site.js` AND `public/.well-known/acp.json`, `public/.well-known/agent-skills/index.json`, `public/.well-known/mcp/server-card.json`, `public/.well-known/ucp`, and `public/js/webmcp.js`.
+`SITE.whatsapp` in `src/data/site.js` is the real number (`61420126562`) — WhatsApp is the live order channel (Web3Forms key is also set and working). If it ever changes, update it in `src/data/site.js` AND `public/.well-known/acp.json`, `public/.well-known/agent-skills/index.json`, `public/.well-known/mcp/server-card.json`, `public/.well-known/ucp`, and `public/js/webmcp.js`.

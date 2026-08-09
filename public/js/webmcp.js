@@ -31,8 +31,8 @@
         },
         execute: async ({ message }) => {
           const url = message
-            ? "https://wa.me/61400000000?text=" + encodeURIComponent(message)
-            : "https://wa.me/61400000000";
+            ? "https://wa.me/61420126562?text=" + encodeURIComponent(message)
+            : "https://wa.me/61420126562";
           window.open(url, "_blank");
           return { url: url };
         }

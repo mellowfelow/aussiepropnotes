@@ -39,15 +39,9 @@ Import the repo in Vercel and it builds on every push to `main`. http -> https i
 
 `public/_headers` and `public/_redirects` cover the same rules. Build command `npm run build`, output directory `dist`. For ZIP upload, run the build and upload the *contents* of `dist/`.
 
-## Before going live — remaining placeholders
+## Live order channels
 
-| Placeholder | Where | Replace with |
-|---|---|---|
-| `61400000000` | `src/data/site.js` (`SITE.whatsapp`) and every `.well-known/*` file + `public/js/webmcp.js` | your real WhatsApp number, in E.164 digits with no `+` |
-
-There is no generator script for the `.well-known/*` files in this project (unlike the Next.js WebForge template) — they're hand-maintained, so the WhatsApp number needs updating in each file listed above once you have it.
-
-Web3Forms key is set and working. **WhatsApp is still the only fully live order channel** until the real number replaces the placeholder above — the storefront cannot take a WhatsApp order until then.
+WhatsApp (`61420126562`) and Web3Forms are both live. There is no generator script for the `.well-known/*` files in this project (unlike the Next.js WebForge template) — they're hand-maintained, so if the WhatsApp number ever changes it needs updating in `src/data/site.js`, every `.well-known/*` file, and `public/js/webmcp.js`.
 
 ## Structure
 
