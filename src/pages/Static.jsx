@@ -1,7 +1,7 @@
-import React, { useState, useEffect } from 'react'
+import React, { useState, useEffect, useRef } from 'react'
 import { Link } from 'react-router-dom'
 import { SITE, FAQS, PRODUCTS } from '../data/site.js'
-import { Breadcrumbs, Email, QtyStepper, fmt, readCart, writeCart, removeFromCart, clearCart } from '../components/ui.jsx'
+import { Breadcrumbs, Email, QtyStepper, fmt, readCart, writeCart, removeFromCart, clearCart, computeTotals, genOrderNumber } from '../components/ui.jsx'
 import WebForm from '../components/WebForm.jsx'
 
 export function About() {
@@ -119,11 +119,7 @@ export function Cart() {
     setItems([]); clearCart(); setUndo(null)
   }
   const rows = items.map(i => ({ ...i, p: PRODUCTS.find(p => p.slug === i.slug) })).filter(r => r.p)
-  const subtotal = rows.reduce((a, r) => a + r.p.price * r.qty, 0)
-  const discount = crypto ? Math.round(subtotal * SITE.cryptoDiscount) / 100 : 0
-  const afterDisc = subtotal - discount
-  const shipping = afterDisc >= SITE.freeShipOver ? 0 : (rows.length ? SITE.flatShip : 0)
-  const total = afterDisc + shipping
+  const { subtotal, discount, afterDisc, shipping, total } = computeTotals(rows, crypto)
   const underMin = rows.length > 0 && afterDisc < SITE.minOrder
   return (
     <main className="section narrow">
@@ -176,28 +172,92 @@ export function Cart() {
 }
 
 export function Order() {
+  const formRef = useRef(null)
+  const [rows, setRows] = useState([])
   const [summary, setSummary] = useState('')
+  const [payment, setPayment] = useState('')
+  // Empty on both server and first client render (matches SSR output), set
+  // for real in the effect below — generating it during render would give
+  // the prerendered HTML and the hydrating client two different random
+  // numbers and trip a hydration mismatch.
+  const [orderNumber, setOrderNumber] = useState('')
+  const [busy, setBusy] = useState(false)
+  const [waFallbackUrl, setWaFallbackUrl] = useState('')
+
   useEffect(() => {
-    const rows = readCart().map(i => ({ ...i, p: PRODUCTS.find(p => p.slug === i.slug) })).filter(r => r.p)
-    const lines = rows.map(r => `${r.qty} × ${r.p.name} — ${fmt(r.p.price * r.qty)}`)
-    const subtotal = rows.reduce((a, r) => a + r.p.price * r.qty, 0)
-    setSummary(lines.length ? lines.join('\n') + `\nSubtotal: ${fmt(subtotal)}` : '')
+    setOrderNumber(genOrderNumber())
+    const r = readCart().map(i => ({ ...i, p: PRODUCTS.find(p => p.slug === i.slug) })).filter(r => r.p)
+    setRows(r)
+    setSummary(r.map(x => `${x.qty} × ${x.p.name} — ${fmt(x.p.price * x.qty)}`).join('\n'))
   }, [])
-  const waMsg = encodeURIComponent('Hi Aussie Prop Notes, I would like to place an order:\n' + summary)
+
+  const crypto = payment.startsWith('Crypto')
+  const { subtotal, discount, shipping, total } = computeTotals(rows, crypto)
+
+  function syncReply(e) {
+    const r = formRef.current.querySelector('input[name="replyto"]')
+    if (r) r.value = e.target.value
+  }
+
+  function onSubmit(e) {
+    e.preventDefault()
+    const form = formRef.current
+    if (!form.reportValidity()) return
+    const orderNum = orderNumber || genOrderNumber()
+
+    const fd = new FormData(form)
+    const waText = [
+      `New order ${orderNum} — Aussie Prop Notes`,
+      `Name: ${fd.get('name')}`,
+      `Email: ${fd.get('email')}`,
+      `Phone: ${fd.get('phone') || '—'}`,
+      `Delivery address: ${fd.get('address')}`,
+      `Payment: ${fd.get('payment')}`,
+      '',
+      'Order:',
+      fd.get('order') || summary || '(cart empty — see notes)',
+      '',
+      `Subtotal: ${fmt(subtotal)}`,
+      ...(discount > 0 ? [`Crypto discount (${SITE.cryptoDiscount}%): −${fmt(discount)}`] : []),
+      `Shipping: ${shipping === 0 ? 'FREE' : fmt(shipping)}`,
+      `Total: ${fmt(total)}`,
+    ].join('\n')
+    const waUrl = 'https://wa.me/' + SITE.whatsapp + '?text=' + encodeURIComponent(waText)
+    setWaFallbackUrl(waUrl)
+    window.open(waUrl, '_blank', 'noopener')
+
+    const done = () => { window.location.href = '/thank-you-order/?order=' + orderNum }
+
+    if (!SITE.web3formsKey || SITE.web3formsKey.startsWith('YOUR-')) { done(); return }
+
+    fd.set('subject', 'New Order ' + orderNum + ' — Aussie Prop Notes')
+    fd.set('order_number', orderNum)
+    fd.set('whatsapp_message', waText)
+    setBusy(true)
+    fetch('https://api.web3forms.com/submit', {
+      method: 'POST',
+      headers: { 'Accept': 'application/json' },
+      body: fd
+    }).then(done).catch(done)
+  }
+
   return (
     <main className="section narrow">
       <Breadcrumbs trail={[['Cart', '/cart/'], ['Order', null]]} />
       <h1>Place Your Order</h1>
-      <p className="lead">Two ways to order: send the order form below, or message us straight on WhatsApp with your cart attached. Either way we confirm stock and payment details within one business day. Payment by crypto (BTC / USDT, {SITE.cryptoDiscount}% off), bank transfer or PayID.</p>
-      <a className="btn btn-lg btn-wa" href={'https://wa.me/' + SITE.whatsapp + '?text=' + waMsg} rel="noopener">Order via WhatsApp</a>
-      <div className="or-div"><span>or use the order form</span></div>
-      <WebForm subject="New Order — Aussie Prop Notes" thankYou="/thank-you-order/" submitLabel="Send order">
+      <p className="lead">Fill in your details below — submitting opens WhatsApp with your full order, order number and totals already typed out, so all you need to do is hit send. We confirm stock and payment details within one business day. Payment by crypto (BTC / USDT, {SITE.cryptoDiscount}% off), bank transfer or PayID.</p>
+      <form ref={formRef} className="web-form" onSubmit={onSubmit} onInput={(e) => { if (e.target.type === 'email') syncReply(e) }}>
+        <input type="hidden" name="access_key" value={SITE.web3formsKey} />
+        <input type="hidden" name="subject" value={'New Order ' + orderNumber + ' — Aussie Prop Notes'} />
+        <input type="hidden" name="from_name" value="Aussie Prop Notes Website" />
+        <input type="hidden" name="botcheck" value="" style={{ display: 'none' }} />
+        <input type="hidden" name="replyto" value="" />
         <label>Your name<input type="text" name="name" required autoComplete="name" /></label>
         <label>Email<input type="email" name="email" required autoComplete="email" /></label>
         <label>Phone / WhatsApp<input type="tel" name="phone" autoComplete="tel" /></label>
         <label>Delivery address<textarea name="address" rows="3" required autoComplete="street-address" /></label>
         <label>Preferred payment
-          <select name="payment" required defaultValue="">
+          <select name="payment" required value={payment} onChange={e => setPayment(e.target.value)}>
             <option value="" disabled>Choose one</option>
             <option>Crypto — BTC / USDT (10% off)</option>
             <option>Bank transfer</option>
@@ -205,7 +265,18 @@ export function Order() {
           </select>
         </label>
         <label>Your order<textarea name="order" rows="6" required value={summary} onChange={e => setSummary(e.target.value)} /></label>
-      </WebForm>
+        <div className="totals">
+          <div><span>Subtotal</span><span>{fmt(subtotal)}</span></div>
+          {discount > 0 && <div className="disc"><span>Crypto discount ({SITE.cryptoDiscount}%)</span><span>−{fmt(discount)}</span></div>}
+          <div><span>Shipping</span><span>{shipping === 0 ? 'FREE' : fmt(shipping)}</span></div>
+          <div className="grand"><span>Total</span><span>{fmt(total)}</span></div>
+        </div>
+        <p className="order-num">Order reference: <strong>{orderNumber}</strong></p>
+        <button className="btn btn-lg btn-wa" type="submit" disabled={busy}>{busy ? 'Opening WhatsApp…' : 'Send order via WhatsApp'}</button>
+      </form>
+      {waFallbackUrl && (
+        <p className="wa-fallback-note">WhatsApp didn't open in a new tab? <a href={waFallbackUrl} target="_blank" rel="noopener">Tap here to open it</a>.</p>
+      )}
     </main>
   )
 }
@@ -283,14 +354,23 @@ export function Terms() {
 }
 
 export function ThankYou({ kind }) {
+  // Starts null on both server and first client render (the prerenderer has
+  // no query string to read); filled in after mount from the real URL, same
+  // deferral pattern as the order number in Order() — reading it during
+  // render would mismatch the prerendered HTML and trip hydration errors.
+  const [orderNumber, setOrderNumber] = useState(null)
+  useEffect(() => {
+    if (kind === 'order') setOrderNumber(new URLSearchParams(window.location.search).get('order'))
+  }, [kind])
   const copy = {
     contact: ['Message received', 'Thanks for getting in touch — we reply to every message within one business day. If it is urgent, WhatsApp is fastest.'],
-    order: ['Order received', 'Thanks for your order! We will confirm stock and send payment details within one business day. Crypto payers: your 10% discount is applied when we invoice.'],
+    order: ['Order received', 'If your WhatsApp tab opened, hit send there now and we will confirm stock and payment details within one business day. Crypto payers: your 10% discount is applied when we invoice.'],
     wholesale: ['Wholesale enquiry received', 'Thanks — our trade team reviews every enquiry personally and replies with pricing within one business day.'],
   }[kind]
   return (
     <main className="section narrow center-page">
       <h1>{copy[0]}</h1>
+      {orderNumber && <p className="order-num">Order reference: <strong>{orderNumber}</strong></p>}
       <p className="lead">{copy[1]}</p>
       <div className="hero-cta center-cta">
         <Link className="btn btn-lg" to="/shop/">Back to the shop</Link>

@@ -173,6 +173,9 @@ a:hover{color:var(--gold2)}
 .web-form input,.web-form textarea,.web-form select{font:inherit;padding:.7rem .9rem;border:1px solid var(--line);border-radius:8px;background:#fff;min-height:44px}
 .web-form textarea{resize:vertical}
 .form-err{color:var(--err);background:#FBEDED;border:1px solid #EBC8C8;border-radius:8px;padding:.8rem 1rem;font-size:.9rem}
+.order-num{font-size:.9rem;color:var(--slate);margin:-.4rem 0 1rem}
+.order-num strong{color:var(--ink);font-family:'Archivo'}
+.wa-fallback-note{font-size:.85rem;color:var(--slate);margin-top:-.6rem}
 
 /* wholesale tiers */
 .tier-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:1rem;margin:1.4rem 0 2rem}

@@ -29,6 +29,26 @@ export function removeFromCart(slug) {
 export function clearCart() { writeCart([]) }
 export function cartCount() { return readCart().reduce((a, i) => a + i.qty, 0) }
 
+// rows: [{ slug, qty, p: PRODUCTS entry }]
+export function computeTotals(rows, crypto) {
+  const subtotal = rows.reduce((a, r) => a + r.p.price * r.qty, 0)
+  const discount = crypto ? Math.round(subtotal * SITE.cryptoDiscount) / 100 : 0
+  const afterDisc = subtotal - discount
+  const shipping = afterDisc >= SITE.freeShipOver ? 0 : (rows.length ? SITE.flatShip : 0)
+  const total = afterDisc + shipping
+  return { subtotal, discount, afterDisc, shipping, total }
+}
+
+// Human-friendly, collision-unlikely order reference — this site has no
+// backend/database to hand out real sequential order numbers from.
+export function genOrderNumber() {
+  const d = new Date()
+  const pad = (n) => String(n).padStart(2, '0')
+  const stamp = String(d.getFullYear()).slice(-2) + pad(d.getMonth() + 1) + pad(d.getDate())
+  const rand = Math.floor(1000 + Math.random() * 9000)
+  return 'APN-' + stamp + '-' + rand
+}
+
 export function useCartCount() {
   const [n, setN] = useState(0)
   useEffect(() => {
