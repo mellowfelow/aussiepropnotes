@@ -1,7 +1,7 @@
 import React, { useEffect } from 'react'
 import { Routes, Route, useLocation } from 'react-router-dom'
 import { ROUTES } from './routes.jsx'
-import { AnnouncementBar, Nav, Footer, TawkWidget } from './components/ui.jsx'
+import { AnnouncementBar, Nav, Footer, TawkWidget, CartDrawer } from './components/ui.jsx'
 import Shop from './pages/Shop.jsx'
 import Product from './pages/Product.jsx'
 import { BlogPost } from './pages/Blog.jsx'
@@ -26,6 +26,7 @@ export default function App() {
       <TawkWidget />
       <AnnouncementBar />
       <Nav />
+      <CartDrawer />
       <Routes>
         {ROUTES.filter(r => !isParamPage(r.path)).map(r => <Route key={r.path} path={r.path} element={r.el} />)}
         <Route path="/shop/:cat/" element={<Shop />} />

@@ -171,42 +171,55 @@ export function Cart() {
   )
 }
 
+const PAYMENT_METHODS = [
+  { id: 'crypto', icon: '₿', label: 'Crypto — BTC / USDT', hint: SITE.cryptoDiscount + '% off, applied automatically', value: 'Crypto — BTC / USDT (' + SITE.cryptoDiscount + '% off)' },
+  { id: 'bank', icon: '🏦', label: 'Bank transfer', hint: 'Direct deposit, confirmed before dispatch', value: 'Bank transfer' },
+  { id: 'payid', icon: '📱', label: 'PayID', hint: 'Instant transfer, Australian banks', value: 'PayID' },
+]
+
 export function Order() {
   const formRef = useRef(null)
   const [rows, setRows] = useState([])
-  const [summary, setSummary] = useState('')
   const [payment, setPayment] = useState('')
   // Empty on both server and first client render (matches SSR output), set
   // for real in the effect below — generating it during render would give
   // the prerendered HTML and the hydrating client two different random
   // numbers and trip a hydration mismatch.
   const [orderNumber, setOrderNumber] = useState('')
-  const [busy, setBusy] = useState(false)
+  const [busyChannel, setBusyChannel] = useState('') // '' | 'wa' | 'email'
   const [waFallbackUrl, setWaFallbackUrl] = useState('')
+  const [emailErr, setEmailErr] = useState('')
 
   useEffect(() => {
     setOrderNumber(genOrderNumber())
-    const r = readCart().map(i => ({ ...i, p: PRODUCTS.find(p => p.slug === i.slug) })).filter(r => r.p)
-    setRows(r)
-    setSummary(r.map(x => `${x.qty} × ${x.p.name} — ${fmt(x.p.price * x.qty)}`).join('\n'))
+    setRows(readCart().map(i => ({ ...i, p: PRODUCTS.find(p => p.slug === i.slug) })).filter(r => r.p))
   }, [])
 
-  const crypto = payment.startsWith('Crypto')
-  const { subtotal, discount, shipping, total } = computeTotals(rows, crypto)
+  const crypto = payment === 'crypto'
+  const { subtotal, discount, afterDisc, shipping, total } = computeTotals(rows, crypto)
+  const underMin = rows.length > 0 && afterDisc < SITE.minOrder
+  const canSubmit = rows.length > 0 && !underMin && !busyChannel
+
+  function updateQty(slug, qty) {
+    const next = rows.map(r => r.slug === slug ? { ...r, qty } : r).filter(r => r.qty > 0)
+    setRows(next)
+    writeCart(next.map(({ slug, qty }) => ({ slug, qty })))
+  }
+  function removeRow(slug) {
+    const next = rows.filter(r => r.slug !== slug)
+    setRows(next)
+    writeCart(next.map(({ slug, qty }) => ({ slug, qty })))
+  }
 
   function syncReply(e) {
     const r = formRef.current.querySelector('input[name="replyto"]')
     if (r) r.value = e.target.value
   }
 
-  function onSubmit(e) {
-    e.preventDefault()
-    const form = formRef.current
-    if (!form.reportValidity()) return
-    const orderNum = orderNumber || genOrderNumber()
-
-    const fd = new FormData(form)
-    const waText = [
+  function buildOrderText(orderNum, fd) {
+    const lines = rows.map(r => `${r.qty} × ${r.p.name} — ${fmt(r.p.price * r.qty)}`)
+    const notes = fd.get('notes')
+    return [
       `New order ${orderNum} — Aussie Prop Notes`,
       `Name: ${fd.get('name')}`,
       `Email: ${fd.get('email')}`,
@@ -215,68 +228,149 @@ export function Order() {
       `Payment: ${fd.get('payment')}`,
       '',
       'Order:',
-      fd.get('order') || summary || '(cart empty — see notes)',
+      lines.length ? lines.join('\n') : '(no items)',
       '',
       `Subtotal: ${fmt(subtotal)}`,
       ...(discount > 0 ? [`Crypto discount (${SITE.cryptoDiscount}%): −${fmt(discount)}`] : []),
       `Shipping: ${shipping === 0 ? 'FREE' : fmt(shipping)}`,
       `Total: ${fmt(total)}`,
+      ...(notes ? ['', 'Notes: ' + notes] : []),
     ].join('\n')
-    const waUrl = 'https://wa.me/' + SITE.whatsapp + '?text=' + encodeURIComponent(waText)
+  }
+
+  function postToWeb3Forms(fd, orderNum, orderText) {
+    fd.set('subject', 'New Order ' + orderNum + ' — Aussie Prop Notes')
+    fd.set('order_number', orderNum)
+    fd.set('order_summary', orderText)
+    return fetch('https://api.web3forms.com/submit', {
+      method: 'POST',
+      headers: { 'Accept': 'application/json' },
+      body: fd
+    }).then(r => r.json().then(d => ({ ok: r.status === 200 && d.success, data: d })))
+  }
+
+  function onWhatsApp(e) {
+    e.preventDefault()
+    if (!formRef.current.reportValidity() || !canSubmit) return
+    const orderNum = orderNumber || genOrderNumber()
+    const fd = new FormData(formRef.current)
+    const orderText = buildOrderText(orderNum, fd)
+    const waUrl = 'https://wa.me/' + SITE.whatsapp + '?text=' + encodeURIComponent(orderText)
     setWaFallbackUrl(waUrl)
     window.open(waUrl, '_blank', 'noopener')
 
     const done = () => { window.location.href = '/thank-you-order/?order=' + orderNum }
-
     if (!SITE.web3formsKey || SITE.web3formsKey.startsWith('YOUR-')) { done(); return }
+    setBusyChannel('wa')
+    // WhatsApp is the authoritative channel here — this email copy is a
+    // backup record, so we redirect regardless of whether it succeeds.
+    postToWeb3Forms(fd, orderNum, orderText).then(done).catch(done)
+  }
 
-    fd.set('subject', 'New Order ' + orderNum + ' — Aussie Prop Notes')
-    fd.set('order_number', orderNum)
-    fd.set('whatsapp_message', waText)
-    setBusy(true)
-    fetch('https://api.web3forms.com/submit', {
-      method: 'POST',
-      headers: { 'Accept': 'application/json' },
-      body: fd
-    }).then(done).catch(done)
+  function onEmail(e) {
+    e.preventDefault()
+    if (!formRef.current.reportValidity() || !canSubmit) return
+    if (!SITE.web3formsKey || SITE.web3formsKey.startsWith('YOUR-')) {
+      setEmailErr('Email ordering isn’t set up yet — please use "Order via WhatsApp" instead.')
+      return
+    }
+    const orderNum = orderNumber || genOrderNumber()
+    const fd = new FormData(formRef.current)
+    const orderText = buildOrderText(orderNum, fd)
+    setEmailErr('')
+    setBusyChannel('email')
+    postToWeb3Forms(fd, orderNum, orderText).then(({ ok, data }) => {
+      if (ok) { window.location.href = '/thank-you-order/?order=' + orderNum }
+      else { setBusyChannel(''); setEmailErr((data && data.message) || 'Something went wrong sending your order. Please try WhatsApp instead.') }
+    }).catch(() => { setBusyChannel(''); setEmailErr('Something went wrong sending your order. Please try WhatsApp instead.') })
   }
 
   return (
-    <main className="section narrow">
+    <main className="section">
       <Breadcrumbs trail={[['Cart', '/cart/'], ['Order', null]]} />
       <h1>Place Your Order</h1>
-      <p className="lead">Fill in your details below — submitting opens WhatsApp with your full order, order number and totals already typed out, so all you need to do is hit send. We confirm stock and payment details within one business day. Payment by crypto (BTC / USDT, {SITE.cryptoDiscount}% off), bank transfer or PayID.</p>
-      <form ref={formRef} className="web-form" onSubmit={onSubmit} onInput={(e) => { if (e.target.type === 'email') syncReply(e) }}>
-        <input type="hidden" name="access_key" value={SITE.web3formsKey} />
-        <input type="hidden" name="subject" value={'New Order ' + orderNumber + ' — Aussie Prop Notes'} />
-        <input type="hidden" name="from_name" value="Aussie Prop Notes Website" />
-        <input type="hidden" name="botcheck" value="" style={{ display: 'none' }} />
-        <input type="hidden" name="replyto" value="" />
-        <label>Your name<input type="text" name="name" required autoComplete="name" /></label>
-        <label>Email<input type="email" name="email" required autoComplete="email" /></label>
-        <label>Phone / WhatsApp<input type="tel" name="phone" autoComplete="tel" /></label>
-        <label>Delivery address<textarea name="address" rows="3" required autoComplete="street-address" /></label>
-        <label>Preferred payment
-          <select name="payment" required value={payment} onChange={e => setPayment(e.target.value)}>
-            <option value="" disabled>Choose one</option>
-            <option>Crypto — BTC / USDT (10% off)</option>
-            <option>Bank transfer</option>
-            <option>PayID</option>
-          </select>
-        </label>
-        <label>Your order<textarea name="order" rows="6" required value={summary} onChange={e => setSummary(e.target.value)} /></label>
-        <div className="totals">
-          <div><span>Subtotal</span><span>{fmt(subtotal)}</span></div>
-          {discount > 0 && <div className="disc"><span>Crypto discount ({SITE.cryptoDiscount}%)</span><span>−{fmt(discount)}</span></div>}
-          <div><span>Shipping</span><span>{shipping === 0 ? 'FREE' : fmt(shipping)}</span></div>
-          <div className="grand"><span>Total</span><span>{fmt(total)}</span></div>
-        </div>
-        <p className="order-num">Order reference: <strong>{orderNumber}</strong></p>
-        <button className="btn btn-lg btn-wa" type="submit" disabled={busy}>{busy ? 'Opening WhatsApp…' : 'Send order via WhatsApp'}</button>
-      </form>
-      {waFallbackUrl && (
-        <p className="wa-fallback-note">WhatsApp didn't open in a new tab? <a href={waFallbackUrl} target="_blank" rel="noopener">Tap here to open it</a>.</p>
-      )}
+      <p className="lead">Fill in your details, pick how you'd like to order, and we confirm stock and payment within one business day.</p>
+      <div className="checkout-grid">
+        <form ref={formRef} className="checkout-form web-form" onInput={(e) => { if (e.target.type === 'email') syncReply(e) }}>
+          <input type="hidden" name="access_key" value={SITE.web3formsKey} />
+          <input type="hidden" name="from_name" value="Aussie Prop Notes Website" />
+          <input type="hidden" name="botcheck" value="" style={{ display: 'none' }} />
+          <input type="hidden" name="replyto" value="" />
+
+          <h2 className="checkout-h2">Your details</h2>
+          <div className="field-grid">
+            <label>Your name<input type="text" name="name" required autoComplete="name" /></label>
+            <label>Email<input type="email" name="email" required autoComplete="email" /></label>
+            <label>Phone / WhatsApp<input type="tel" name="phone" autoComplete="tel" /></label>
+          </div>
+          <label>Delivery address<textarea name="address" rows="3" required autoComplete="street-address" /></label>
+
+          <h2 className="checkout-h2">Payment method</h2>
+          <div className="pay-grid" role="radiogroup" aria-label="Preferred payment method">
+            {PAYMENT_METHODS.map(m => (
+              <label key={m.id} className={'pay-card' + (payment === m.id ? ' selected' : '')}>
+                <input type="radio" name="payment" value={m.value} required checked={payment === m.id} onChange={() => setPayment(m.id)} />
+                <span className="pay-icon" aria-hidden="true">{m.icon}</span>
+                <span className="pay-label">{m.label}</span>
+                <span className="pay-hint">{m.hint}</span>
+              </label>
+            ))}
+          </div>
+
+          <label>Order notes (optional)<textarea name="notes" rows="3" placeholder="Deadline, custom request — anything else we should know" /></label>
+
+          {emailErr && <p className="form-err" role="alert">{emailErr} <a href={'https://wa.me/' + SITE.whatsapp} rel="noopener">Open WhatsApp</a></p>}
+
+          <div className="checkout-actions">
+            <button type="button" className="btn btn-lg btn-wa" disabled={!canSubmit} onClick={onWhatsApp}>
+              {busyChannel === 'wa' ? 'Opening WhatsApp…' : 'Order via WhatsApp'}
+            </button>
+            <button type="button" className="btn btn-lg btn-ghost" disabled={!canSubmit} onClick={onEmail}>
+              {busyChannel === 'email' ? 'Sending…' : 'Order via email'}
+            </button>
+          </div>
+          {waFallbackUrl && (
+            <p className="wa-fallback-note">WhatsApp didn't open in a new tab? <a href={waFallbackUrl} target="_blank" rel="noopener">Tap here to open it</a>.</p>
+          )}
+        </form>
+
+        <aside className="checkout-summary">
+          <h2 className="checkout-h2">Your order</h2>
+          {rows.length === 0 ? (
+            <p className="lead">Your cart is empty. <Link to="/shop/">Browse the range</Link> to add items.</p>
+          ) : (
+            <>
+              <div className="summary-rows">
+                {rows.map(r => (
+                  <div key={r.slug} className="summary-row">
+                    <img src={'/images/' + r.slug + '.webp'} alt={r.p.name} width="60" height="60" loading="lazy" />
+                    <div className="summary-row-info">
+                      <Link to={'/product/' + r.slug + '/'}>{r.p.name}</Link>
+                      <span>{fmt(r.p.price)} each</span>
+                      <QtyStepper qty={r.qty} setQty={(q) => updateQty(r.slug, q)} label={r.p.name} />
+                    </div>
+                    <div className="summary-row-end">
+                      <strong>{fmt(r.p.price * r.qty)}</strong>
+                      <button type="button" className="rm-btn" aria-label={'Remove ' + r.p.name + ' from cart'} onClick={() => removeRow(r.slug)}>
+                        <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" aria-hidden="true"><path d="M3 6h18M8 6V4a2 2 0 0 1 2-2h4a2 2 0 0 1 2 2v2m3 0v14a2 2 0 0 1-2 2H7a2 2 0 0 1-2-2V6M10 11v6M14 11v6"/></svg>
+                      </button>
+                    </div>
+                  </div>
+                ))}
+              </div>
+              <Link to="/shop/" className="summary-add-more">+ Add more items</Link>
+              <div className="totals">
+                <div><span>Subtotal</span><span>{fmt(subtotal)}</span></div>
+                {discount > 0 && <div className="disc"><span>Crypto discount ({SITE.cryptoDiscount}%)</span><span>−{fmt(discount)}</span></div>}
+                <div><span>Shipping</span><span>{shipping === 0 ? 'FREE' : fmt(shipping)}</span></div>
+                <div className="grand"><span>Total</span><span>{fmt(total)}</span></div>
+              </div>
+              {underMin && <p className="form-err" role="alert">Minimum order is {fmt(SITE.minOrder)}. Add {fmt(SITE.minOrder - afterDisc)} more to check out.</p>}
+            </>
+          )}
+          <p className="order-num">Order reference: <strong>{orderNumber || '—'}</strong></p>
+        </aside>
+      </div>
     </main>
   )
 }

@@ -1,7 +1,7 @@
 import React, { useState } from 'react'
 import { useParams, Link } from 'react-router-dom'
 import { PRODUCTS, CATEGORIES, SITE } from '../data/site.js'
-import { Breadcrumbs, ProductCard, QtyStepper, addToCart, fmt } from '../components/ui.jsx'
+import { Breadcrumbs, ProductCard, QtyStepper, addToCart, openCartDrawer, fmt } from '../components/ui.jsx'
 
 export default function Product() {
   const { slug } = useParams()
@@ -25,7 +25,7 @@ export default function Product() {
           <p>{p.desc}</p>
           <div className="pdp-cta">
             <QtyStepper qty={qty} setQty={setQty} label={p.name} />
-            <button type="button" className="btn btn-lg" onClick={() => { addToCart(p.slug, qty); setAdded(true); setQty(1); setTimeout(() => setAdded(false), 1600) }}>{added ? 'Added to cart ✓' : 'Add to cart'}</button>
+            <button type="button" className="btn btn-lg" onClick={() => { addToCart(p.slug, qty); setAdded(true); setQty(1); setTimeout(() => setAdded(false), 1600); openCartDrawer() }}>{added ? 'Added to cart ✓' : 'Add to cart'}</button>
             <Link className="btn btn-lg btn-ghost" to="/cart/">View cart</Link>
           </div>
           <ul className="pdp-meta">

@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from 'react'
 import { Link, useLocation } from 'react-router-dom'
-import { SITE, CATEGORIES, CHAT } from '../data/site.js'
+import { SITE, CATEGORIES, CHAT, PRODUCTS } from '../data/site.js'
 
 // Entity-encoded email renderer (no plaintext emails in DOM/HTML)
 export function Email({ addr, className }) {
@@ -39,14 +39,13 @@ export function computeTotals(rows, crypto) {
   return { subtotal, discount, afterDisc, shipping, total }
 }
 
-// Human-friendly, collision-unlikely order reference — this site has no
-// backend/database to hand out real sequential order numbers from.
+// Short, collision-unlikely order reference — this site has no backend/
+// database to hand out real sequential order numbers from. Base-36 encodes
+// the current millisecond timestamp (mixed with a little randomness) into
+// a compact 5-character code instead of spelling out the date.
 export function genOrderNumber() {
-  const d = new Date()
-  const pad = (n) => String(n).padStart(2, '0')
-  const stamp = String(d.getFullYear()).slice(-2) + pad(d.getMonth() + 1) + pad(d.getDate())
-  const rand = Math.floor(1000 + Math.random() * 9000)
-  return 'APN-' + stamp + '-' + rand
+  const n = (Date.now() + Math.floor(Math.random() * 1000)) % 36 ** 5
+  return 'APN-' + n.toString(36).toUpperCase().padStart(5, '0')
 }
 
 export function useCartCount() {
@@ -58,6 +57,89 @@ export function useCartCount() {
     return () => window.removeEventListener('apn-cart-change', h)
   }, [])
   return n
+}
+
+// ── Cart drawer (slide-in side panel) ────────────────────────────
+// Opens on "Add to cart" and on the nav cart icon. A plain window event
+// keeps this decoupled from React context — any component can call
+// openCartDrawer() without needing a provider higher up the tree.
+export function openCartDrawer() {
+  window.dispatchEvent(new Event('apn-cart-drawer-open'))
+}
+
+export function CartDrawer() {
+  const [open, setOpen] = useState(false)
+  const [rows, setRows] = useState([])
+  const loc = useLocation()
+
+  const refresh = () => setRows(readCart().map(i => ({ ...i, p: PRODUCTS.find(p => p.slug === i.slug) })).filter(r => r.p))
+
+  useEffect(() => {
+    refresh()
+    const onOpen = () => { refresh(); setOpen(true) }
+    window.addEventListener('apn-cart-drawer-open', onOpen)
+    window.addEventListener('apn-cart-change', refresh)
+    return () => {
+      window.removeEventListener('apn-cart-drawer-open', onOpen)
+      window.removeEventListener('apn-cart-change', refresh)
+    }
+  }, [])
+
+  useEffect(() => { setOpen(false) }, [loc.pathname])
+
+  useEffect(() => {
+    if (!open) return
+    const onKey = (e) => { if (e.key === 'Escape') setOpen(false) }
+    window.addEventListener('keydown', onKey)
+    document.body.style.overflow = 'hidden'
+    return () => { window.removeEventListener('keydown', onKey); document.body.style.overflow = '' }
+  }, [open])
+
+  const { subtotal } = computeTotals(rows, false)
+  const count = rows.reduce((a, r) => a + r.qty, 0)
+
+  return (
+    <>
+      <div className={'drawer-backdrop' + (open ? ' show' : '')} onClick={() => setOpen(false)} aria-hidden="true" />
+      <aside className={'cart-drawer' + (open ? ' open' : '')} role="dialog" aria-modal="true" aria-label="Shopping cart" aria-hidden={!open}>
+        <div className="drawer-head">
+          <strong>Your cart{count > 0 ? ` (${count})` : ''}</strong>
+          <button type="button" className="drawer-close" aria-label="Close cart" onClick={() => setOpen(false)}>
+            <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" aria-hidden="true"><path d="M18 6 6 18M6 6l12 12"/></svg>
+          </button>
+        </div>
+        {rows.length === 0 ? (
+          <div className="drawer-empty">
+            <p>Your cart is empty.</p>
+            <Link to="/shop/" className="btn btn-sm" onClick={() => setOpen(false)}>Browse the range</Link>
+          </div>
+        ) : (
+          <>
+            <div className="drawer-rows">
+              {rows.map(r => (
+                <div key={r.slug} className="drawer-row">
+                  <img src={'/images/' + r.slug + '.webp'} alt={r.p.name} width="56" height="56" loading="lazy" />
+                  <div className="drawer-row-info">
+                    <Link to={'/product/' + r.slug + '/'} onClick={() => setOpen(false)}>{r.p.name}</Link>
+                    <span>{r.qty} × {fmt(r.p.price)}</span>
+                  </div>
+                  <button type="button" className="rm-btn" aria-label={'Remove ' + r.p.name + ' from cart'} onClick={() => removeFromCart(r.slug)}>
+                    <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" aria-hidden="true"><path d="M3 6h18M8 6V4a2 2 0 0 1 2-2h4a2 2 0 0 1 2 2v2m3 0v14a2 2 0 0 1-2 2H7a2 2 0 0 1-2-2V6M10 11v6M14 11v6"/></svg>
+                  </button>
+                </div>
+              ))}
+            </div>
+            <div className="drawer-foot">
+              <div className="drawer-subtotal"><span>Subtotal</span><strong>{fmt(subtotal)}</strong></div>
+              <p className="drawer-hint">Shipping and any crypto discount are calculated at checkout.</p>
+              <Link to="/cart/" className="btn btn-ghost btn-full" onClick={() => setOpen(false)}>View cart</Link>
+              <Link to="/order/" className="btn btn-full" onClick={() => setOpen(false)}>Checkout</Link>
+            </div>
+          </>
+        )}
+      </aside>
+    </>
+  )
 }
 
 // ── Tawk.to chat widget (loaded deferred: first interaction or 3s idle) ──
@@ -127,10 +209,10 @@ export function Nav() {
           <Link to="/wholesale/">Wholesale</Link>
         </nav>
         <div className="nav-actions">
-          <Link to="/cart/" className="cart-btn" aria-label={'Cart, ' + count + ' items'}>
+          <button type="button" className="cart-btn" aria-label={'Open cart, ' + count + ' items'} onClick={openCartDrawer}>
             <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" aria-hidden="true"><circle cx="9" cy="21" r="1"/><circle cx="20" cy="21" r="1"/><path d="M1 1h4l2.68 13.39a2 2 0 0 0 2 1.61h9.72a2 2 0 0 0 2-1.61L23 6H6"/></svg>
             {count > 0 && <span className="cart-count">{count}</span>}
-          </Link>
+          </button>
           <button className="burger" type="button" aria-label="Toggle menu" onClick={() => setOpen(v => !v)}>
             <span/><span/><span/>
           </button>
@@ -177,7 +259,7 @@ export function ProductCard({ p }) {
           <span className="price">{fmt(p.price)}</span>
           <QtyStepper qty={qty} setQty={setQty} label={p.name} />
         </div>
-        <button type="button" className="btn btn-sm btn-full" onClick={() => { addToCart(p.slug, qty); setAdded(true); setQty(1); setTimeout(() => setAdded(false), 1600) }}>
+        <button type="button" className="btn btn-sm btn-full" onClick={() => { addToCart(p.slug, qty); setAdded(true); setQty(1); setTimeout(() => setAdded(false), 1600); openCartDrawer() }}>
           {added ? 'Added ✓' : 'Add to cart'}
         </button>
       </div>
