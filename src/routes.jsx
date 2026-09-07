@@ -10,6 +10,22 @@ const U = SITE.url
 const TODAY = new Date().toISOString().slice(0, 10)
 const encEmail = (e) => e.replace('@', '&#64;')
 
+// Meta descriptions: assemble, then clamp to a whole word under the Google/Bing
+// safe band (~157) so a page never ships a description cut mid-word.
+const clampDesc = (s, max = 157) => (s.length <= max ? s : s.slice(0, max + 1).replace(/\s+\S*$/, ''))
+
+// Per-category tail for product meta descriptions — keeps the unique product
+// `short` up front but varies the closing line so 23 products don't share one
+// boilerplate sentence.
+const PROD_TAIL = {
+  'film-tv-props': 'Camera-ready for 4K and 8K. Fast Sydney dispatch, free AU shipping over $500.',
+  'photography-props': 'Matte, glare-free stock. Fast Sydney dispatch, free AU shipping over $500.',
+  'event-party-props': 'Built to last a full event. Fast Sydney dispatch, free shipping over $500.',
+  'custom-prop-money': 'Designed and printed to order. Sydney dispatch, free AU shipping over $500.',
+  'novelty-money': 'Clearly decorative. Fast Sydney dispatch, free AU shipping over $500 AUD.',
+  'foreign-currency-props': 'Stocked in Sydney, no import wait. Free AU shipping over $500.',
+}
+
 const crumbs = (items) => ({
   '@context': 'https://schema.org', '@type': 'BreadcrumbList',
   itemListElement: [{ '@type': 'ListItem', position: 1, name: 'Home', item: U + '/' },
@@ -69,7 +85,7 @@ export const ROUTES = [
   ...CATEGORIES.map(c => ({
     path: '/shop/' + c.slug + '/', el: <Shop />,
     title: (c.name + ' — Prop Money Australia | Aussie Prop Notes').slice(0, 60),
-    desc: (c.desc + ' Minimum order $250 AUD, fast dispatch from Sydney.').slice(0, 158),
+    desc: clampDesc(c.md || (c.desc + ' Minimum order $250 AUD, fast dispatch from Sydney.')),
     schema: [crumbs([['Shop', '/shop/'], [c.name, null]])]
   })),
 
@@ -78,7 +94,7 @@ export const ROUTES = [
     return {
       path: '/product/' + p.slug + '/', el: <Product />,
       title: (p.name + ' | Aussie Prop Notes').slice(0, 60),
-      desc: (p.short + ' ' + 'Buy Australian prop money with fast Sydney dispatch and free shipping over $500 AUD.').slice(0, 158),
+      desc: clampDesc(p.short + ' ' + (PROD_TAIL[p.cat] || 'Fast Sydney dispatch, free AU shipping over $500.')),
       schema: [
         { '@context': 'https://schema.org', '@type': 'Product', name: p.name, image: U + '/images/' + p.slug + '.webp',
           description: p.short, sku: 'APN-' + p.slug.toUpperCase().slice(0, 12), brand: { '@type': 'Brand', name: SITE.brand },

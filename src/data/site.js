@@ -30,17 +30,23 @@ export const SITE = {
 
 export const CATEGORIES = [
   { slug: 'film-tv-props', name: 'Film & TV Props', kw: 'film props for sale Australia',
-    desc: 'Film props for sale — full-print AUD prop notes, aged notes, money stacks and briefcase sets built for 4K and 8K cameras, reliable props for filming on Australian sets since 2022.' },
+    desc: 'Film props for sale — full-print AUD prop notes, aged notes, money stacks and briefcase sets built for 4K and 8K cameras, reliable props for filming on Australian sets since 2022.',
+    md: 'Film props for sale in Australia — full-print AUD prop notes, aged notes, money stacks and briefcase sets for 4K and 8K cameras. Fast Sydney dispatch.' },
   { slug: 'photography-props', name: 'Photography Props', kw: 'money props for photography Australia',
-    desc: 'Flat-lay money sets, miniature scale notes and studio-ready cash stacks that photograph beautifully under professional lighting.' },
+    desc: 'Flat-lay money sets, miniature scale notes and studio-ready cash stacks that photograph beautifully under professional lighting.',
+    md: 'Money props for photography in Australia — flat-lay sets, 1:6 scale miniatures and matte cash stacks that shoot cleanly under studio lights.' },
   { slug: 'event-party-props', name: 'Event & Party Props', kw: 'event prop money Australia',
-    desc: 'Money guns, photo booth props and oversized novelty notes for weddings, corporate galas and unforgettable parties.' },
+    desc: 'Money guns, photo booth props and oversized novelty notes for weddings, corporate galas and unforgettable parties.',
+    md: 'Event prop money in Australia — money guns, photo booth props and oversized novelty notes for weddings, corporate galas and parties. Fast Sydney dispatch.' },
   { slug: 'custom-prop-money', name: 'Custom & Branded', kw: 'custom prop money Australia',
-    desc: 'Custom printed prop notes with your logo, fictional bank names or personalised denominations. Designed and printed to order.' },
+    desc: 'Custom printed prop notes with your logo, fictional bank names or personalised denominations. Designed and printed to order.',
+    md: 'Custom prop money in Australia — your logo, a fictional bank or bespoke denominations, printed to order from 250 notes with a proof before printing.' },
   { slug: 'novelty-money', name: 'Novelty & Gifts', kw: 'novelty notes Australia',
-    desc: 'Gold foil notes, collectible sets and gift bundles. Novelty notes and banknotes that make memorable gifts and centrepieces.' },
+    desc: 'Gold foil notes, collectible sets and gift bundles. Novelty notes and banknotes that make memorable gifts and centrepieces.',
+    md: 'Novelty notes in Australia — gold foil banknotes, collectible sets and gift bundles. Clearly decorative keepsakes and centrepieces. Fast Sydney dispatch.' },
   { slug: 'foreign-currency-props', name: 'Foreign Currency Props', kw: 'prop american money',
-    desc: 'USD, Euro and GBP prop notes — prop USD, prop Euro and prop GBP — for international scenes, exchange-counter sets and global storylines. Reduced scale, clearly marked, camera-ready.' },
+    desc: 'USD, Euro and GBP prop notes — prop USD, prop Euro and prop GBP — for international scenes, exchange-counter sets and global storylines. Reduced scale, clearly marked, camera-ready.',
+    md: 'Prop American money plus prop Euro and GBP notes for international scenes and exchange-counter sets. Reduced scale, clearly marked, stocked in Sydney.' },
 ]
 
 export const PRODUCTS = [
