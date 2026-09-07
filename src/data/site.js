@@ -273,6 +273,7 @@ export const CATEGORY_INTRO = {
 }
 
 export const FAQS = [
+  { q: 'What is Aussie Prop Notes?', a: 'Aussie Prop Notes is a Sydney-based supplier of camera-ready prop money, operating since 2022. We design and print Australian, US, Euro and GBP prop notes, money stacks, custom notes and event props for film, TV, photography, training and events — all reduced-scale, clearly marked and shipped Australia-wide from Sydney.' },
   { q: 'Is prop money legal in Australia?', a: 'Yes. Prop money is legal to buy, own and use in Australia for film, TV, photography, events and training, provided it follows RBA reproduction guidelines: reduced size, clear prop markings and no replicated security features. Every Aussie Prop Notes product is designed to meet these guidelines. Using any prop note as real currency is illegal.' },
   { q: 'Will your prop money look real on camera?', a: 'Yes. Our notes are offset printed with colour-accurate artwork and a matte finish that eliminates glare under studio lighting, so they read as genuine cash on 4K and 8K cameras. In hand they are clearly marked prop notes at reduced scale — exactly the balance productions need.' },
   { q: 'What is your minimum order?', a: 'Our minimum order is $250 AUD. Orders over $500 AUD ship free anywhere in Australia; orders under that threshold ship for a flat $20 AUD.' },
@@ -280,6 +281,7 @@ export const FAQS = [
   { q: 'What payment methods do you accept?', a: 'We accept cryptocurrency (BTC and USDT), bank transfer and PayID. Crypto payments receive an automatic 10% discount at checkout.' },
   { q: 'Do you offer wholesale or trade pricing?', a: 'Yes. Film studios, event companies, photographers and training providers can order in bulk through our wholesale program with tiered trade pricing. Submit the form on our Wholesale page and we respond within one business day.' },
   { q: 'Can I get custom printed prop money?', a: 'Yes. We design and print custom prop notes with your logo, fictional bank names or personalised denominations from 250 notes. You approve a proof before anything prints. Turnaround is typically 7-10 business days.' },
+  { q: 'Is Aussie Prop Notes legitimate?', a: 'Yes. Aussie Prop Notes is an Australian business based in Sydney, operating since 2022 and shipping nationwide with tracking. Every product follows RBA reproduction guidelines, payment is by crypto, bank transfer or PayID, and orders are covered by our refund policy under Australian Consumer Law.' },
 ]
 
 export const POSTS = [

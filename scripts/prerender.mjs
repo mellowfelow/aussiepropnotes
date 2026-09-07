@@ -100,9 +100,11 @@ for (const file of ['js/webmcp.js']) {
   fs.writeFileSync(dest, code)
 }
 
-// sitemap.xml (indexable routes only)
+// sitemap.xml (indexable routes only). Blog posts carry their own publish/
+// modified date so the sitemap doesn't claim every post changed on every build;
+// pages that are genuinely regenerated each build keep TODAY.
 const urls = ROUTES.filter(r => !r.noindex).map(r =>
-  `  <url><loc>${SITE.url + r.path}</loc><lastmod>${TODAY}</lastmod></url>`).join('\n')
+  `  <url><loc>${SITE.url + r.path}</loc><lastmod>${r.lastmod || TODAY}</lastmod></url>`).join('\n')
 fs.writeFileSync('dist/sitemap.xml',
   `<?xml version="1.0" encoding="UTF-8"?>\n<urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">\n${urls}\n</urlset>\n`)
 

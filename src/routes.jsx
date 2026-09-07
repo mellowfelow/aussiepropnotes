@@ -8,7 +8,30 @@ import { SITE, CATEGORIES, PRODUCTS, POSTS, FAQS, PRODUCT_DETAILS } from './data
 
 const U = SITE.url
 const TODAY = new Date().toISOString().slice(0, 10)
+const PRICE_VALID_UNTIL = (new Date().getFullYear() + 1) + '-12-31'
 const encEmail = (e) => e.replace('@', '&#64;')
+
+// Shared Offer sub-objects for Product schema — real values from SITE and the
+// shipping / refund pages. Unlocks Google merchant-listing / free-listing
+// eligibility (GSC flagged "show your products on the Shopping tab").
+const offerShipping = {
+  '@type': 'OfferShippingDetails',
+  shippingRate: { '@type': 'MonetaryAmount', value: SITE.flatShip, currency: 'AUD' },
+  shippingDestination: { '@type': 'DefinedRegion', addressCountry: 'AU' },
+  deliveryTime: {
+    '@type': 'ShippingDeliveryTime',
+    handlingTime: { '@type': 'QuantitativeValue', minValue: 0, maxValue: 1, unitCode: 'DAY' },
+    transitTime: { '@type': 'QuantitativeValue', minValue: 1, maxValue: 6, unitCode: 'DAY' },
+  },
+}
+const returnPolicy = {
+  '@type': 'MerchantReturnPolicy',
+  applicableCountry: 'AU',
+  returnPolicyCategory: 'https://schema.org/MerchantReturnFiniteReturnWindow',
+  merchantReturnDays: 14,
+  returnMethod: 'https://schema.org/ReturnByMail',
+  returnFees: 'https://schema.org/ReturnShippingFees',
+}
 
 // Meta descriptions: assemble, then clamp to a whole word under the Google/Bing
 // safe band (~157) so a page never ships a description cut mid-word.
@@ -68,6 +91,13 @@ const storeSchema = {
   makesOffer: { '@type': 'AggregateOffer', priceCurrency: 'AUD', lowPrice: Math.min(...prices), highPrice: Math.max(...prices), offerCount: PRODUCTS.length }
 }
 
+// Marks the brand entity statement + intro copy as content voice assistants
+// and AI answer engines should read/quote (GEO/AEO signal).
+const speakableSchema = (url) => ({
+  '@context': 'https://schema.org', '@type': 'WebPage', url,
+  speakable: { '@type': 'SpeakableSpecification', cssSelector: ['.brand-statement', '.about-intro'] }
+})
+
 const websiteSchema = {
   '@context': 'https://schema.org', '@type': 'WebSite', name: SITE.brand, url: U + '/',
   potentialAction: { '@type': 'SearchAction', target: { '@type': 'EntryPoint', urlTemplate: U + '/shop/?q={search_term_string}' }, 'query-input': 'required name=search_term_string' }
@@ -76,7 +106,7 @@ const websiteSchema = {
 export const ROUTES = [
   { path: '/', el: <Home />, title: 'Australian Prop Money for Film, TV & Events | Aussie Prop Notes',
     desc: 'Buy camera-ready Australian prop money — AUD prop notes, money stacks & custom prints. RBA-compliant, fast Sydney dispatch, free shipping over $500. Shop now.',
-    schema: [storeSchema, websiteSchema, faqSchema(FAQS.slice(0, 4))] },
+    schema: [storeSchema, websiteSchema, faqSchema(FAQS.slice(0, 4)), speakableSchema(U + '/')] },
 
   { path: '/shop/', el: <Shop />, title: 'Buy Prop Money Australia — Full Range | Aussie Prop Notes',
     desc: 'Shop the full Australian prop money range: film & TV notes, money stacks, photography props, event props and custom prints. Min order $250 AUD, fast dispatch.',
@@ -101,8 +131,10 @@ export const ROUTES = [
           description: p.short, sku: 'APN-' + p.slug.toUpperCase().slice(0, 12), brand: { '@type': 'Brand', name: SITE.brand },
           category: c.name,
           offers: { '@type': 'Offer', url: U + '/product/' + p.slug + '/', priceCurrency: 'AUD', price: p.price,
+            priceValidUntil: PRICE_VALID_UNTIL,
             availability: 'https://schema.org/InStock', itemCondition: 'https://schema.org/NewCondition',
-            seller: { '@type': 'Organization', name: SITE.brand } } },
+            seller: { '@type': 'Organization', name: SITE.brand },
+            shippingDetails: offerShipping, hasMerchantReturnPolicy: returnPolicy } },
         crumbs([['Shop', '/shop/'], [c.name, '/shop/' + c.slug + '/'], [p.name, null]]),
         ...(d ? [faqSchema([{ q: d.faq.q, a: d.faq.a }])] : [])
       ]
@@ -117,11 +149,15 @@ export const ROUTES = [
     path: '/blog/' + p.slug + '/', el: <BlogPost />,
     title: p.title + ' | Aussie Prop Notes',
     desc: p.excerpt.slice(0, 158),
+    lastmod: p.modified || p.date,
     schema: [
       { '@context': 'https://schema.org', '@type': 'Article', headline: p.title, description: p.excerpt,
-        datePublished: p.date, dateModified: TODAY, author: { '@type': 'Organization', name: SITE.brand },
+        datePublished: p.date, dateModified: p.modified || p.date, inLanguage: 'en-AU',
+        author: { '@type': 'Organization', name: SITE.brand, url: U + '/' },
         publisher: { '@type': 'Organization', name: SITE.brand, logo: { '@type': 'ImageObject', url: U + '/images/logo.svg' } },
-        mainEntityOfPage: U + '/blog/' + p.slug + '/', image: U + '/images/og-home.png' },
+        mainEntityOfPage: U + '/blog/' + p.slug + '/', image: U + '/images/og-home.png',
+        about: { '@type': 'Thing', name: p.kw }, keywords: p.kw, articleSection: 'Prop money guides',
+        isPartOf: { '@type': 'Blog', name: SITE.brand + ' Blog', url: U + '/blog/' } },
       crumbs([['Blog', '/blog/'], [p.title, null]]),
       ...(postFaqs(p.body).length ? [faqSchema(postFaqs(p.body))] : [])
     ]
@@ -129,7 +165,7 @@ export const ROUTES = [
 
   { path: '/about/', el: <About />, title: 'About Aussie Prop Notes — Australian Prop Money Supplier',
     desc: 'Sydney-founded in 2022, Aussie Prop Notes supplies camera-ready, RBA-compliant prop money to film productions, photographers and events across Australia.',
-    schema: [{ '@context': 'https://schema.org', '@type': 'AboutPage', name: 'About Aussie Prop Notes', url: U + '/about/', mainEntity: storeSchema }, crumbs([['About', null]])] },
+    schema: [{ '@context': 'https://schema.org', '@type': 'AboutPage', name: 'About Aussie Prop Notes', url: U + '/about/', mainEntity: storeSchema }, crumbs([['About', null]]), speakableSchema(U + '/about/')] },
 
   { path: '/contact/', el: <Contact />, title: 'Contact Us | Aussie Prop Notes — Prop Money Australia',
     desc: 'Contact Aussie Prop Notes about prop money orders, custom prints or wholesale. Email, contact form or WhatsApp — we reply within one business day.',

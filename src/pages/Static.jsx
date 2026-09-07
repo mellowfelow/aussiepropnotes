@@ -9,7 +9,7 @@ export function About() {
     <main className="section article">
       <Breadcrumbs trail={[['About', null]]} />
       <h1>About Aussie Prop Notes — Australia's Prop Money Specialist</h1>
-      <p className="lead">Aussie Prop Notes is a Sydney-founded supplier of camera-ready prop money, serving film productions, photographers, event companies and content creators across Australia since {SITE.founded}.</p>
+      <p className="lead about-intro">Aussie Prop Notes is a Sydney-founded supplier of camera-ready prop money, serving film productions, photographers, event companies and content creators across Australia since {SITE.founded}.</p>
       <h2>Our story</h2>
       <p>Aussie Prop Notes was founded in Sydney in {SITE.founded} to solve a problem every Australian production knew too well: prop money either came from overseas marketplaces with unpredictable quality and slow shipping, or it simply didn't hold up on camera. Notes printed for the US or UK market read wrong on an Australian set the moment they're in frame — wrong colours, wrong size, wrong texture under lighting. We built a local alternative instead: offset-printed, matte-finished Australian-style prop notes designed for modern 4K and 8K sensors, stocked in Sydney and dispatched within one business day.</p>
       <h2>Milestones</h2>

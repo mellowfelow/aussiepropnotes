@@ -13,7 +13,7 @@ export default function Home() {
         <div className="hero-inner">
           <p className="eyebrow">Sydney-founded · Shipping Australia-wide since {SITE.founded}</p>
           <h1>Australian Prop Money for Film, TV, Photography &amp; Events</h1>
-          <p className="hero-sub">Aussie Prop Notes is Australia's specialist prop money supplier — camera-ready AUD prop notes, money stacks and custom printed notes, all RBA-guideline compliant and dispatched nationwide in one business day.</p>
+          <p className="hero-sub brand-statement">Aussie Prop Notes is Australia's specialist prop money supplier — camera-ready AUD prop notes, money stacks and custom printed notes, all RBA-guideline compliant and dispatched nationwide in one business day.</p>
           <div className="hero-cta">
             <Link className="btn btn-lg" to="/shop/">Shop prop money</Link>
             <Link className="btn btn-lg btn-ghost" to="/wholesale/">Wholesale &amp; trade</Link>
