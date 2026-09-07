@@ -47,7 +47,7 @@ const storeSchema = {
   areaServed: 'AU',
   knowsAbout: ['prop money', 'Australian prop money', 'film props', 'movie prop money', 'photography props', 'event props', 'custom prop money', 'RBA reproduction guidelines'],
   priceRange: '$' + Math.min(...prices) + '-$' + Math.max(...prices) + ' AUD',
-  sameAs: [], brand: { '@type': 'Brand', name: SITE.brand },
+  sameAs: Object.values(SITE.social || {}), brand: { '@type': 'Brand', name: SITE.brand },
   contactPoint: { '@type': 'ContactPoint', contactType: 'customer service', email: encEmail(SITE.email), areaServed: 'AU', availableLanguage: 'English' },
   makesOffer: { '@type': 'AggregateOffer', priceCurrency: 'AUD', lowPrice: Math.min(...prices), highPrice: Math.max(...prices), offerCount: PRODUCTS.length }
 }
