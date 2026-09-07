@@ -1,6 +1,6 @@
 import React from 'react'
 import { useParams, useSearchParams, Link } from 'react-router-dom'
-import { PRODUCTS, CATEGORIES, CATEGORY_INTRO } from '../data/site.js'
+import { PRODUCTS, CATEGORIES, CATEGORY_INTRO, SHOP_INTRO } from '../data/site.js'
 import { ProductCard, Breadcrumbs } from '../components/ui.jsx'
 import { renderInline } from './Blog.jsx'
 
@@ -38,10 +38,10 @@ export default function Shop() {
       {q.trim() && items.length === 0 && (
         <p>No products matched. <Link to={category ? '/shop/' + category.slug + '/' : '/shop/'}>Clear search</Link> or browse the full range.</p>
       )}
-      {category && CATEGORY_INTRO[category.slug] && !q.trim() && (
+      {!q.trim() && (category ? CATEGORY_INTRO[category.slug] : SHOP_INTRO) && (
         <section className="cat-intro">
-          <h2>About {category.name.toLowerCase()}</h2>
-          {CATEGORY_INTRO[category.slug].map((para, i) => <p key={i}>{renderInline(para, 'ci-' + i)}</p>)}
+          <h2>{category ? 'About ' + category.name.toLowerCase() : 'About the Aussie Prop Notes range'}</h2>
+          {(category ? CATEGORY_INTRO[category.slug] : SHOP_INTRO).map((para, i) => <p key={i}>{renderInline(para, 'ci-' + i)}</p>)}
         </section>
       )}
       <section className="shop-links">

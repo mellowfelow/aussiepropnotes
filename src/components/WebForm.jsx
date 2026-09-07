@@ -50,7 +50,7 @@ export default function WebForm({ subject, thankYou, children, submitLabel }) {
       <input type="hidden" name="botcheck" value="" style={{ display: 'none' }} />
       <input type="hidden" name="replyto" value="" />
       {children}
-      {err && <p className="form-err" role="alert">{err} <a href={'https://wa.me/' + SITE.whatsapp} rel="noopener">Open WhatsApp</a></p>}
+      {err && <p className="form-err" role="alert">{err} <a href={'https://wa.me/' + SITE.whatsapp} rel="nofollow noopener">Open WhatsApp</a></p>}
       <button className="btn btn-lg" type="submit" disabled={busy}>{busy ? 'Sending…' : submitLabel}</button>
     </form>
   )

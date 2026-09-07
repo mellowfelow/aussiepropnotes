@@ -1,10 +1,11 @@
 import React from 'react'
 import { Link } from 'react-router-dom'
-import { PRODUCTS, CATEGORIES, FAQS, SITE } from '../data/site.js'
+import { PRODUCTS, CATEGORIES, FAQS, POSTS, SITE } from '../data/site.js'
 import { ProductCard, TrustBar } from '../components/ui.jsx'
 
 export default function Home() {
   const featured = PRODUCTS.filter(p => ['aud-100-full-print-prop-notes','money-stack-bundle-100k','aged-distressed-aud-prop-notes','usd-100-full-print-prop-notes','money-gun-prop-bills-bundle','custom-branded-prop-notes','photography-flat-lay-set','euro-100-prop-notes'].includes(p.slug))
+  const latestPosts = [...POSTS].sort((a, b) => b.date.localeCompare(a.date)).slice(0, 3)
   return (
     <main>
       <section className="hero">
@@ -62,6 +63,21 @@ export default function Home() {
           ))}
         </div>
         <p className="center"><Link to="/faq/">Read all FAQs</Link> · <Link to="/blog/is-prop-money-legal-australia/">Is prop money legal in Australia?</Link></p>
+      </section>
+
+      <section className="section">
+        <h2>Guides from the workshop</h2>
+        <div className="post-grid">
+          {latestPosts.map(p => (
+            <article key={p.slug} className="post-card">
+              <time dateTime={p.date}>{new Date(p.date).toLocaleDateString('en-AU', { day: 'numeric', month: 'long', year: 'numeric' })}</time>
+              <h3><Link to={'/blog/' + p.slug + '/'}>{p.title}</Link></h3>
+              <p>{p.excerpt}</p>
+              <Link className="readmore" to={'/blog/' + p.slug + '/'}>Read the guide →</Link>
+            </article>
+          ))}
+        </div>
+        <p className="center"><Link className="btn" to="/blog/">All prop money guides</Link></p>
       </section>
     </main>
   )

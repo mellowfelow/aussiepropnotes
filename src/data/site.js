@@ -243,6 +243,12 @@ export const PRODUCT_DETAILS = {
   },
 }
 
+// Root /shop/ intro (rendered under the grid when no category or search is active).
+export const SHOP_INTRO = [
+  'Every prop note, money stack and money prop Aussie Prop Notes makes, in one place. The range spans six areas: full-print AUD stacks and aged notes for [film and TV](/shop/film-tv-props/), flat-lay sets and 1:6 miniatures for [photography](/shop/photography-props/), money guns and booth packs for [events](/shop/event-party-props/), [custom branded notes](/shop/custom-prop-money/) printed to your brief, [gold foil novelty sets](/shop/novelty-money/), and [USD, Euro and GBP notes](/shop/foreign-currency-props/) for international scenes.',
+  'Everything is offset printed on matte stock, reduced in scale and clearly marked as a prop in line with RBA reproduction guidelines, and dispatched from Sydney within one business day. Minimum order is $250 AUD; orders over $500 ship free Australia-wide. Not sure where to start? Read [how much prop money you need](/blog/how-much-prop-money-do-i-need/) or the [film and TV buyer’s guide](/blog/australian-prop-money-buyers-guide-film-tv/).',
+]
+
 // Category page intro copy (2 paragraphs each). Rendered above the product grid
 // in Shop.jsx; supports [label](/path/) internal links.
 export const CATEGORY_INTRO = {
