@@ -19,11 +19,11 @@ export const SITE = {
   web3formsKey: '50c0fea2-0c89-4d8c-973e-87889abb4fc2',
   payments: ['Crypto (BTC / USDT)', 'Bank Transfer', 'PayID'],
   social: {
-    facebook: 'https://www.facebook.com/share/1PbSTgNqzX/',
+    facebook: 'https://www.facebook.com/aussieprop/',
     instagram: 'https://www.instagram.com/aussieprop/',
     threads: 'https://www.threads.com/@aussieprop',
     tiktok: 'https://www.tiktok.com/@aussie.prop.notes',
-    pinterest: 'https://pin.it/4zTOGwuTB',
+    pinterest: 'https://www.pinterest.com/apropnotes/',
     telegram: 'https://t.me/aussiepropnotes',
   },
 }
