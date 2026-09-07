@@ -30,9 +30,7 @@
           }
         },
         execute: async ({ message }) => {
-          const url = message
-            ? "https://wa.me/61420126562?text=" + encodeURIComponent(message)
-            : "https://wa.me/61420126562";
+          const url = "https://wa.me/61420126562?text=" + encodeURIComponent(message || "Hi Aussie Prop");
           window.open(url, "_blank");
           return { url: url };
         }

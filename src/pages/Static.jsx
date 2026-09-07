@@ -1,6 +1,6 @@
 import React, { useState, useEffect, useRef } from 'react'
 import { Link } from 'react-router-dom'
-import { SITE, FAQS, PRODUCTS } from '../data/site.js'
+import { SITE, FAQS, PRODUCTS, waHref } from '../data/site.js'
 import { Breadcrumbs, Email, QtyStepper, fmt, readCart, writeCart, removeFromCart, clearCart, computeTotals, genOrderNumber } from '../components/ui.jsx'
 import WebForm from '../components/WebForm.jsx'
 
@@ -37,7 +37,7 @@ export function About() {
       <h2>How ordering works</h2>
       <p>Browse the <Link to="/shop/">full range</Link> or a single category, add what you need to the cart, and check out via the <Link to="/order/">order form</Link> or WhatsApp — whichever is faster for your production timeline. We confirm stock and send payment details within one business day; crypto payments are invoiced with the {SITE.cryptoDiscount}% discount already applied, and bank transfer or PayID orders are confirmed once payment clears. Custom and branded runs get a printed proof before production starts, so nothing prints until you've signed off on the design.</p>
       <h2>Get in touch</h2>
-      <p>Questions, custom requests or trade enquiries: <Email addr={SITE.email} />, <a href={'https://wa.me/' + SITE.whatsapp} rel="nofollow noopener">WhatsApp us</a>, or use the <Link to="/contact/">contact page</Link>. Read our <Link to="/blog/is-prop-money-legal-australia/">guide to prop money legality in Australia</Link> if you're new to sourcing props and want the rules explained in full.</p>
+      <p>Questions, custom requests or trade enquiries: <Email addr={SITE.email} />, <a href={waHref()} rel="nofollow noopener">WhatsApp us</a>, or use the <Link to="/contact/">contact page</Link>. Read our <Link to="/blog/is-prop-money-legal-australia/">guide to prop money legality in Australia</Link> if you're new to sourcing props and want the rules explained in full.</p>
     </main>
   )
 }
@@ -47,7 +47,7 @@ export function Contact() {
     <main className="section narrow">
       <Breadcrumbs trail={[['Contact', null]]} />
       <h1>Contact Aussie Prop Notes</h1>
-      <p className="lead">Questions about products, orders or anything else — send a message and we reply within one business day. Prefer chat? <a href={'https://wa.me/' + SITE.whatsapp} rel="nofollow noopener">Message us on WhatsApp</a>.</p>
+      <p className="lead">Questions about products, orders or anything else — send a message and we reply within one business day. Prefer chat? <a href={waHref()} rel="nofollow noopener">Message us on WhatsApp</a>.</p>
       <WebForm subject="New Contact Message — Aussie Prop Notes" thankYou="/thank-you-contact/" submitLabel="Send message">
         <label>Your name<input type="text" name="name" required autoComplete="name" /></label>
         <label>Email<input type="email" name="email" required autoComplete="email" /></label>
@@ -315,7 +315,7 @@ export function Order() {
 
           <label>Order notes (optional)<textarea name="notes" rows="3" placeholder="Deadline, custom request — anything else we should know" /></label>
 
-          {emailErr && <p className="form-err" role="alert">{emailErr} <a href={'https://wa.me/' + SITE.whatsapp} rel="nofollow noopener">Open WhatsApp</a></p>}
+          {emailErr && <p className="form-err" role="alert">{emailErr} <a href={waHref()} rel="nofollow noopener">Open WhatsApp</a></p>}
 
           <div className="checkout-actions">
             <button type="button" className="btn btn-lg btn-wa" disabled={!canSubmit} onClick={onWhatsApp}>
@@ -380,7 +380,7 @@ export function Shipping() {
       <h2>Rates and thresholds</h2>
       <p>Orders over ${SITE.freeShipOver} AUD ship free anywhere in Australia. Orders under that threshold ship for a flat ${SITE.flatShip} AUD. The minimum order value is ${SITE.minOrder} AUD.</p>
       <h2>Delivery times</h2>
-      <p>Sydney, Melbourne, Brisbane and other metro areas typically receive orders in 1–3 business days after dispatch. Regional and remote addresses usually take 3–6 business days. Need it faster for a shoot? Mention your deadline in the order notes or on <a href={'https://wa.me/' + SITE.whatsapp} rel="nofollow noopener">WhatsApp</a> and we'll quote express options.</p>
+      <p>Sydney, Melbourne, Brisbane and other metro areas typically receive orders in 1–3 business days after dispatch. Regional and remote addresses usually take 3–6 business days. Need it faster for a shoot? Mention your deadline in the order notes or on <a href={waHref()} rel="nofollow noopener">WhatsApp</a> and we'll quote express options.</p>
       <h2>Packaging</h2>
       <p>Notes ship flat-packed and board-stiffened so stacks arrive crisp and camera-ready. Briefcase sets ship fully dressed in protective outer cartons.</p>
       <p>Questions about a delivery? <Link to="/contact/">Contact us</Link> or check the <Link to="/faq/">FAQ</Link>.</p>
@@ -464,7 +464,7 @@ export function ThankYou({ kind }) {
       <p className="lead">{copy[1]}</p>
       <div className="hero-cta center-cta">
         <Link className="btn btn-lg" to="/shop/">Back to the shop</Link>
-        <a className="btn btn-lg btn-ghost" href={'https://wa.me/' + SITE.whatsapp} rel="nofollow noopener">WhatsApp us</a>
+        <a className="btn btn-lg btn-ghost" href={waHref()} rel="nofollow noopener">WhatsApp us</a>
       </div>
     </main>
   )

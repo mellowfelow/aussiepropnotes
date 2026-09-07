@@ -7,6 +7,7 @@ export const SITE = {
   ordersEmail: 'info@aussiepropnotes.com',
   wholesaleEmail: 'info@aussiepropnotes.com',
   whatsapp: '61420126562',
+  whatsappGreeting: 'Hi Aussie Prop',
   currency: 'AUD',
   minOrder: 250,
   freeShipOver: 500,
@@ -27,6 +28,13 @@ export const SITE = {
     telegram: 'https://t.me/aussiepropnotes',
   },
 }
+
+// Build a wa.me link that opens WhatsApp with a greeting pre-filled, so every
+// message that reaches us from the site is recognisable as a website enquiry.
+// Pass a custom string for context (e.g. a product name); defaults to the
+// greeting in SITE.whatsappGreeting.
+export const waHref = (msg) =>
+  `https://wa.me/${SITE.whatsapp}?text=${encodeURIComponent(msg || SITE.whatsappGreeting)}`
 
 export const CATEGORIES = [
   { slug: 'film-tv-props', name: 'Film & TV Props', kw: 'film props for sale Australia',

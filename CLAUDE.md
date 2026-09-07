@@ -37,4 +37,4 @@ Only state track record we can actually verify: founded Sydney 2022, ships Austr
 
 ## Live order channel
 
-`SITE.whatsapp` in `src/data/site.js` is the real number (`61420126562`) — WhatsApp is the live order channel (Web3Forms key is also set and working). If it ever changes, update it in `src/data/site.js` AND `public/.well-known/acp.json`, `public/.well-known/agent-skills/index.json`, `public/.well-known/mcp/server-card.json`, `public/.well-known/ucp`, and `public/js/webmcp.js`.
+`SITE.whatsapp` in `src/data/site.js` is the real number (`61420126562`) — WhatsApp is the live order channel (Web3Forms key is also set and working). Every plain "chat" link is built with `waHref()` (from `site.js`), which pre-fills `SITE.whatsappGreeting` ("Hi Aussie Prop") so incoming messages are identifiable as website enquiries; the `/order/` flow builds its own detailed order text instead. If it ever changes, update it in `src/data/site.js` AND `public/.well-known/acp.json`, `public/.well-known/agent-skills/index.json`, `public/.well-known/mcp/server-card.json`, `public/.well-known/ucp`, and `public/js/webmcp.js`.
