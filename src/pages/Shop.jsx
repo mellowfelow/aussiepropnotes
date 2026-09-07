@@ -1,7 +1,8 @@
 import React from 'react'
 import { useParams, useSearchParams, Link } from 'react-router-dom'
-import { PRODUCTS, CATEGORIES } from '../data/site.js'
+import { PRODUCTS, CATEGORIES, CATEGORY_INTRO } from '../data/site.js'
 import { ProductCard, Breadcrumbs } from '../components/ui.jsx'
+import { renderInline } from './Blog.jsx'
 
 export default function Shop() {
   const { cat } = useParams()
@@ -36,6 +37,12 @@ export default function Shop() {
       </div>
       {q.trim() && items.length === 0 && (
         <p>No products matched. <Link to={category ? '/shop/' + category.slug + '/' : '/shop/'}>Clear search</Link> or browse the full range.</p>
+      )}
+      {category && CATEGORY_INTRO[category.slug] && !q.trim() && (
+        <section className="cat-intro">
+          <h2>About {category.name.toLowerCase()}</h2>
+          {CATEGORY_INTRO[category.slug].map((para, i) => <p key={i}>{renderInline(para, 'ci-' + i)}</p>)}
+        </section>
       )}
       <section className="shop-links">
         <p>Not sure where to start? Read our <Link to="/blog/australian-prop-money-buyers-guide-film-tv/">film &amp; TV buyer's guide</Link>, check <Link to="/blog/is-prop-money-legal-australia/">the Australian legal rules</Link>, or <Link to="/wholesale/">request wholesale pricing</Link> for bulk orders.</p>

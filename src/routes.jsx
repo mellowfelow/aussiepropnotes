@@ -4,7 +4,7 @@ import Shop from './pages/Shop.jsx'
 import Product from './pages/Product.jsx'
 import { BlogIndex, BlogPost } from './pages/Blog.jsx'
 import { About, Contact, Wholesale, Faq, Cart, Order, Shipping, Refund, Privacy, Terms, ThankYou } from './pages/Static.jsx'
-import { SITE, CATEGORIES, PRODUCTS, POSTS, FAQS } from './data/site.js'
+import { SITE, CATEGORIES, PRODUCTS, POSTS, FAQS, PRODUCT_DETAILS } from './data/site.js'
 
 const U = SITE.url
 const TODAY = new Date().toISOString().slice(0, 10)
@@ -91,6 +91,7 @@ export const ROUTES = [
 
   ...PRODUCTS.map(p => {
     const c = CATEGORIES.find(x => x.slug === p.cat)
+    const d = PRODUCT_DETAILS[p.slug]
     return {
       path: '/product/' + p.slug + '/', el: <Product />,
       title: (p.name + ' | Aussie Prop Notes').slice(0, 60),
@@ -102,7 +103,8 @@ export const ROUTES = [
           offers: { '@type': 'Offer', url: U + '/product/' + p.slug + '/', priceCurrency: 'AUD', price: p.price,
             availability: 'https://schema.org/InStock', itemCondition: 'https://schema.org/NewCondition',
             seller: { '@type': 'Organization', name: SITE.brand } } },
-        crumbs([['Shop', '/shop/'], [c.name, '/shop/' + c.slug + '/'], [p.name, null]])
+        crumbs([['Shop', '/shop/'], [c.name, '/shop/' + c.slug + '/'], [p.name, null]]),
+        ...(d ? [faqSchema([{ q: d.faq.q, a: d.faq.a }])] : [])
       ]
     }
   }),
@@ -113,7 +115,7 @@ export const ROUTES = [
 
   ...POSTS.map(p => ({
     path: '/blog/' + p.slug + '/', el: <BlogPost />,
-    title: p.title.slice(0, 60),
+    title: p.title + ' | Aussie Prop Notes',
     desc: p.excerpt.slice(0, 158),
     schema: [
       { '@context': 'https://schema.org', '@type': 'Article', headline: p.title, description: p.excerpt,
@@ -143,11 +145,11 @@ export const ROUTES = [
 
   { path: '/cart/', el: <Cart />, title: 'Your Cart — Review Your Prop Money Order | Aussie Prop Notes',
     desc: 'Review your prop money order: quantities, crypto discount, shipping threshold and total. Minimum order $250 AUD, free shipping over $500 AUD.',
-    schema: [crumbs([['Cart', null]])] },
+    schema: [crumbs([['Cart', null]])], noindex: true },
 
   { path: '/order/', el: <Order />, title: 'Place Your Order | Aussie Prop Notes — Prop Money Australia',
     desc: 'Order Australian prop money by form or WhatsApp. Pay by crypto for 10% off, bank transfer or PayID. Stock confirmed within one business day.',
-    schema: [crumbs([['Cart', '/cart/'], ['Order', null]])] },
+    schema: [crumbs([['Cart', '/cart/'], ['Order', null]])], noindex: true },
 
   { path: '/shipping/', el: <Shipping />, title: 'Shipping — Prop Money Delivery Australia | Aussie Prop Notes',
     desc: 'Prop money shipping across Australia: 1-day Sydney dispatch, free over $500 AUD, flat $20 under. Metro delivery 1-3 days, express options for shoots.',

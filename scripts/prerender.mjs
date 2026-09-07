@@ -116,6 +116,29 @@ const notFoundHead = [
 const notFoundBody = `<main class="section narrow center-page"><h1>Page not found</h1><p class="lead">We couldn't find that page. It may have moved. Browse our <a href="/shop/">full prop money range</a> or head <a href="/">home</a>.</p></main>`
 fs.writeFileSync('dist/404.html', template.replace('<!--HEAD-->', notFoundHead).replace('<!--APP-->', notFoundBody))
 
+// IndexNow — notify Bing / Yandex of the current indexable URL set. Production
+// deploys only (VERCEL_ENV=production), so local and preview builds never ping.
+// Non-fatal: a failure here must not break the build.
+if (process.env.VERCEL_ENV === 'production' && SITE.indexNowKey && !SITE.indexNowKey.startsWith('YOUR-')) {
+  const host = new URL(SITE.url).host
+  const urlList = ROUTES.filter(r => !r.noindex).map(r => SITE.url + r.path)
+  try {
+    const res = await fetch('https://api.indexnow.org/indexnow', {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json; charset=utf-8' },
+      body: JSON.stringify({
+        host,
+        key: SITE.indexNowKey,
+        keyLocation: `${SITE.url}/${SITE.indexNowKey}.txt`,
+        urlList,
+      }),
+    })
+    console.log('IndexNow:', res.status, '·', urlList.length, 'urls submitted')
+  } catch (e) {
+    console.warn('IndexNow submission failed (non-fatal):', e.message)
+  }
+}
+
 // clean SSR artifacts + template root index.html duplicate is fine (route '/' overwrote it)
 fs.rmSync('dist-ssr', { recursive: true, force: true })
 fs.rmSync('src/entry-server.jsx', { force: true })

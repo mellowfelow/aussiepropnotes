@@ -146,6 +146,16 @@ a:hover{color:var(--gold2)}
 .pdp-meta{list-style:none;padding:1rem 1.2rem;background:#fff;border:1px solid var(--line);border-radius:10px;display:flex;flex-direction:column;gap:.45rem;font-size:.9rem}
 .pdp-meta li::before{content:'✓ ';color:var(--gold2);font-weight:700}
 .compliance{font-size:.8rem;color:var(--slate);margin-top:1rem;line-height:1.55}
+.pdp-h2{font-size:1.05rem;margin:1.5rem 0 .5rem}
+.pdp-specs{list-style:none;padding:0;margin:0 0 1rem;display:flex;flex-direction:column;gap:.4rem;font-size:.9rem}
+.pdp-specs li{padding-left:1.5rem;position:relative}
+.pdp-specs li::before{content:"—";position:absolute;left:0;color:var(--gold2)}
+.pdp-use{font-size:.92rem;margin:.4rem 0 0}
+.pdp-faq{max-width:72ch}
+.pdp-faq h2{font-size:1.15rem}
+.pdp-faq p{color:var(--slate)}
+.cat-intro{margin-top:2.4rem;padding-top:1.6rem;border-top:1px solid var(--line);max-width:74ch}
+.cat-intro h2{font-size:1.2rem;margin-bottom:.5rem}
 
 /* authority */
 .authority p{max-width:76ch}

@@ -1,6 +1,6 @@
 import React, { useState } from 'react'
 import { useParams, Link } from 'react-router-dom'
-import { PRODUCTS, CATEGORIES, SITE } from '../data/site.js'
+import { PRODUCTS, CATEGORIES, SITE, PRODUCT_DETAILS } from '../data/site.js'
 import { Breadcrumbs, ProductCard, QtyStepper, addToCart, openCartDrawer, fmt } from '../components/ui.jsx'
 
 export default function Product() {
@@ -10,7 +10,15 @@ export default function Product() {
   const [qty, setQty] = useState(1)
   if (!p) return <main className="section"><h1>Product not found</h1><p><Link to="/shop/">Back to shop</Link></p></main>
   const cat = CATEGORIES.find(c => c.slug === p.cat)
-  const related = PRODUCTS.filter(x => x.cat === p.cat && x.slug !== p.slug).slice(0, 3)
+  const d = PRODUCT_DETAILS[p.slug]
+  // Cyclic "related" pick: every product links to the next 3 in its category
+  // (wrapping around), so each product ends up with 3 incoming sibling links
+  // instead of only the first few products in a large category getting them.
+  const catProducts = PRODUCTS.filter(x => x.cat === p.cat)
+  const ci = catProducts.findIndex(x => x.slug === p.slug)
+  const related = [1, 2, 3]
+    .map(k => catProducts[(ci + k) % catProducts.length])
+    .filter((x, i, arr) => x && x.slug !== p.slug && arr.findIndex(y => y.slug === x.slug) === i)
   return (
     <main className="section">
       <Breadcrumbs trail={[['Shop', '/shop/'], [cat.name, '/shop/' + cat.slug + '/'], [p.name, null]]} />
@@ -23,6 +31,13 @@ export default function Product() {
           <h1>{p.name}</h1>
           <p className="price price-lg">{fmt(p.price)}</p>
           <p>{p.desc}</p>
+          {d && (
+            <>
+              <h2 className="pdp-h2">Specifications</h2>
+              <ul className="pdp-specs">{d.specs.map((s, i) => <li key={i}>{s}</li>)}</ul>
+              <p className="pdp-use">{d.use}</p>
+            </>
+          )}
           <div className="pdp-cta">
             <QtyStepper qty={qty} setQty={setQty} label={p.name} />
             <button type="button" className="btn btn-lg" onClick={() => { addToCart(p.slug, qty); setAdded(true); setQty(1); setTimeout(() => setAdded(false), 1600); openCartDrawer() }}>{added ? 'Added to cart ✓' : 'Add to cart'}</button>
@@ -37,6 +52,12 @@ export default function Product() {
           <p className="compliance">For film, TV, photography, training and event use only. Not legal tender. All notes are reduced-scale and clearly marked as props in line with RBA reproduction guidelines. See our <Link to="/terms/">terms</Link>.</p>
         </div>
       </div>
+      {d && (
+        <section className="section-tight pdp-faq">
+          <h2>{d.faq.q}</h2>
+          <p>{d.faq.a}</p>
+        </section>
+      )}
       {related.length > 0 && (
         <section className="section-tight">
           <h2>You may also like</h2>
@@ -45,7 +66,7 @@ export default function Product() {
           </div>
         </section>
       )}
-      <p>Planning a shoot? Read the <Link to="/blog/australian-prop-money-buyers-guide-film-tv/">complete film &amp; TV prop money guide</Link> or ask about <Link to="/wholesale/">wholesale pricing</Link>.</p>
+      <p>Planning a shoot? Read the <Link to="/blog/australian-prop-money-buyers-guide-film-tv/">complete film &amp; TV prop money guide</Link>, browse <Link to={'/shop/' + cat.slug + '/'}>all {cat.name.toLowerCase()}</Link>, or ask about <Link to="/wholesale/">wholesale pricing</Link>.</p>
     </main>
   )
 }

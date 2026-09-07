@@ -24,7 +24,7 @@ export function BlogIndex() {
   )
 }
 
-function renderInline(text, keyPrefix) {
+export function renderInline(text, keyPrefix) {
   const parts = text.split(/\[([^\]]+)\]\(([^)]+)\)/)
   if (parts.length === 1) return text
   const nodes = []

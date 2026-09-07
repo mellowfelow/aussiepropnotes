@@ -121,6 +121,157 @@ export const PRODUCTS = [
     desc: 'Four full stacks in one bundle: US $100, Euro \u20ac100, GBP \u00a350 and AUD $100 prop notes. Built for exchange-counter scenes, airport sequences, smuggling plots and any frame where several currencies appear together. Saves $127 against buying the stacks separately, and every note follows the same reduced-scale, clearly marked compliance standard.' },
 ]
 
+// Per-product detail: a specs list, a "best for" line and one FAQ. Rendered on
+// the product page (Product.jsx) and the FAQ is also emitted as FAQPage schema
+// (routes.jsx). Keeps each PDP above the thin-content threshold with copy that
+// is unique per product and RBA-compliant.
+export const PRODUCT_DETAILS = {
+  'aud-100-full-print-prop-notes': {
+    specs: ['100 double-sided notes per stack, bank-band wrapped', 'Australian $100-style artwork at reduced scale', 'Offset printed on matte, non-reflective stock', 'Clear prop markings; no holograms, UV ink or clear windows'],
+    use: 'Best for briefcase reveals, table spreads, vault scenes and any shot where a stack has to read as serious money.',
+    faq: { q: 'How much screen money is in one $100 stack?', a: 'A single stack of 100 notes in $100 style reads as $10,000 on camera. Ten stacks fill a briefcase convincingly; around 40 to 60 stacks reads as a full duffel bag. Most feature scenes need three to twelve stacks.' },
+  },
+  'aud-50-full-print-prop-notes': {
+    specs: ['100 double-sided notes per stack', 'Australian $50-style artwork at reduced scale', 'Offset printed on matte, non-reflective stock', 'Clear prop markings; no replicated security features'],
+    use: 'Best for wallets, register floats, market scenes and everyday cash moments where $100 stacks would look staged.',
+    faq: { q: 'Why choose $50 notes over $100 notes?', a: 'The yellow fifty is the most-handled note in real Australian wallets, so it reads as authentic everyday cash. Use fifties for tills, wallets and hand-to-hand exchanges; keep hundreds for high-value reveals where impact matters more than realism.' },
+  },
+  'aud-20-full-print-prop-notes': {
+    specs: ['100 double-sided notes per stack', 'Australian $20-style artwork at reduced scale', 'Offset printed on matte, non-reflective stock', 'Clear prop markings; no replicated security features'],
+    use: 'Best for register scenes, wallet close-ups, tip jars and street-level cash where small denominations sell the shot.',
+    faq: { q: 'Are $20 prop notes worth ordering for a shoot?', a: 'Yes, for any scene with cash changing hands at close range. Twenties dress tills, wallets and market stalls more believably than larger notes. Mix them with fifties on top of a register drawer for the most natural look.' },
+  },
+  'aged-distressed-aud-prop-notes': {
+    specs: ['100 hand-finished notes: creased, edge-worn and tone-shifted', 'Australian $100-style artwork at reduced scale', 'No two notes weather identically', 'Clear prop markings; no replicated security features'],
+    use: 'Best for period drama, crime scenes, wallets, poker tables and any story where crisp fresh notes would break the scene.',
+    faq: { q: 'How are the notes aged?', a: 'Each note is individually creased, edge-worn and tone-washed by hand so it reads as circulated cash on camera. The process is slower than a fresh run, which is why aged stacks look like money that has actually been in pockets and tills.' },
+  },
+  'money-stack-bundle-100k': {
+    specs: ['Ten bank-band wrapped stacks of 100 notes', 'Represents $100,000 in $100-style screen value', 'Uniform stacks for fast art-department dressing', 'Offset printed, matte finish, clearly marked props'],
+    use: 'Best for duffel-bag reveals, table spreads, safe and vault scenes, and ransom or payoff plot points.',
+    faq: { q: 'What does the $100K bundle look like on camera?', a: 'Ten identical banded stacks that fill a briefcase edge to edge or spread across a table as a convincing pile. Every stack is matched in height and wrap, so the bundle dresses a scene in seconds without sorting loose notes.' },
+  },
+  'briefcase-money-set': {
+    specs: ['Aluminium attach\u00e9 case, foam-fitted', 'Dressed with bank-band wrapped prop stacks', 'Nothing shifts between takes', 'Open-and-shoot hero prop, clearly marked'],
+    use: 'Best for heist reveals, high-stakes exchanges, promos and any single hero shot built around a case of cash.',
+    faq: { q: 'Is the briefcase ready to film out of the box?', a: 'Yes. The case arrives foam-fitted with banded stacks already set, so you open the lid on camera and the shot is done. It is the fastest route to a finished money reveal and the highest-impact single prop in the range.' },
+  },
+  'photography-flat-lay-set': {
+    specs: ['Curated mix of loose notes, fanned spreads and two mini stacks', 'Denominations mixed for depth and realism', 'Matte stock that holds colour under softboxes and ring lights', 'Reduced scale, clearly marked props'],
+    use: 'Best for flat-lay compositions, product and lifestyle photography, fintech shoots and social content.',
+    faq: { q: 'Why not photograph real banknotes?', a: 'Genuine polymer notes are glossy and throw hard highlights under studio lighting, and reproducing them at full detail carries legal restrictions. Matte prop notes diffuse light evenly and hold colour at any angle, so they photograph cleanly and stay compliant.' },
+  },
+  'miniature-scale-prop-notes': {
+    specs: ['Sheets of 1:6 scale Australian-style notes', 'Pre-cut and ready to stack, band or scatter', 'Matte finish for close-up and macro work', 'Clearly marked reduced-scale props'],
+    use: 'Best for dioramas, 1:6 action-figure sets, stop-motion, model-making and scale photography.',
+    faq: { q: 'What scale are the miniature notes?', a: 'They are printed at 1:6, the standard scale for action figures and many dioramas. Each sheet is pre-cut so you can stack, band or scatter the notes at scale without trimming them yourself.' },
+  },
+  'money-gun-prop-bills-bundle': {
+    specs: ['Battery-powered money gun plus 200 single-sided prop bills', 'Bills printed one side only at reduced scale', 'Fires a controlled flutter of notes', 'Standard refills available; clearly marked props'],
+    use: 'Best for club and party scenes, wedding entrances, music videos and any make-it-rain moment.',
+    faq: { q: 'How many bills do I need for a money-gun scene?', a: 'One load of 200 bills lasts a few seconds of continuous firing. Budget several hundred bills per throw sequence, since you will usually want more than one take, and assign someone to gather and re-stack between takes.' },
+  },
+  'photo-booth-money-props-pack': {
+    specs: ['Oversized novelty notes, pre-fanned spreads and handheld money signs', 'Durable card stock that survives a full event', 'Sized for photo booths and group shots', 'Clearly decorative props'],
+    use: 'Best for wedding and corporate photo booths, birthdays and any event where guests perform for the camera.',
+    faq: { q: 'Will the props last a whole event?', a: 'Yes. The pack is printed on heavy card stock built to survive a full night of handling by guests. Paper props rarely make it past the first hour; these hold up through repeated use at booths and on the dance floor.' },
+  },
+  'gold-foil-novelty-notes-set': {
+    specs: ['Presentation set of gold foil novelty banknotes', 'Embossed detail, unmistakably decorative', 'Not a reproduction of any real currency', 'Gift-ready packaging'],
+    use: 'Best for gifts, wedding centrepieces, cake toppers, prize-table dressing and display frames.',
+    faq: { q: 'Are the gold foil notes based on real money?', a: 'No. They are a decorative design in gold foil, not a reproduction of any banknote. That makes them a straightforward keepsake and gift item, without the reduced-scale or prop-marking rules that apply to camera-ready prop cash.' },
+  },
+  'custom-branded-prop-notes': {
+    specs: ['Designed from scratch around your brief: logo, bank name, colours, denomination', 'From 250 notes per run', 'Digital proof, then a printed proof before the full run', 'Reduced scale with prop markings built in; no replicated security features'],
+    use: 'Best for product launches, branded content, TV series with a fictional bank, and milestone events.',
+    faq: { q: 'How long does a custom run take?', a: 'Typically 7 to 10 business days from the moment you approve the printed proof. You review a digital proof first and revise it, then sign off a physical proof, so nothing prints until the design is exactly right.' },
+  },
+  'usd-100-full-print-prop-notes': {
+    specs: ['100 double-sided notes per stack', 'US $100-style artwork at reduced scale', 'Offset printed on matte, non-reflective stock', 'Clear prop markings; no replicated security features'],
+    use: 'Best for American storylines, exchange counters, international crime plots and any scene needing the world shorthand for serious money.',
+    faq: { q: 'Do you stock USD prop notes in Australia?', a: 'Yes. US $100-style stacks are held in Sydney and dispatched within one business day, so there is no currency conversion, international shipping or customs wait. It is the most-requested foreign currency on Australian sets.' },
+  },
+  'usd-50-prop-notes': {
+    specs: ['100 double-sided notes per stack', 'US $50-style artwork at reduced scale', 'Offset printed on matte, non-reflective stock', 'Clear prop markings; no replicated security features'],
+    use: 'Best for American scenes where a frame of nothing but hundreds would read as staged.',
+    faq: { q: 'Why add USD $50 notes to an order?', a: 'Denomination variety sells realism. Real American wallets and tills hold a mix, so adding fifties to a stack of hundreds makes close-up cash scenes look lived-in rather than art-directed.' },
+  },
+  'usd-20-prop-notes': {
+    specs: ['100 double-sided notes per stack', 'US $20-style artwork at reduced scale', 'Offset printed on matte, non-reflective stock', 'Clear prop markings; no replicated security features'],
+    use: 'Best for wallets, tills, diner and street-level scenes in any American storyline.',
+    faq: { q: 'Is the $20 the right USD note for everyday scenes?', a: 'Yes. The twenty is the everyday American note \u2014 the one that comes out of an ATM and changes hands in shops and diners. Use it wherever hundreds would look wrong, and dispatch is one business day from Sydney.' },
+  },
+  'usd-1-prop-notes': {
+    specs: ['100 double-sided notes per stack', 'US $1-style artwork at reduced scale', 'Built for volume rather than value', 'Clear prop markings; no replicated security features'],
+    use: 'Best for money-gun scenes, club sequences and any shot that needs a frame full of cash rather than high denominations.',
+    faq: { q: 'Why order $1 prop notes?', a: 'The single is the cheapest way to fill a frame with American cash. For make-it-rain moments, club scenes and throwing-money shots, volume is what sells the scene, not the number on each note.' },
+  },
+  'euro-100-prop-notes': {
+    specs: ['100 double-sided notes per stack', '\u20ac100-style artwork at reduced scale', 'Offset printed on matte, non-reflective stock', 'Clear prop markings; no replicated security features'],
+    use: 'Best for European storylines, travel content and exchange-scene set dressing.',
+    faq: { q: 'Does the Euro note read as European on camera?', a: 'Yes. The green \u20ac100 is recognised instantly as continental money, which is why it is the go-to for European heist plots, travel sequences and any scene that needs to signal "not Australia" without a word of dialogue.' },
+  },
+  'euro-50-prop-notes': {
+    specs: ['100 double-sided notes per stack', '\u20ac50-style artwork at reduced scale', 'Offset printed on matte, non-reflective stock', 'Clear prop markings; no replicated security features'],
+    use: 'Best for realistic European wallets, cafe scenes and street-level exchanges.',
+    faq: { q: 'Which Euro note is most used in real life?', a: 'The orange \u20ac50 is the most-handled note across the Eurozone. For scenes with cash changing hands close to camera, it is a more believable choice than the \u20ac100, which most people rarely carry.' },
+  },
+  'euro-20-prop-notes': {
+    specs: ['100 double-sided notes per stack', '\u20ac20-style artwork at reduced scale', 'Offset printed on matte, non-reflective stock', 'Clear prop markings; no replicated security features'],
+    use: 'Best for tills, markets and everyday European exchanges.',
+    faq: { q: 'When should I use \u20ac20 prop notes?', a: 'Use the blue twenty for market stalls, tills and pocket-money moments in European-set scenes. It is the note real people hand over for small purchases, so it grounds a scene that stacks of hundreds would over-dramatise.' },
+  },
+  'gbp-50-prop-notes': {
+    specs: ['100 double-sided notes per stack', 'British \u00a350-style artwork at reduced scale', 'Offset printed on matte, non-reflective stock', 'Clear prop markings; no replicated security features'],
+    use: 'Best for London flashbacks, UK heist plots and high-value British scenes.',
+    faq: { q: 'Is the \u00a350 the right note for UK money scenes?', a: 'For high-value reveals, yes \u2014 the red \u00a350 reads instantly as serious British money. For everyday scenes, pair it with \u00a320 and \u00a310 notes, since most UK wallets rarely hold fifties.' },
+  },
+  'gbp-20-prop-notes': {
+    specs: ['100 double-sided notes per stack', 'British \u00a320-style artwork at reduced scale', 'Offset printed on matte, non-reflective stock', 'Clear prop markings; no replicated security features'],
+    use: 'Best for realistic UK wallets, pubs and hand-to-hand scenes in London-set stories.',
+    faq: { q: 'Why is the \u00a320 the workhorse UK note?', a: 'The purple twenty is the note that comes out of British ATMs and changes hands daily. It makes UK-set scenes feel lived-in, where a wad of fifties would look like a film prop.' },
+  },
+  'gbp-10-prop-notes': {
+    specs: ['100 double-sided notes per stack', 'British \u00a310-style artwork at reduced scale', 'Offset printed on matte, non-reflective stock', 'Clear prop markings; no replicated security features'],
+    use: 'Best for pubs, markets and pocket-money moments in UK scenes.',
+    faq: { q: 'What is the \u00a310 prop note for?', a: 'The orange tenner rounds out a UK cash set for small transactions \u2014 a round of drinks, a market stall, change handed back. Use it alongside \u00a320 notes wherever larger denominations would break the scene.' },
+  },
+  'international-currency-mixed-set': {
+    specs: ['Four full stacks: US $100, \u20ac100, GBP \u00a350 and AUD $100', 'Every note follows the same reduced-scale, clearly marked standard', 'Costs less than buying the four stacks separately', 'Offset printed, matte finish'],
+    use: 'Best for exchange-counter scenes, airport sequences, smuggling plots and any frame where several currencies appear together.',
+    faq: { q: 'Why order a mixed-currency set?', a: 'Exchange counters, border scenes and smuggling plots need several currencies in one shot, and the contrast between them is what sells the scene. Buying the four stacks together also costs less than ordering each currency on its own.' },
+  },
+}
+
+// Category page intro copy (2 paragraphs each). Rendered above the product grid
+// in Shop.jsx; supports [label](/path/) internal links.
+export const CATEGORY_INTRO = {
+  'film-tv-props': [
+    'Prop money for film and TV has one job: to read as real cash on camera while staying unmistakably a prop in the hand. Every stack in this range is offset printed on matte stock so it holds colour and detail under a 4K or 8K sensor without throwing glare under studio lighting, and every note is reduced in scale with clear prop markings so it clears production legal review without holding up the shoot.',
+    'The range covers the shots productions actually build: fresh full-print $20, $50 and $100 stacks for reveals and counts, hand-aged notes for wallets and period scenes, banded bundles for duffel bags and table spreads, and a foam-fitted briefcase set for single hero shots. Dispatch is one business day from Sydney. New to sourcing props? Start with the [film & TV buyer\u2019s guide](/blog/australian-prop-money-buyers-guide-film-tv/) or [how much prop money you need](/blog/how-much-prop-money-do-i-need/).',
+  ],
+  'photography-props': [
+    'Money photographs badly when it is real. Genuine polymer notes are glossy and throw hard highlights under softboxes and ring lights, and reproducing them at full detail carries legal restrictions. The prop notes in this range are printed on matte stock that diffuses light evenly, so cash holds its colour and detail at any angle and needs far less retouching.',
+    'The range runs from curated flat-lay sets \u2014 loose notes, fanned spreads and mini stacks composed for the frame \u2014 to 1:6 scale miniatures for dioramas and model work. Denominations are mixed for depth, because a frame of identical notes reads as fake instantly. For styling and lens settings, see the [studio photography guide](/blog/best-prop-money-for-photography/).',
+  ],
+  'event-party-props': [
+    'Event prop money is a consumable, and this range is built for it. Money guns ship loaded with single-sided bills that fire in a controlled flutter for entrances, first dances and midnight countdowns; photo booth packs bring oversized notes, fans and handheld signs on card stock tough enough to survive a full night of guests.',
+    'Everything is clearly marked reduced-scale prop material \u2014 fine for every venue we have supplied \u2014 and prop bills stay legal wherever they end up, including a guest\u2019s pocket. As a rule of thumb, budget one money gun per hundred guests plus refill bills. See the [money gun guide](/blog/money-gun-prop-money-guide/) and the [events and weddings planner](/blog/prop-money-for-events-weddings/).',
+  ],
+  'custom-prop-money': [
+    'Custom prop money earns its place when the money itself needs to say something \u2014 a fictional bank for a TV series, a branded note for a product launch, a personalised denomination for a milestone, or a currency for a world that does not exist. Artwork is drawn from scratch, never copied from a real note, with reduced scale and prop markings built in from the start.',
+    'Runs start at 250 notes and take roughly 7 to 10 business days from proof approval. You review a digital proof and revise it, then sign off a printed proof before the full run begins. We will not remove markings or replicate security features on a custom job. Full detail is in the [custom prop money guide](/blog/custom-prop-money-australia/); larger runs are quoted through [wholesale](/wholesale/).',
+  ],
+  'novelty-money': [
+    'Novelty notes are decorative first: gold foil banknotes with embossed detail, collectible sets and gift bundles \u2014 clearly ornamental pieces for gifts, wedding centrepieces, cake toppers, prize tables and display frames, rather than camera-ready props.',
+    'Because these are not reproductions of real currency, they carry none of the reduced-scale or prop-marking requirements that apply to film and photography prop cash. They are a straightforward keepsake item, dispatched from Sydney within one business day.',
+  ],
+  'foreign-currency-props': [
+    'Australian productions constantly shoot international stories \u2014 American crime plots, European heists, London flashbacks \u2014 and each needs the right money in frame, because audiences clock a green US hundred or a red UK fifty instantly. Importing foreign props reintroduces every currency-conversion, shipping and customs problem that buying locally solves, which is why this range is stocked in Sydney.',
+    'The range covers USD, Euro and GBP in the denominations scenes actually use, from $1 singles for throwing scenes to $100, \u20ac100 and \u00a350 stacks for high-value shots, plus a four-currency mixed set for exchange counters and border scenes. Every note follows the same reduced-scale, clearly marked standard as the Australian range. See the [USD, Euro and GBP buying guide](/blog/usd-euro-gbp-prop-money-australia/).',
+  ],
+}
+
 export const FAQS = [
   { q: 'Is prop money legal in Australia?', a: 'Yes. Prop money is legal to buy, own and use in Australia for film, TV, photography, events and training, provided it follows RBA reproduction guidelines: reduced size, clear prop markings and no replicated security features. Every Aussie Prop Notes product is designed to meet these guidelines. Using any prop note as real currency is illegal.' },
   { q: 'Will your prop money look real on camera?', a: 'Yes. Our notes are offset printed with colour-accurate artwork and a matte finish that eliminates glare under studio lighting, so they read as genuine cash on 4K and 8K cameras. In hand they are clearly marked prop notes at reduced scale — exactly the balance productions need.' },

@@ -18,14 +18,14 @@ If a request would require breaking any of the above, stop and say so rather tha
 
 ## Architecture
 
-`src/data/site.js` is the single source of truth — `SITE` config, `CATEGORIES`, `PRODUCTS`, `POSTS`, `FAQS`. Adding one product/post entry generates its page, route, meta, JSON-LD, sitemap entry and nav link via `src/routes.jsx`. Never hand-write a page for a product or post.
+`src/data/site.js` is the single source of truth — `SITE` config, `CATEGORIES`, `PRODUCTS`, `POSTS`, `FAQS`, plus `PRODUCT_DETAILS` (per-product specs/use/FAQ, keyed by slug) and `CATEGORY_INTRO` (per-category intro paragraphs, keyed by slug). Adding one product/post entry generates its page, route, meta, JSON-LD, sitemap entry and nav link via `src/routes.jsx`. Never hand-write a page for a product or post. When adding a product, add its `PRODUCT_DETAILS` entry too (a missing entry degrades gracefully but the PDP will be thin).
 
 There is no `.well-known/*` generator in this project — those files, `robots.txt`, `llms.txt`, `auth.md`, and the WhatsApp number in `public/js/webmcp.js` are hand-maintained. If `SITE.whatsapp` or `SITE.domain` ever changes, update all of those files too (grep for the old value across `public/`).
 
 ## Rules
 
 - `npm run build` must succeed before every push (runs `vite build` then `scripts/prerender.mjs`, which renders every route to static HTML, generates `sitemap.xml`, and minifies `public/js/webmcp.js`).
-- Exactly one `<h1>` per page. Meta descriptions ~150 chars (Google ≤160). Titles ≤60 chars.
+- Exactly one `<h1>` per page. Meta descriptions ~150 chars (Google ≤160), assembled via `clampDesc()` in `routes.jsx` so they never truncate mid-word. Titles ≤60 chars, except blog posts which append ` | Aussie Prop Notes` and may run to ~78 (deliberate — keeps `<title>` distinct from `<h1>`).
 - Never emit `numberOfItems` directly on a `Store`/`Organization`/`LocalBusiness` schema block — it belongs on `OfferCatalog` (see `/shop/` route in `src/routes.jsx`).
 - `SearchAction` schema on the homepage points at `/shop/?q=` — that route must keep actually filtering products (see `src/pages/Shop.jsx`). Don't let the schema and the real behaviour drift apart.
 - Emails entity-encoded (`&#64;`) everywhere, including inside JSON-LD — never plaintext.
