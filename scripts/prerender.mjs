@@ -102,11 +102,24 @@ for (const file of ['js/webmcp.js']) {
 
 // sitemap.xml (indexable routes only). Blog posts carry their own publish/
 // modified date so the sitemap doesn't claim every post changed on every build;
-// pages that are genuinely regenerated each build keep TODAY.
-const urls = ROUTES.filter(r => !r.noindex).map(r =>
-  `  <url><loc>${SITE.url + r.path}</loc><lastmod>${r.lastmod || TODAY}</lastmod></url>`).join('\n')
+// pages that are genuinely regenerated each build keep TODAY. Product pages and
+// the homepage also declare their image(s) via the image sitemap extension, so
+// Google Images can index the product photography.
+const xmlEsc = (s) => String(s).replace(/&/g, '&amp;').replace(/</g, '&lt;').replace(/>/g, '&gt;')
+const routeImages = (routePath) => {
+  const m = /^\/product\/([^/]+)\/$/.exec(routePath)
+  if (m) return [`${SITE.url}/images/${m[1]}.webp`]
+  const cm = /^\/shop\/([^/]+)\/$/.exec(routePath)
+  if (cm) return PRODUCTS.filter(p => p.cat === cm[1]).slice(0, 6).map(p => `${SITE.url}/images/${p.slug}.webp`)
+  if (routePath === '/') return [`${SITE.url}/images/hero.jpg`, `${SITE.url}/images/og-home.png`]
+  return []
+}
+const urls = ROUTES.filter(r => !r.noindex).map(r => {
+  const imgs = routeImages(r.path).map(u => `<image:image><image:loc>${xmlEsc(u)}</image:loc></image:image>`).join('')
+  return `  <url><loc>${SITE.url + r.path}</loc><lastmod>${r.lastmod || TODAY}</lastmod>${imgs}</url>`
+}).join('\n')
 fs.writeFileSync('dist/sitemap.xml',
-  `<?xml version="1.0" encoding="UTF-8"?>\n<urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">\n${urls}\n</urlset>\n`)
+  `<?xml version="1.0" encoding="UTF-8"?>\n<urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9" xmlns:image="http://www.google.com/schemas/sitemap-image/1.1">\n${urls}\n</urlset>\n`)
 
 // Product data feed — for Meta Commerce Manager (Facebook / Instagram Shopping)
 // and Pinterest catalogs. Point a scheduled feed at

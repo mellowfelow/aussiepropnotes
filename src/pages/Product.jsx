@@ -1,6 +1,6 @@
 import React, { useState } from 'react'
 import { useParams, Link } from 'react-router-dom'
-import { PRODUCTS, CATEGORIES, SITE, PRODUCT_DETAILS, CONFIGURABLE_SETS, SET_NOTE_OPTIONS } from '../data/site.js'
+import { PRODUCTS, CATEGORIES, SITE, PRODUCT_DETAILS, CONFIGURABLE_SETS, SET_NOTE_OPTIONS, PRODUCT_GUIDE, CATEGORY_GUIDE, POSTS } from '../data/site.js'
 import { Breadcrumbs, ProductCard, QtyStepper, addToCart, openCartDrawer, fmt } from '../components/ui.jsx'
 
 export default function Product() {
@@ -25,6 +25,7 @@ export default function Product() {
   const related = [1, 2, 3]
     .map(k => catProducts[(ci + k) % catProducts.length])
     .filter((x, i, arr) => x && x.slug !== p.slug && arr.findIndex(y => y.slug === x.slug) === i)
+  const guide = POSTS.find(x => x.slug === (PRODUCT_GUIDE[p.slug] || CATEGORY_GUIDE[p.cat]))
   return (
     <main className="section">
       <Breadcrumbs trail={[['Shop', '/shop/'], [cat.name, '/shop/' + cat.slug + '/'], [p.name, null]]} />
@@ -91,7 +92,7 @@ export default function Product() {
           </div>
         </section>
       )}
-      <p>Planning a shoot? Read the <Link to="/blog/australian-prop-money-buyers-guide-film-tv/">complete film &amp; TV prop money guide</Link>, browse <Link to={'/shop/' + cat.slug + '/'}>all {cat.name.toLowerCase()}</Link>, or ask about <Link to="/wholesale/">wholesale pricing</Link>.</p>
+      <p>Planning a shoot? {guide && <>Read <Link to={'/blog/' + guide.slug + '/'}>{guide.title}</Link>, </>}browse <Link to={'/shop/' + cat.slug + '/'}>all {cat.name.toLowerCase()}</Link>, or ask about <Link to="/wholesale/">wholesale pricing</Link>.</p>
     </main>
   )
 }

@@ -195,7 +195,7 @@ export function Nav() {
               {CATEGORIES.map(c => <Link key={c.slug} to={'/shop/' + c.slug + '/'}>{c.name}</Link>)}
             </div>
           </div>
-          <Link to="/blog/">Blog</Link>
+          <Link to="/blog/">Guides</Link>
           <Link to="/about/">About</Link>
           <Link to="/wholesale/">Wholesale</Link>
         </nav>
@@ -351,7 +351,7 @@ export function Footer() {
           <div>
             <strong>Company</strong>
             <Link to="/about/">About</Link>
-            <Link to="/blog/">Blog</Link>
+            <Link to="/blog/">Guides</Link>
             <Link to="/blog/is-prop-money-legal-australia/">Compliance Guide</Link>
             <Link to="/wholesale/">Wholesale</Link>
             <Link to="/contact/">Contact</Link>

@@ -1,6 +1,6 @@
 import React from 'react'
 import { useParams, useSearchParams, Link } from 'react-router-dom'
-import { PRODUCTS, CATEGORIES, CATEGORY_INTRO, SHOP_INTRO } from '../data/site.js'
+import { PRODUCTS, CATEGORIES, CATEGORY_INTRO, SHOP_INTRO, CATEGORY_FAQ } from '../data/site.js'
 import { ProductCard, Breadcrumbs } from '../components/ui.jsx'
 import { renderInline } from './Blog.jsx'
 
@@ -42,6 +42,16 @@ export default function Shop() {
         <section className="cat-intro">
           <h2>{category ? 'About ' + category.name.toLowerCase() : 'About the Aussie Prop Notes range'}</h2>
           {(category ? CATEGORY_INTRO[category.slug] : SHOP_INTRO).map((para, i) => <p key={i}>{renderInline(para, 'ci-' + i)}</p>)}
+        </section>
+      )}
+      {!q.trim() && category && CATEGORY_FAQ[category.slug] && (
+        <section className="cat-faq">
+          <h2>{category.name} — common questions</h2>
+          <div className="faq-list">
+            {CATEGORY_FAQ[category.slug].map(f => (
+              <details key={f.q}><summary>{f.q}</summary><p>{f.a}</p></details>
+            ))}
+          </div>
         </section>
       )}
       <section className="shop-links">

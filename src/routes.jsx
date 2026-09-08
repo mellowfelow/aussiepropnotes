@@ -4,7 +4,7 @@ import Shop from './pages/Shop.jsx'
 import Product from './pages/Product.jsx'
 import { BlogIndex, BlogPost } from './pages/Blog.jsx'
 import { About, Contact, Wholesale, Faq, Cart, Order, Shipping, Refund, Privacy, Terms, ThankYou, Links } from './pages/Static.jsx'
-import { SITE, CATEGORIES, PRODUCTS, POSTS, FAQS, PRODUCT_DETAILS } from './data/site.js'
+import { SITE, CATEGORIES, PRODUCTS, POSTS, FAQS, PRODUCT_DETAILS, CATEGORY_FAQ, POST_CLUSTERS } from './data/site.js'
 
 const U = SITE.url
 const TODAY = new Date().toISOString().slice(0, 10)
@@ -116,7 +116,10 @@ export const ROUTES = [
     path: '/shop/' + c.slug + '/', el: <Shop />,
     title: (c.name + ' — Prop Money Australia | Aussie Prop Notes').slice(0, 60),
     desc: clampDesc(c.md || (c.desc + ' Minimum order $250 AUD, fast dispatch from Sydney.')),
-    schema: [crumbs([['Shop', '/shop/'], [c.name, null]])]
+    schema: [
+      crumbs([['Shop', '/shop/'], [c.name, null]]),
+      ...(CATEGORY_FAQ[c.slug] ? [faqSchema(CATEGORY_FAQ[c.slug])] : [])
+    ]
   })),
 
   ...PRODUCTS.map(p => {
@@ -142,8 +145,15 @@ export const ROUTES = [
   }),
 
   { path: '/blog/', el: <BlogIndex />, title: 'Prop Money Guides & Resources Australia | Aussie Prop Notes',
-    desc: 'Guides on buying and using prop money in Australia: legality under RBA rules, choosing camera-ready notes, and production best practice. Read the guides.',
-    schema: [crumbs([['Blog', null]])] },
+    desc: 'Guides on buying and using prop money in Australia: legality under RBA rules, choosing camera-ready notes, quantities by scene, and production best practice.',
+    schema: [
+      crumbs([['Guides', null]]),
+      { '@context': 'https://schema.org', '@type': 'ItemList', name: 'Prop money guides', url: U + '/blog/',
+        itemListElement: POST_CLUSTERS.flatMap(cl => cl.posts).map((slug, i) => {
+          const post = POSTS.find(x => x.slug === slug)
+          return { '@type': 'ListItem', position: i + 1, url: U + '/blog/' + slug + '/', name: post ? post.title : slug }
+        }) }
+    ] },
 
   ...POSTS.map(p => ({
     path: '/blog/' + p.slug + '/', el: <BlogPost />,
@@ -158,7 +168,7 @@ export const ROUTES = [
         mainEntityOfPage: U + '/blog/' + p.slug + '/', image: U + '/images/og-home.png',
         about: { '@type': 'Thing', name: p.kw }, keywords: p.kw, articleSection: 'Prop money guides',
         isPartOf: { '@type': 'Blog', name: SITE.brand + ' Blog', url: U + '/blog/' } },
-      crumbs([['Blog', '/blog/'], [p.title, null]]),
+      crumbs([['Guides', '/blog/'], [p.title, null]]),
       ...(postFaqs(p.body).length ? [faqSchema(postFaqs(p.body))] : [])
     ]
   })),

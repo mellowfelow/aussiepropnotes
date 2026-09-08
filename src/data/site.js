@@ -771,3 +771,93 @@ export const POSTS = [
       ['p','Browse the [film & TV prop money range](/shop/film-tv-props/) or the [full catalogue](/shop/), and read the [production buyer’s guide](/blog/australian-prop-money-buyers-guide-film-tv/) for choosing notes.'],
     ]},
 ]
+
+// Topical clusters. Every post slug appears in exactly one cluster. The blog
+// index (/blog/) renders as this hub, and a post's "related guides" block is
+// its cluster siblings — so internal links follow topic, not publish date.
+export const POST_CLUSTERS = [
+  { slug: 'legal', title: 'Legal & compliance',
+    blurb: 'What Australian law requires, how to stay inside RBA reproduction guidelines, and how to vet a supplier before you order.',
+    posts: ['is-prop-money-legal-australia', 'how-to-check-prop-money-is-compliant', 'prop-money-size-scale-guide', 'prop-money-on-set-checklist', 'prop-money-for-advertising-marketing'] },
+  { slug: 'choosing', title: 'Choosing & buying',
+    blurb: 'Print quality on modern cameras, where to buy, importing versus local, hiring versus owning, and how prop money is actually made.',
+    posts: ['australian-prop-money-buyers-guide-film-tv', 'where-to-buy-prop-money-australia', 'buying-prop-money-locally-vs-overseas', 'hiring-vs-buying-prop-money-australia', 'how-prop-money-is-made'] },
+  { slug: 'quantity', title: 'How much & which notes',
+    blurb: 'Sizing an order by scene, screen-value maths, the $100 note, briefcase fills and aged versus fresh.',
+    posts: ['how-much-prop-money-do-i-need', 'prop-money-100-dollar-notes-guide', 'prop-money-briefcase-scene', 'aged-vs-fresh-prop-money'] },
+  { slug: 'use-cases', title: 'By use case',
+    blurb: 'Music videos, short-form content, events and weddings, money guns, cash-handling training and studio photography.',
+    posts: ['prop-money-for-music-videos', 'prop-money-for-content-creators', 'prop-money-for-events-weddings', 'money-gun-prop-money-guide', 'prop-money-for-cash-handling-training', 'best-prop-money-for-photography'] },
+  { slug: 'currency-custom', title: 'Foreign currency & custom',
+    blurb: 'USD, Euro and GBP prop notes for international scenes shot in Australia, and custom branded runs.',
+    posts: ['usd-euro-gbp-prop-money-australia', 'custom-prop-money-australia'] },
+]
+
+// Related posts for a slug: cluster siblings first, then topped up in list
+// order so short clusters still return a full set.
+export const relatedPosts = (slug, n = 3) => {
+  const cl = POST_CLUSTERS.find(c => c.posts.includes(slug))
+  const sib = cl ? cl.posts.filter(s => s !== slug) : []
+  const fill = POSTS.map(p => p.slug).filter(s => s !== slug && !sib.includes(s))
+  return [...sib, ...fill].slice(0, n).map(s => POSTS.find(p => p.slug === s)).filter(Boolean)
+}
+
+// Per-product "related guide" — the one blog post most useful to someone on that
+// PDP. Falls back to a per-category guide in Product.jsx when a slug isn't listed.
+export const PRODUCT_GUIDE = {
+  'aud-100-full-print-prop-notes': 'prop-money-100-dollar-notes-guide',
+  'aged-distressed-aud-prop-notes': 'aged-vs-fresh-prop-money',
+  'money-stack-bundle-100k': 'how-much-prop-money-do-i-need',
+  'briefcase-money-set': 'prop-money-briefcase-scene',
+  'photography-flat-lay-set': 'best-prop-money-for-photography',
+  'miniature-scale-prop-notes': 'best-prop-money-for-photography',
+  'money-gun-prop-bills-bundle': 'money-gun-prop-money-guide',
+  'photo-booth-money-props-pack': 'prop-money-for-events-weddings',
+  'gold-foil-novelty-notes-set': 'prop-money-for-events-weddings',
+  'custom-branded-prop-notes': 'custom-prop-money-australia',
+  'international-currency-mixed-set': 'usd-euro-gbp-prop-money-australia',
+  'usd-100-full-print-prop-notes': 'usd-euro-gbp-prop-money-australia',
+}
+export const CATEGORY_GUIDE = {
+  'film-tv-props': 'australian-prop-money-buyers-guide-film-tv',
+  'photography-props': 'best-prop-money-for-photography',
+  'event-party-props': 'prop-money-for-events-weddings',
+  'custom-prop-money': 'custom-prop-money-australia',
+  'novelty-money': 'prop-money-for-events-weddings',
+  'foreign-currency-props': 'usd-euro-gbp-prop-money-australia',
+}
+
+// Per-category FAQ (3 each). Rendered on the category page (Shop.jsx) and
+// emitted as FAQPage schema (routes.jsx) to target "People Also Ask" queries.
+export const CATEGORY_FAQ = {
+  'film-tv-props': [
+    { q: 'Will prop money hold up in a 4K or 8K close-up?', a: 'Yes, when it is offset printed on matte stock — that combination keeps colour saturated and fine detail crisp under a modern sensor, without the banding or glare that gives cheap inkjet props away. Every note in this range is printed that way.' },
+    { q: 'Should I order fresh or aged notes for a shoot?', a: 'Fresh full-print stacks suit bank scenes, briefcase reveals and anything implying new money; aged notes suit wallets, tills, crime scenes and period settings. Most productions order both and dress each scene accordingly.' },
+    { q: 'How many stacks does a scene usually need?', a: 'A table spread reads with 3 to 6 banded stacks, a briefcase with 8 to 12, and a duffel bag with 40 to 60. In $100 style each stack of 100 notes represents $10,000 of screen value. See our guide on how much prop money you need.' },
+  ],
+  'photography-props': [
+    { q: 'Why not photograph real banknotes?', a: 'Genuine polymer notes are glossy and throw hard highlights under softboxes and ring lights, and reproducing them at full detail carries legal restrictions. Matte prop notes diffuse light evenly, so they hold colour at any angle and need far less retouching.' },
+    { q: 'What finish should photography prop money have?', a: 'Matte, always. Matte offset printing is the single biggest quality factor for a clean money shot — if a supplier cannot tell you the finish of their stock, assume it is glossy digital print and keep looking.' },
+    { q: 'Do the notes come in mixed denominations?', a: 'Yes. The flat-lay set mixes $100, $50 and $20 styles with fanned spreads and mini stacks, because a frame of identical notes reads as fake instantly. The 1:6 miniatures are sold as sheets for diorama and scale work.' },
+  ],
+  'event-party-props': [
+    { q: 'How much prop money does a money gun get through?', a: 'One load of about 200 bills lasts a few seconds of continuous firing. For a single wedding or party moment, one load is plenty; for a full dance floor, event companies typically budget one gun per 100 guests plus several hundred refill bills.' },
+    { q: 'Is it a problem if guests take prop bills home?', a: 'No, as long as the bills are reduced scale and clearly marked as props — they stay legal wherever they end up. Never mix prop bills with a real cash float, and never present them as a genuine prize.' },
+    { q: 'Are the photo-booth props durable enough for a full event?', a: 'Yes. The photo-booth pack is printed on heavy card stock built to survive a full night of handling by guests. Paper props rarely make it past the first hour.' },
+  ],
+  'custom-prop-money': [
+    { q: 'What is the minimum order for custom prop money?', a: 'Custom runs start at 250 notes. Larger runs are quoted with tiered pricing through our wholesale program.' },
+    { q: 'How long does a custom run take?', a: 'Typically 7 to 10 business days from the moment you approve the printed proof. You review a digital proof first and revise it, then sign off a physical proof, so nothing prints until the design is right.' },
+    { q: 'Can you print a note using a real bank’s branding?', a: 'No. Custom notes use fictional or clearly altered bank names and never reproduce a real institution’s branding or a genuine note’s artwork. Reduced scale and prop markings are built into every custom design.' },
+  ],
+  'novelty-money': [
+    { q: 'Are novelty notes based on any real banknote?', a: 'No. The gold foil notes and collectible sets are decorative designs, not reproductions of any government-issued banknote, so they carry none of the reduced-scale or prop-marking rules that apply to camera-ready prop cash.' },
+    { q: 'What are novelty notes used for?', a: 'Gifts, wedding centrepieces, cake toppers, prize-table dressing and display frames. They are ornamental keepsakes rather than film or photography props.' },
+    { q: 'How fast do novelty sets ship?', a: 'From Sydney within one business day, with tracking, anywhere in Australia. Orders over $500 AUD ship free.' },
+  ],
+  'foreign-currency-props': [
+    { q: 'Do you stock USD, Euro and GBP prop notes in Australia?', a: 'Yes. USD, Euro and GBP stacks are held in Sydney and dispatched within one business day, so there is no currency conversion, international shipping or customs wait.' },
+    { q: 'Do foreign prop notes follow the same compliance rules?', a: 'Yes. Our USD, Euro and GBP notes are reduced scale, clearly marked and free of reproduced security features — the same standard as our Australian range, so they clear production legal review the same way.' },
+    { q: 'Which denominations should I order for an international scene?', a: 'The US $100 is the global shorthand for serious money and the most requested. Add $20s and $50s for wallet and till realism, and consider the four-currency mixed set for exchange-counter and border scenes.' },
+  ],
+}

@@ -212,10 +212,19 @@ a:hover{color:var(--gold2)}
 .post-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(300px,1fr));gap:1.4rem;margin-bottom:2rem}
 .post-card{background:#fff;border:1px solid var(--line);border-radius:12px;padding:1.5rem;display:flex;flex-direction:column;gap:.6rem}
 .post-card time{font-size:.78rem;color:var(--slate);letter-spacing:.05em;text-transform:uppercase}
-.post-card h2{font-size:1.2rem;margin:0}
-.post-card h2 a{text-decoration:none}
+.post-card h2,.post-card h3{font-size:1.2rem;margin:0;font-family:'Archivo'}
+.post-card h2 a,.post-card h3 a{text-decoration:none}
 .post-card p{font-size:.9rem;color:var(--slate);flex:1}
 .readmore{font-weight:600;font-size:.9rem}
+.guide-cluster{margin-top:2.4rem}
+.guide-cluster>h2{font-size:1.35rem;margin-bottom:.2rem}
+.cluster-blurb{color:var(--slate);max-width:70ch;margin:0 0 1.2rem}
+.related-guides{margin-top:2rem;padding-top:1.4rem;border-top:1px solid var(--line)}
+.related-guides h2{font-size:1.15rem;margin-bottom:.6rem}
+.related-guides ul{list-style:none;padding:0;margin:0;display:flex;flex-direction:column;gap:.5rem}
+.related-guides a{font-weight:600}
+.cat-faq{margin-top:2.4rem;padding-top:1.6rem;border-top:1px solid var(--line)}
+.cat-faq h2{font-size:1.2rem;margin-bottom:.9rem}
 .article h2{margin-top:2rem}
 .article h3{margin-top:1.4rem}
 .article p{margin-bottom:1rem;max-width:72ch}
