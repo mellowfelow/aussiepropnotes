@@ -50,9 +50,19 @@ function htmlToMarkdown(html) {
   function strip(t) { return t.replace(/<[^>]+>/g, '').trim() }
 }
 
+// Per-route social image: product pages use their own photo, everything else
+// the branded 1200x630 card. Product photos are 600x450, so the dimensions and
+// type are declared to match rather than the card's.
+const ogImageFor = (routePath) => {
+  const pm = /^\/product\/([^/]+)\/$/.exec(routePath)
+  if (pm) return { url: `${SITE.url}/images/${pm[1]}.webp`, type: 'image/webp', w: 600, h: 450 }
+  return { url: `${SITE.url}/images/og-home.png`, type: 'image/png', w: 1200, h: 630 }
+}
+
 for (const r of ROUTES) {
   const html = render(r.path)
   const canonical = SITE.url + r.path
+  const og = ogImageFor(r.path)
   const head = [
     `<title>${r.title}</title>`,
     `<meta name="description" content="${r.desc.replace(/"/g, '&quot;')}">`,
@@ -69,15 +79,15 @@ for (const r of ROUTES) {
     `<meta property="og:title" content="${r.title.replace(/"/g, '&quot;')}">`,
     `<meta property="og:description" content="${r.desc.replace(/"/g, '&quot;')}">`,
     `<meta property="og:url" content="${canonical}">`,
-    `<meta property="og:image" content="${SITE.url}/images/og-home.png">`,
-    `<meta property="og:image:type" content="image/png">`,
-    `<meta property="og:image:width" content="1200">`,
-    `<meta property="og:image:height" content="630">`,
+    `<meta property="og:image" content="${og.url}">`,
+    `<meta property="og:image:type" content="${og.type}">`,
+    `<meta property="og:image:width" content="${og.w}">`,
+    `<meta property="og:image:height" content="${og.h}">`,
     `<meta property="og:updated_time" content="${TODAY}T09:00:00+10:00">`,
     `<meta name="twitter:card" content="summary_large_image">`,
     `<meta name="twitter:title" content="${r.title.replace(/"/g, '&quot;')}">`,
     `<meta name="twitter:description" content="${r.desc.replace(/"/g, '&quot;')}">`,
-    `<meta name="twitter:image" content="${SITE.url}/images/og-home.png">`,
+    `<meta name="twitter:image" content="${og.url}">`,
     ...r.schema.map(s => `<script type="application/ld+json">${JSON.stringify(s)}</script>`),
   ].filter(Boolean).join('\n')
 
