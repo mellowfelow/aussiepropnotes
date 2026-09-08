@@ -3,7 +3,7 @@ import Home from './pages/Home.jsx'
 import Shop from './pages/Shop.jsx'
 import Product from './pages/Product.jsx'
 import { BlogIndex, BlogPost } from './pages/Blog.jsx'
-import { About, Contact, Wholesale, Faq, Cart, Order, Shipping, Refund, Privacy, Terms, ThankYou } from './pages/Static.jsx'
+import { About, Contact, Wholesale, Faq, Cart, Order, Shipping, Refund, Privacy, Terms, ThankYou, Links } from './pages/Static.jsx'
 import { SITE, CATEGORIES, PRODUCTS, POSTS, FAQS, PRODUCT_DETAILS } from './data/site.js'
 
 const U = SITE.url
@@ -202,6 +202,10 @@ export const ROUTES = [
   { path: '/terms/', el: <Terms />, title: 'Terms of Service | Aussie Prop Notes — Prop Money Australia',
     desc: 'Terms of service covering permitted prop money use, RBA compliance, orders, payment and liability. All notes are marked props — never legal tender.',
     schema: [crumbs([['Terms', null]])] },
+
+  { path: '/links/', el: <Links />, title: 'Aussie Prop Notes — Links & Quick Access',
+    desc: 'Every Aussie Prop Notes link in one place: shop the range, browse by category, custom prop money, wholesale, the compliance guide and WhatsApp.',
+    schema: [crumbs([['Links', null]])], noindex: true },
 
   { path: '/thank-you-contact/', el: <ThankYou kind="contact" />, title: 'Message Received | Aussie Prop Notes',
     desc: 'Thanks for contacting Aussie Prop Notes — we reply to every message within one business day. Need a faster answer? Message us on WhatsApp any time.',

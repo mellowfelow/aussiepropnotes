@@ -1,7 +1,7 @@
 import React, { useState, useEffect, useRef } from 'react'
 import { Link } from 'react-router-dom'
-import { SITE, FAQS, PRODUCTS, waHref } from '../data/site.js'
-import { Breadcrumbs, Email, QtyStepper, fmt, readCart, writeCart, removeFromCart, clearCart, computeTotals, genOrderNumber, mixLabel } from '../components/ui.jsx'
+import { SITE, FAQS, PRODUCTS, CATEGORIES, waHref } from '../data/site.js'
+import { Breadcrumbs, Email, QtyStepper, fmt, readCart, writeCart, removeFromCart, clearCart, computeTotals, genOrderNumber, mixLabel, SocialLinks } from '../components/ui.jsx'
 import WebForm from '../components/WebForm.jsx'
 
 export function About() {
@@ -38,6 +38,42 @@ export function About() {
       <p>Browse the <Link to="/shop/">full range</Link> or a single category, add what you need to the cart, and check out via the <Link to="/order/">order form</Link> or WhatsApp — whichever is faster for your production timeline. We confirm stock and send payment details within one business day; crypto payments are invoiced with the {SITE.cryptoDiscount}% discount already applied, and bank transfer or PayID orders are confirmed once payment clears. Custom and branded runs get a printed proof before production starts, so nothing prints until you've signed off on the design.</p>
       <h2>Get in touch</h2>
       <p>Questions, custom requests or trade enquiries: <Email addr={SITE.email} />, <a href={waHref()} rel="nofollow noopener">WhatsApp us</a>, or use the <Link to="/contact/">contact page</Link>. Read our <Link to="/blog/is-prop-money-legal-australia/">guide to prop money legality in Australia</Link> if you're new to sourcing props and want the rules explained in full.</p>
+    </main>
+  )
+}
+
+// Link hub for social-media bios (Instagram / TikTok only allow one link).
+// noindex — its job is the bio link, not search.
+export function Links() {
+  const catSub = {
+    'film-tv-props': 'Full-print stacks, aged notes, money bundles, briefcase sets',
+    'photography-props': 'Flat-lay sets and 1:6 scale miniatures',
+    'event-party-props': 'Money guns, photo booth props, novelty notes',
+    'custom-prop-money': 'Your logo, your bank, printed to order',
+    'novelty-money': 'Gold foil notes, collectible and gift sets',
+    'foreign-currency-props': 'USD, Euro and GBP notes for international scenes',
+  }
+  const items = [
+    ['/shop/', 'Shop the full range', 'Every prop note, stack and money prop'],
+    ...CATEGORIES.map(c => ['/shop/' + c.slug + '/', c.name, catSub[c.slug] || '']),
+    ['/product/custom-branded-prop-notes/', 'Custom branded prop money', 'Your logo, your bank, your denomination'],
+    ['/wholesale/', 'Wholesale & trade pricing', 'For production companies and event businesses'],
+    ['/blog/is-prop-money-legal-australia/', 'Is prop money legal in Australia?', 'The compliance guide for your art department'],
+    ['/blog/', 'All prop money guides', 'Buying, using and staying compliant'],
+  ]
+  return (
+    <main className="section narrow">
+      <Breadcrumbs trail={[['Links', null]]} />
+      <h1>Aussie Prop Notes — Start Here</h1>
+      <p className="lead">Camera-ready prop money for film, TV, photography and events, dispatched from Sydney in one business day. Pick where you're headed:</p>
+      <div className="linkhub">
+        {items.map(([to, title, sub]) => (
+          <Link key={to} to={to} className="linkhub-item"><strong>{title}</strong><span>{sub}</span></Link>
+        ))}
+        <a href={waHref()} className="linkhub-item" rel="nofollow noopener" target="_blank"><strong>Message us on WhatsApp</strong><span>Send your shot list — we reply within one business day</span></a>
+      </div>
+      <p className="linkhub-follow">Follow along:</p>
+      <SocialLinks className="footer-social" />
     </main>
   )
 }

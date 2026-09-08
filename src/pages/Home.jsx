@@ -1,7 +1,7 @@
 import React from 'react'
 import { Link } from 'react-router-dom'
 import { PRODUCTS, CATEGORIES, FAQS, POSTS, SITE } from '../data/site.js'
-import { ProductCard, TrustBar } from '../components/ui.jsx'
+import { ProductCard, TrustBar, NewsletterSignup } from '../components/ui.jsx'
 
 export default function Home() {
   const featured = PRODUCTS.filter(p => ['aud-100-full-print-prop-notes','money-stack-bundle-100k','aged-distressed-aud-prop-notes','usd-100-full-print-prop-notes','money-gun-prop-bills-bundle','custom-branded-prop-notes','photography-flat-lay-set','euro-100-prop-notes'].includes(p.slug))
@@ -78,6 +78,11 @@ export default function Home() {
           ))}
         </div>
         <p className="center"><Link className="btn" to="/blog/">All prop money guides</Link></p>
+      </section>
+
+      <section className="section section-alt newsletter">
+        <h2>Stay in the loop</h2>
+        <NewsletterSignup />
       </section>
     </main>
   )

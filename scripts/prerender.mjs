@@ -22,7 +22,7 @@ export function render(url) {
 `)
 execSync('npx vite build --ssr src/entry-server.jsx --outDir dist-ssr', { stdio: 'inherit' })
 
-const { render, ROUTES, SITE } = await import(pathToFileURL(path.join(root, 'dist-ssr/entry-server.js')).href)
+const { render, ROUTES, SITE, PRODUCTS, CATEGORIES } = await import(pathToFileURL(path.join(root, 'dist-ssr/entry-server.js')).href)
 const template = fs.readFileSync('dist/index.html', 'utf8')
 const TODAY = new Date().toISOString().slice(0, 10)
 
@@ -107,6 +107,29 @@ const urls = ROUTES.filter(r => !r.noindex).map(r =>
   `  <url><loc>${SITE.url + r.path}</loc><lastmod>${r.lastmod || TODAY}</lastmod></url>`).join('\n')
 fs.writeFileSync('dist/sitemap.xml',
   `<?xml version="1.0" encoding="UTF-8"?>\n<urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">\n${urls}\n</urlset>\n`)
+
+// Product data feed — for Meta Commerce Manager (Facebook / Instagram Shopping)
+// and Pinterest catalogs. Point a scheduled feed at
+// https://www.aussiepropnotes.com/meta-catalog.csv. Descriptions use the
+// compliant `short` copy; every row links to the real product page.
+const csv = (s) => `"${String(s).replace(/"/g, '""')}"`
+const feed = ['id,title,description,availability,condition,price,link,image_link,brand,product_type',
+  ...PRODUCTS.map(p => {
+    const c = CATEGORIES.find(x => x.slug === p.cat)
+    return [
+      p.slug,
+      csv(p.name),
+      csv(p.short),
+      'in stock',
+      'new',
+      p.price.toFixed(2) + ' AUD',
+      SITE.url + '/product/' + p.slug + '/',
+      SITE.url + '/images/' + p.slug + '.webp',
+      csv(SITE.brand),
+      csv(c ? c.name : 'Prop money'),
+    ].join(',')
+  })].join('\n') + '\n'
+fs.writeFileSync('dist/meta-catalog.csv', feed)
 
 // 404 page — render the homepage shell with a not-found notice (client router takes over)
 const notFoundHead = [

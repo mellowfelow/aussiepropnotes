@@ -24,7 +24,8 @@ There is no `.well-known/*` generator in this project — those files, `robots.t
 
 ## Rules
 
-- `npm run build` must succeed before every push (runs `vite build` then `scripts/prerender.mjs`, which renders every route to static HTML, generates `sitemap.xml`, and minifies `public/js/webmcp.js`).
+- `npm run build` must succeed before every push (runs `vite build` then `scripts/prerender.mjs`, which renders every route to static HTML, generates `sitemap.xml`, generates `dist/meta-catalog.csv` — the product feed for Meta Commerce Manager / Pinterest catalogs, keyed off `PRODUCTS` — and minifies `public/js/webmcp.js`).
+- `/links/` is a `noindex` link hub for social-media bios (Instagram/TikTok allow one link). The footer + homepage carry a `NewsletterSignup` (Web3Forms-backed; swap the fetch URL + CSP to connect a real ESP).
 - Exactly one `<h1>` per page. Meta descriptions ~150 chars (Google ≤160), assembled via `clampDesc()` in `routes.jsx` so they never truncate mid-word. Titles ≤60 chars, except blog posts which append ` | Aussie Prop Notes` and may run to ~78 (deliberate — keeps `<title>` distinct from `<h1>`).
 - Never emit `numberOfItems` directly on a `Store`/`Organization`/`LocalBusiness` schema block — it belongs on `OfferCatalog` (see `/shop/` route in `src/routes.jsx`).
 - `SearchAction` schema on the homepage points at `/shop/?q=` — that route must keep actually filtering products (see `src/pages/Shop.jsx`). Don't let the schema and the real behaviour drift apart.

@@ -297,9 +297,45 @@ export function SocialLinks({ className = 'footer-social' }) {
   )
 }
 
+// Email capture — POSTs to Web3Forms (same key as the other forms). Not a
+// managed list; addresses land in the business inbox. To connect a real ESP
+// later, swap the fetch URL + add its domain to the CSP form-action / connect-src.
+export function NewsletterSignup({ compact }) {
+  const [email, setEmail] = useState('')
+  const [state, setState] = useState('') // '' | 'sending' | 'done' | 'error'
+  function submit(e) {
+    e.preventDefault()
+    if (!email || state === 'sending') return
+    if (!SITE.web3formsKey || SITE.web3formsKey.startsWith('YOUR-')) { setState('done'); return }
+    setState('sending')
+    const fd = new FormData()
+    fd.set('access_key', SITE.web3formsKey)
+    fd.set('subject', 'Newsletter signup — Aussie Prop Notes')
+    fd.set('from_name', 'Aussie Prop Notes Website')
+    fd.set('email', email)
+    fd.set('botcheck', '')
+    fetch('https://api.web3forms.com/submit', { method: 'POST', headers: { Accept: 'application/json' }, body: fd })
+      .then(r => r.json()).then(d => setState(d && d.success ? 'done' : 'error')).catch(() => setState('error'))
+  }
+  if (state === 'done') return <p className={'news-done' + (compact ? ' compact' : '')}>Thanks — you're on the list. We send new products, restocks and the odd prop-money guide, nothing else.</p>
+  return (
+    <form className={'news-form' + (compact ? ' compact' : '')} onSubmit={submit}>
+      <label htmlFor={compact ? 'news-email-f' : 'news-email'}>{compact ? 'Prop money guides, new products & restocks — no spam.' : 'Get new products, restock alerts and prop-money guides. No spam, unsubscribe any time.'}</label>
+      <div className="news-row">
+        <input id={compact ? 'news-email-f' : 'news-email'} type="email" name="email" required placeholder="you@example.com" value={email} onChange={e => setEmail(e.target.value)} autoComplete="email" />
+        <button type="submit" className="btn btn-sm" disabled={state === 'sending'}>{state === 'sending' ? '…' : 'Subscribe'}</button>
+      </div>
+      {state === 'error' && <span className="form-err">Something went wrong — try again, or email us directly.</span>}
+    </form>
+  )
+}
+
 export function Footer() {
   return (
     <footer className="footer">
+      <div className="footer-newsletter">
+        <NewsletterSignup compact />
+      </div>
       <div className="footer-main">
         <div className="footer-brand">
           <strong>Aussie Prop Notes</strong>
