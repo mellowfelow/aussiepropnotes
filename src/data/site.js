@@ -24,7 +24,7 @@ export const SITE = {
     instagram: 'https://www.instagram.com/aussieprop/',
     threads: 'https://www.threads.com/@aussieprop',
     tiktok: 'https://www.tiktok.com/@aussie.prop.notes',
-    pinterest: 'https://www.pinterest.com/apropnotes/',
+    pinterest: 'https://www.pinterest.com/aussiepropnotes/',
     telegram: 'https://t.me/aussiepropnotes',
   },
 }
