@@ -286,6 +286,23 @@ export const CATEGORY_INTRO = {
   ],
 }
 
+// Configurable bundle/set products. The buyer picks up to `max` note types from
+// SET_NOTE_OPTIONS; we balance the quantities at fulfilment and confirm on
+// WhatsApp. Price never changes — the choice is written into the order text.
+// Options are double-sided stack denominations only (no $1 singles).
+export const SET_NOTE_OPTIONS = [
+  'AUD $100', 'AUD $50', 'AUD $20',
+  'USD $100', 'USD $50', 'USD $20',
+  'EUR €100', 'EUR €50', 'EUR €20',
+  'GBP £50', 'GBP £20', 'GBP £10',
+]
+export const CONFIGURABLE_SETS = {
+  'international-currency-mixed-set': { max: 4, default: ['USD $100', 'EUR €100', 'GBP £50', 'AUD $100'] },
+  'money-stack-bundle-100k':         { max: 4, default: ['AUD $100'] },
+  'briefcase-money-set':             { max: 4, default: ['AUD $100'] },
+  'photography-flat-lay-set':        { max: 4, default: ['AUD $100', 'AUD $50', 'AUD $20'] },
+}
+
 export const FAQS = [
   { q: 'What is Aussie Prop Notes?', a: 'Aussie Prop Notes is a Sydney-based supplier of camera-ready prop money, operating since 2022. We design and print Australian, US, Euro and GBP prop notes, money stacks, custom notes and event props for film, TV, photography, training and events — all reduced-scale, clearly marked and shipped Australia-wide from Sydney.' },
   { q: 'Is prop money legal in Australia?', a: 'Yes. Prop money is legal to buy, own and use in Australia for film, TV, photography, events and training, provided it follows RBA reproduction guidelines: reduced size, clear prop markings and no replicated security features. Every Aussie Prop Notes product is designed to meet these guidelines. Using any prop note as real currency is illegal.' },

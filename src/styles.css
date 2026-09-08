@@ -129,6 +129,22 @@ a:hover{color:var(--gold2)}
 .chip-row{display:flex;gap:.5rem;flex-wrap:wrap;margin:0 0 1.6rem}
 .chip{border:1px solid var(--line);background:#fff;border-radius:99px;padding:.45rem 1rem;font-size:.85rem;text-decoration:none;min-height:40px;display:inline-flex;align-items:center}
 .chip.on{background:var(--ink);color:var(--gold);border-color:var(--ink)}
+.pcard-customise{font-size:.8rem;color:var(--gold2);text-decoration:none;align-self:flex-start}
+.pcard-customise:hover{text-decoration:underline}
+
+/* configurable-set note picker (PDP) */
+.note-picker{margin:1.3rem 0;padding:1.1rem 1.2rem;background:var(--paper2);border:1px solid var(--line);border-radius:12px}
+.note-picker-head{display:flex;justify-content:space-between;align-items:baseline;flex-wrap:wrap;gap:.3rem;margin-bottom:.75rem}
+.note-picker-head strong{font-family:'Archivo';font-size:1rem}
+.note-picker-head span{font-size:.8rem;color:var(--slate)}
+.note-chips{display:flex;gap:.4rem;flex-wrap:wrap}
+.note-chip{font:inherit;font-size:.85rem;padding:.45rem .75rem;border-radius:8px;border:1px solid var(--line);background:#fff;color:var(--ink);cursor:pointer;transition:background .12s,color .12s,border-color .12s;min-height:40px}
+.note-chip:hover:not(:disabled):not(.on){border-color:var(--gold2)}
+.note-chip.on{background:var(--ink);color:var(--paper);border-color:var(--ink)}
+.note-chip:disabled{opacity:.38;cursor:not-allowed}
+.note-picker-hint{font-size:.78rem;color:var(--slate);margin:.75rem 0 0}
+.drawer-row-info .row-mix,.cart-row-info .row-mix,.summary-row-info .row-mix{color:var(--gold2);font-size:.75rem;font-weight:500}
+
 .shop-links{margin-top:2.2rem;padding-top:1.4rem;border-top:1px solid var(--line)}
 .sr-only{position:absolute;width:1px;height:1px;padding:0;margin:-1px;overflow:hidden;clip:rect(0,0,0,0);white-space:nowrap;border:0}
 .shop-search{margin:0 0 1rem}

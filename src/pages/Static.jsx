@@ -1,7 +1,7 @@
 import React, { useState, useEffect, useRef } from 'react'
 import { Link } from 'react-router-dom'
 import { SITE, FAQS, PRODUCTS, waHref } from '../data/site.js'
-import { Breadcrumbs, Email, QtyStepper, fmt, readCart, writeCart, removeFromCart, clearCart, computeTotals, genOrderNumber } from '../components/ui.jsx'
+import { Breadcrumbs, Email, QtyStepper, fmt, readCart, writeCart, removeFromCart, clearCart, computeTotals, genOrderNumber, mixLabel } from '../components/ui.jsx'
 import WebForm from '../components/WebForm.jsx'
 
 export function About() {
@@ -102,14 +102,14 @@ export function Cart() {
   const [crypto, setCrypto] = useState(false)
   const [undo, setUndo] = useState(null)
   useEffect(() => { setItems(readCart()) }, [])
-  function update(slug, qty) {
-    const next = items.map(i => i.slug === slug ? { ...i, qty } : i).filter(i => i.qty > 0)
+  function update(key, qty) {
+    const next = items.map(i => i.key === key ? { ...i, qty } : i).filter(i => i.qty > 0)
     setItems(next); writeCart(next)
   }
-  function remove(slug) {
-    const gone = items.find(i => i.slug === slug)
-    const next = items.filter(i => i.slug !== slug)
-    setItems(next); removeFromCart(slug); setUndo(gone)
+  function remove(key) {
+    const gone = items.find(i => i.key === key)
+    const next = items.filter(i => i.key !== key)
+    setItems(next); removeFromCart(key); setUndo(gone)
   }
   function undoRemove() {
     const next = [...items, undo]; setItems(next); writeCart(next); setUndo(null)
@@ -127,7 +127,7 @@ export function Cart() {
       <h1>Your Cart</h1>
       {undo && (
         <p className="undo-bar" role="status">
-          Removed {undo.qty} × {(PRODUCTS.find(p => p.slug === undo.slug) || {}).name}.
+          Removed {undo.qty} × {(PRODUCTS.find(p => p.slug === undo.slug) || {}).name}{mixLabel(undo.mix) ? ` (${mixLabel(undo.mix)})` : ''}.
           <button type="button" className="linkbtn" onClick={undoRemove}>Undo</button>
         </p>
       )}
@@ -137,15 +137,16 @@ export function Cart() {
         <>
           <div className="cart-rows">
             {rows.map(r => (
-              <div key={r.slug} className="cart-row">
+              <div key={r.key} className="cart-row">
                 <img src={'/images/' + r.slug + '.webp'} alt={r.p.name} width="72" height="72" loading="lazy" />
                 <div className="cart-row-info">
                   <Link to={'/product/' + r.slug + '/'}>{r.p.name}</Link>
+                  {mixLabel(r.mix) && <span className="row-mix">{mixLabel(r.mix)}</span>}
                   <span>{fmt(r.p.price)} each</span>
                 </div>
-                <QtyStepper qty={r.qty} setQty={(q) => update(r.slug, q)} label={r.p.name} />
+                <QtyStepper qty={r.qty} setQty={(q) => update(r.key, q)} label={r.p.name} />
                 <strong>{fmt(r.p.price * r.qty)}</strong>
-                <button type="button" className="rm-btn" aria-label={'Remove ' + r.p.name + ' from cart'} title="Remove" onClick={() => remove(r.slug)}>
+                <button type="button" className="rm-btn" aria-label={'Remove ' + r.p.name + ' from cart'} title="Remove" onClick={() => remove(r.key)}>
                   <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" aria-hidden="true"><path d="M3 6h18M8 6V4a2 2 0 0 1 2-2h4a2 2 0 0 1 2 2v2m3 0v14a2 2 0 0 1-2 2H7a2 2 0 0 1-2-2V6M10 11v6M14 11v6"/></svg>
                 </button>
               </div>
@@ -200,15 +201,15 @@ export function Order() {
   const underMin = rows.length > 0 && afterDisc < SITE.minOrder
   const canSubmit = rows.length > 0 && !underMin && !busyChannel
 
-  function updateQty(slug, qty) {
-    const next = rows.map(r => r.slug === slug ? { ...r, qty } : r).filter(r => r.qty > 0)
+  function updateQty(key, qty) {
+    const next = rows.map(r => r.key === key ? { ...r, qty } : r).filter(r => r.qty > 0)
     setRows(next)
-    writeCart(next.map(({ slug, qty }) => ({ slug, qty })))
+    writeCart(next)
   }
-  function removeRow(slug) {
-    const next = rows.filter(r => r.slug !== slug)
+  function removeRow(key) {
+    const next = rows.filter(r => r.key !== key)
     setRows(next)
-    writeCart(next.map(({ slug, qty }) => ({ slug, qty })))
+    writeCart(next)
   }
 
   function syncReply(e) {
@@ -217,7 +218,10 @@ export function Order() {
   }
 
   function buildOrderText(orderNum, fd) {
-    const lines = rows.map(r => `${r.qty} × ${r.p.name} — ${fmt(r.p.price * r.qty)}`)
+    const lines = rows.map(r => {
+      const name = mixLabel(r.mix) ? `${r.p.name} (notes: ${mixLabel(r.mix)})` : r.p.name
+      return `${r.qty} × ${name} — ${fmt(r.p.price * r.qty)}`
+    })
     const notes = fd.get('notes')
     return [
       `New order ${orderNum} — Aussie Prop Notes`,
@@ -338,16 +342,17 @@ export function Order() {
             <>
               <div className="summary-rows">
                 {rows.map(r => (
-                  <div key={r.slug} className="summary-row">
+                  <div key={r.key} className="summary-row">
                     <img src={'/images/' + r.slug + '.webp'} alt={r.p.name} width="60" height="60" loading="lazy" />
                     <div className="summary-row-info">
                       <Link to={'/product/' + r.slug + '/'}>{r.p.name}</Link>
+                      {mixLabel(r.mix) && <span className="row-mix">{mixLabel(r.mix)}</span>}
                       <span>{fmt(r.p.price)} each</span>
-                      <QtyStepper qty={r.qty} setQty={(q) => updateQty(r.slug, q)} label={r.p.name} />
+                      <QtyStepper qty={r.qty} setQty={(q) => updateQty(r.key, q)} label={r.p.name} />
                     </div>
                     <div className="summary-row-end">
                       <strong>{fmt(r.p.price * r.qty)}</strong>
-                      <button type="button" className="rm-btn" aria-label={'Remove ' + r.p.name + ' from cart'} onClick={() => removeRow(r.slug)}>
+                      <button type="button" className="rm-btn" aria-label={'Remove ' + r.p.name + ' from cart'} onClick={() => removeRow(r.key)}>
                         <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" aria-hidden="true"><path d="M3 6h18M8 6V4a2 2 0 0 1 2-2h4a2 2 0 0 1 2 2v2m3 0v14a2 2 0 0 1-2 2H7a2 2 0 0 1-2-2V6M10 11v6M14 11v6"/></svg>
                       </button>
                     </div>

@@ -18,7 +18,7 @@ If a request would require breaking any of the above, stop and say so rather tha
 
 ## Architecture
 
-`src/data/site.js` is the single source of truth — `SITE` config, `CATEGORIES`, `PRODUCTS`, `POSTS`, `FAQS`, plus `PRODUCT_DETAILS` (per-product specs/use/FAQ, keyed by slug) and `CATEGORY_INTRO` (per-category intro paragraphs, keyed by slug). Adding one product/post entry generates its page, route, meta, JSON-LD, sitemap entry and nav link via `src/routes.jsx`. Never hand-write a page for a product or post. When adding a product, add its `PRODUCT_DETAILS` entry too (a missing entry degrades gracefully but the PDP will be thin).
+`src/data/site.js` is the single source of truth — `SITE` config, `CATEGORIES`, `PRODUCTS`, `POSTS`, `FAQS`, plus `PRODUCT_DETAILS` (per-product specs/use/FAQ, keyed by slug), `CATEGORY_INTRO` (per-category intro paragraphs, keyed by slug), and `CONFIGURABLE_SETS` (bundle products where the buyer picks up to `max` note types from `SET_NOTE_OPTIONS` — price is flat, the choice rides on the cart line as `mix` and is written into the order text). Cart lines are keyed by `key` = slug, or slug+mix for a customised set. Adding one product/post entry generates its page, route, meta, JSON-LD, sitemap entry and nav link via `src/routes.jsx`. Never hand-write a page for a product or post. When adding a product, add its `PRODUCT_DETAILS` entry too (a missing entry degrades gracefully but the PDP will be thin).
 
 There is no `.well-known/*` generator in this project — those files, `robots.txt`, `llms.txt`, `auth.md`, and the WhatsApp number in `public/js/webmcp.js` are hand-maintained. If `SITE.whatsapp` or `SITE.domain` ever changes, update all of those files too (grep for the old value across `public/`).
 

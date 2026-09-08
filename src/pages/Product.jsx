@@ -1,16 +1,22 @@
 import React, { useState } from 'react'
 import { useParams, Link } from 'react-router-dom'
-import { PRODUCTS, CATEGORIES, SITE, PRODUCT_DETAILS } from '../data/site.js'
+import { PRODUCTS, CATEGORIES, SITE, PRODUCT_DETAILS, CONFIGURABLE_SETS, SET_NOTE_OPTIONS } from '../data/site.js'
 import { Breadcrumbs, ProductCard, QtyStepper, addToCart, openCartDrawer, fmt } from '../components/ui.jsx'
 
 export default function Product() {
   const { slug } = useParams()
   const p = PRODUCTS.find(x => x.slug === slug)
+  const cfg = CONFIGURABLE_SETS[slug]
   const [added, setAdded] = useState(false)
   const [qty, setQty] = useState(1)
+  const [mix, setMix] = useState(cfg ? cfg.default : null)
   if (!p) return <main className="section"><h1>Product not found</h1><p><Link to="/shop/">Back to shop</Link></p></main>
   const cat = CATEGORIES.find(c => c.slug === p.cat)
   const d = PRODUCT_DETAILS[p.slug]
+  const toggleNote = (note) => setMix(cur => {
+    if (cur.includes(note)) return cur.length > 1 ? cur.filter(n => n !== note) : cur
+    return cur.length < cfg.max ? [...cur, note] : cur
+  })
   // Cyclic "related" pick: every product links to the next 3 in its category
   // (wrapping around), so each product ends up with 3 incoming sibling links
   // instead of only the first few products in a large category getting them.
@@ -38,9 +44,28 @@ export default function Product() {
               <p className="pdp-use">{d.use}</p>
             </>
           )}
+          {cfg && (
+            <div className="note-picker">
+              <div className="note-picker-head">
+                <strong>Choose your notes</strong>
+                <span>{mix.length} of {cfg.max} selected</span>
+              </div>
+              <div className="note-chips" role="group" aria-label="Choose the notes in this set">
+                {SET_NOTE_OPTIONS.map(note => {
+                  const on = mix.includes(note)
+                  const full = !on && mix.length >= cfg.max
+                  return (
+                    <button key={note} type="button" className={'note-chip' + (on ? ' on' : '')}
+                      aria-pressed={on} disabled={full} onClick={() => toggleNote(note)}>{note}</button>
+                  )
+                })}
+              </div>
+              <p className="note-picker-hint">Pick up to {cfg.max}. We balance the quantities across your choices and confirm on WhatsApp — the price is unchanged.</p>
+            </div>
+          )}
           <div className="pdp-cta">
             <QtyStepper qty={qty} setQty={setQty} label={p.name} />
-            <button type="button" className="btn btn-lg" onClick={() => { addToCart(p.slug, qty); setAdded(true); setQty(1); setTimeout(() => setAdded(false), 1600); openCartDrawer() }}>{added ? 'Added to cart ✓' : 'Add to cart'}</button>
+            <button type="button" className="btn btn-lg" onClick={() => { addToCart(p.slug, qty, mix); setAdded(true); setQty(1); setTimeout(() => setAdded(false), 1600); openCartDrawer() }}>{added ? 'Added to cart ✓' : 'Add to cart'}</button>
             <Link className="btn btn-lg btn-ghost" to="/cart/">View cart</Link>
           </div>
           <ul className="pdp-meta">

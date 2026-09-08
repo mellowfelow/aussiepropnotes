@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from 'react'
 import { Link, useLocation } from 'react-router-dom'
-import { SITE, CATEGORIES, PRODUCTS, waHref } from '../data/site.js'
+import { SITE, CATEGORIES, PRODUCTS, waHref, CONFIGURABLE_SETS } from '../data/site.js'
 
 // Entity-encoded email renderer (no plaintext emails in DOM/HTML)
 export function Email({ addr, className }) {
@@ -11,20 +11,37 @@ export function Email({ addr, className }) {
 export const fmt = (n) => '$' + n.toLocaleString('en-AU') + ' AUD'
 
 // ── Cart store (localStorage 'apn-cart') ─────────────────────────
+// A configurable set can be added with a custom `mix` (array of note types).
+// A line's identity is `key`: the slug alone for a standard item, or slug + mix
+// for a configured set — so a custom set and the standard set are separate lines.
+const sameMix = (a, b) => a.length === b.length && [...a].sort().join('|') === [...b].sort().join('|')
+export function isCustomMix(slug, mix) {
+  const cfg = CONFIGURABLE_SETS[slug]
+  return !!(cfg && mix && mix.length && !sameMix(mix, cfg.default))
+}
+export const lineKey = (slug, mix) => (mix && mix.length ? slug + '#' + [...mix].join('|') : slug)
+export const mixLabel = (mix) => (mix && mix.length ? mix.join(' · ') : null)
+
 export function readCart() {
-  try { return JSON.parse(localStorage.getItem('apn-cart') || '[]') } catch { return [] }
+  try {
+    return JSON.parse(localStorage.getItem('apn-cart') || '[]').map(i => ({ ...i, key: i.key || i.slug }))
+  } catch { return [] }
 }
 export function writeCart(items) {
-  localStorage.setItem('apn-cart', JSON.stringify(items))
+  localStorage.setItem('apn-cart', JSON.stringify(
+    items.map(({ key, slug, qty, mix }) => (mix ? { key, slug, qty, mix } : { key, slug, qty }))
+  ))
   window.dispatchEvent(new Event('apn-cart-change'))
 }
-export function addToCart(slug, qty = 1) {
-  const c = readCart(); const f = c.find(i => i.slug === slug)
-  if (f) f.qty += qty; else c.push({ slug, qty })
+export function addToCart(slug, qty = 1, mix) {
+  const m = isCustomMix(slug, mix) ? mix : undefined
+  const key = lineKey(slug, m)
+  const c = readCart(); const f = c.find(i => i.key === key)
+  if (f) f.qty += qty; else c.push({ key, slug, qty, mix: m })
   writeCart(c)
 }
-export function removeFromCart(slug) {
-  writeCart(readCart().filter(i => i.slug !== slug))
+export function removeFromCart(key) {
+  writeCart(readCart().filter(i => i.key !== key))
 }
 export function clearCart() { writeCart([]) }
 export function cartCount() { return readCart().reduce((a, i) => a + i.qty, 0) }
@@ -117,13 +134,14 @@ export function CartDrawer() {
           <>
             <div className="drawer-rows">
               {rows.map(r => (
-                <div key={r.slug} className="drawer-row">
+                <div key={r.key} className="drawer-row">
                   <img src={'/images/' + r.slug + '.webp'} alt={r.p.name} width="56" height="56" loading="lazy" />
                   <div className="drawer-row-info">
                     <Link to={'/product/' + r.slug + '/'} onClick={() => setOpen(false)}>{r.p.name}</Link>
+                    {mixLabel(r.mix) && <span className="row-mix">{mixLabel(r.mix)}</span>}
                     <span>{r.qty} × {fmt(r.p.price)}</span>
                   </div>
-                  <button type="button" className="rm-btn" aria-label={'Remove ' + r.p.name + ' from cart'} onClick={() => removeFromCart(r.slug)}>
+                  <button type="button" className="rm-btn" aria-label={'Remove ' + r.p.name + ' from cart'} onClick={() => removeFromCart(r.key)}>
                     <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" aria-hidden="true"><path d="M3 6h18M8 6V4a2 2 0 0 1 2-2h4a2 2 0 0 1 2 2v2m3 0v14a2 2 0 0 1-2 2H7a2 2 0 0 1-2-2V6M10 11v6M14 11v6"/></svg>
                   </button>
                 </div>
@@ -235,6 +253,9 @@ export function ProductCard({ p }) {
         <button type="button" className="btn btn-sm btn-full" onClick={() => { addToCart(p.slug, qty); setAdded(true); setQty(1); setTimeout(() => setAdded(false), 1600); openCartDrawer() }}>
           {added ? 'Added ✓' : 'Add to cart'}
         </button>
+        {CONFIGURABLE_SETS[p.slug] && (
+          <Link className="pcard-customise" to={'/product/' + p.slug + '/'}>Customise the note mix →</Link>
+        )}
       </div>
     </article>
   )
