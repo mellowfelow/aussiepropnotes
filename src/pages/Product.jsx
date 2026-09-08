@@ -74,7 +74,7 @@ export default function Product() {
             <li>{SITE.cryptoDiscount}% discount on crypto payments</li>
             <li>Minimum order ${SITE.minOrder} AUD</li>
           </ul>
-          <p className="compliance">For film, TV, photography, training and event use only. Not legal tender. All notes are reduced-scale and clearly marked as props in line with RBA reproduction guidelines. See our <Link to="/terms/">terms</Link>.</p>
+          <p className="compliance">For film, TV, photography, training and event use only. These props carry no monetary value and must never be used as genuine money. All notes are reduced-scale and clearly marked as props in line with RBA reproduction guidelines. See our <Link to="/terms/">terms</Link>.</p>
         </div>
       </div>
       {d && (

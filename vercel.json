@@ -4,6 +4,9 @@
   "outputDirectory": "dist",
   "cleanUrls": false,
   "trailingSlash": true,
+  "redirects": [
+    { "source": "/blog/prop-money-vs-counterfeit-australia/", "destination": "/blog/how-to-check-prop-money-is-compliant/", "permanent": true }
+  ],
   "headers": [
     {
       "source": "/(.*)",

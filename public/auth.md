@@ -36,4 +36,4 @@ Orders are human-in-the-loop: agents may prepare an order summary, but a human c
 
 ## Legal note
 
-All products are reduced-scale, clearly marked prop reproductions for film, photography, event and training use. Not legal tender.
+All products are reduced-scale, clearly marked prop reproductions for film, photography, event and training use. They carry no monetary value and must never be used as genuine money.

@@ -367,7 +367,7 @@ export function Footer() {
         </div>
       </div>
       <div className="footer-bar">
-        <span>© {SITE.founded}–2026 Aussie Prop Notes. All prop notes are clearly marked, reduced-scale reproductions for film, photography and event use only. Not legal tender.</span>
+        <span>© {SITE.founded}–2026 Aussie Prop Notes. All prop notes are clearly marked, reduced-scale reproductions for film, photography and event use only. They carry no monetary value and must never be presented or used as genuine money.</span>
       </div>
       <div className="chat-float">
         <a className="chat-btn chat-wa" href={waHref()} aria-label="Chat on WhatsApp" rel="nofollow noopener" target="_blank">

@@ -472,9 +472,9 @@ export function Terms() {
       <h1>Terms of Service</h1>
       <p className="lead">By purchasing from Aussie Prop Notes you agree to the terms below. They exist to keep the product legal, your production safe, and expectations clear.</p>
       <h2>Permitted use — read this first</h2>
-      <p>All products are reduced-scale, clearly marked prop reproductions supplied strictly for film, television, photography, events, training and display. They are not legal tender and must never be used, presented or passed as genuine currency. Attempting to spend prop notes is a criminal offence under the Crimes (Currency) Act 1981, and responsibility for lawful use rests entirely with the buyer.</p>
+      <p>All products are reduced-scale, clearly marked prop reproductions supplied strictly for film, television, photography, events, training and display. They carry no monetary value and must never be used, presented or passed as genuine money. Attempting to spend prop notes is a criminal offence under the Crimes (Currency) Act 1981, and responsibility for lawful use rests entirely with the buyer.</p>
       <h2>Compliance</h2>
-      <p>Our notes are designed to follow Reserve Bank of Australia reproduction guidelines: reduced size relative to genuine notes, clear prop markings, and no reproduction of security features. We refuse orders requesting removal of markings, 1:1 scale, or security-feature replication — no exceptions.</p>
+      <p>Our notes are designed to follow Reserve Bank of Australia reproduction guidelines: reduced size relative to genuine notes, clear prop markings, and no reproduction of security features. We refuse orders requesting removal of markings, exact-size reproduction, or security-feature replication — no exceptions.</p>
       <h2>Orders and payment</h2>
       <p>Minimum order ${SITE.minOrder} AUD. Payment by cryptocurrency (BTC / USDT — {SITE.cryptoDiscount}% discount), bank transfer or PayID, confirmed before dispatch. Prices are in Australian dollars and include GST where applicable.</p>
       <h2>Liability</h2>

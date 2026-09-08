@@ -200,7 +200,7 @@ export const ROUTES = [
     schema: [crumbs([['Privacy', null]])] },
 
   { path: '/terms/', el: <Terms />, title: 'Terms of Service | Aussie Prop Notes — Prop Money Australia',
-    desc: 'Terms of service covering permitted prop money use, RBA compliance, orders, payment and liability. All notes are marked props — never legal tender.',
+    desc: 'Terms of service covering permitted prop money use, RBA compliance, orders, payment and liability. All notes are clearly marked props with no monetary value.',
     schema: [crumbs([['Terms', null]])] },
 
   { path: '/links/', el: <Links />, title: 'Aussie Prop Notes — Links & Quick Access',
