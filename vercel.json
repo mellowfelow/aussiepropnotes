@@ -5,7 +5,8 @@
   "cleanUrls": false,
   "trailingSlash": true,
   "redirects": [
-    { "source": "/blog/prop-money-vs-counterfeit-australia/", "destination": "/blog/how-to-check-prop-money-is-compliant/", "permanent": true }
+    { "source": "/blog/prop-money-vs-counterfeit-australia/", "destination": "/blog/how-to-check-prop-money-is-compliant/", "permanent": true },
+    { "source": "/favicon.ico", "destination": "/images/favicon.svg", "permanent": false }
   ],
   "headers": [
     {
