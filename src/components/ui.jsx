@@ -8,7 +8,11 @@ export function Email({ addr, className }) {
   return <a className={className} href={'mailto:' + addr.replace('@','%40')} dangerouslySetInnerHTML={{ __html: enc }} />
 }
 
-export const fmt = (n) => '$' + n.toLocaleString('en-AU') + ' AUD'
+// Whole-dollar amounts read as "$549 AUD"; anything with cents (a crypto
+// discount, a discounted total) reads as "$636.30 AUD" rather than "$636.3".
+export const fmt = (n) => '$' + n.toLocaleString('en-AU', Number.isInteger(n)
+  ? { maximumFractionDigits: 0 }
+  : { minimumFractionDigits: 2, maximumFractionDigits: 2 }) + ' AUD'
 
 // ── Cart store (localStorage 'apn-cart') ─────────────────────────
 // A configurable set can be added with a custom `mix` (array of note types).

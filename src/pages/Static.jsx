@@ -84,10 +84,10 @@ export function Contact() {
       <Breadcrumbs trail={[['Contact', null]]} />
       <h1>Contact Aussie Prop Notes</h1>
       <p className="lead">Questions about products, orders or anything else — send a message and we reply within one business day. Prefer chat? <a href={waHref()} rel="nofollow noopener">Message us on WhatsApp</a>.</p>
-      <WebForm subject="New Contact Message — Aussie Prop Notes" thankYou="/thank-you-contact/" submitLabel="Send message">
-        <label>Your name<input type="text" name="name" required autoComplete="name" /></label>
-        <label>Email<input type="email" name="email" required autoComplete="email" /></label>
-        <label>Message<textarea name="message" rows="6" required /></label>
+      <WebForm subject="New enquiry — Aussie Prop Notes" thankYou="/thank-you-contact/" submitLabel="Send message">
+        <label>Your name<input type="text" name="Name" required autoComplete="name" /></label>
+        <label>Email<input type="email" name="Email" required autoComplete="email" /></label>
+        <label>Message<textarea name="Message" rows="6" required /></label>
       </WebForm>
       <p>You can also email <Email addr={SITE.email} /> directly.</p>
     </main>
@@ -107,12 +107,12 @@ export function Wholesale() {
       </div>
       <h2>How wholesale works</h2>
       <p>Tell us what you need below — product types, quantities and your deadline. We reply within one business day with trade pricing and stock confirmation. Crypto payments still earn the {SITE.cryptoDiscount}% discount on top of trade rates. Custom branded runs are quoted separately with a printed proof before production.</p>
-      <WebForm subject="New Wholesale Enquiry — Aussie Prop Notes" thankYou="/thank-you-wholesale/" submitLabel="Request trade pricing">
-        <label>Company / production name<input type="text" name="company" required /></label>
-        <label>Contact name<input type="text" name="name" required autoComplete="name" /></label>
-        <label>Email<input type="email" name="email" required autoComplete="email" /></label>
-        <label>Phone / WhatsApp<input type="tel" name="phone" autoComplete="tel" /></label>
-        <label>What do you need? (products, quantities, deadline)<textarea name="message" rows="6" required /></label>
+      <WebForm subject="New wholesale enquiry — Aussie Prop Notes" thankYou="/thank-you-wholesale/" submitLabel="Request trade pricing">
+        <label>Company / production name<input type="text" name="Company / Production" required /></label>
+        <label>Contact name<input type="text" name="Contact Name" required autoComplete="name" /></label>
+        <label>Email<input type="email" name="Email" required autoComplete="email" /></label>
+        <label>Phone / WhatsApp<input type="tel" name="Phone" autoComplete="tel" /></label>
+        <label>What do you need? (products, quantities, deadline)<textarea name="Requirements" rows="6" required /></label>
       </WebForm>
       <p>Browse the <Link to="/shop/">full range</Link> first, or read <Link to="/blog/australian-prop-money-buyers-guide-film-tv/">the production buyer's guide</Link>.</p>
     </main>
@@ -248,40 +248,53 @@ export function Order() {
     writeCart(next)
   }
 
-  function syncReply(e) {
-    const r = formRef.current.querySelector('input[name="replyto"]')
-    if (r) r.value = e.target.value
-  }
-
-  function buildOrderText(orderNum, fd) {
-    const lines = rows.map(r => {
-      const name = mixLabel(r.mix) ? `${r.p.name} (notes: ${mixLabel(r.mix)})` : r.p.name
-      return `${r.qty} × ${name} — ${fmt(r.p.price * r.qty)}`
+  // Itemised order block — items, the note mix per configured stack, and the
+  // totals. Shared by the WhatsApp message and the email. `bold` wraps the
+  // section headers in WhatsApp's *asterisk* markup; the email passes false.
+  function itemsSummary(bold) {
+    const h = bold ? (s) => `*${s}*` : (s) => s
+    const lines = rows.flatMap(r => {
+      const head = `${r.qty} × ${r.p.name} — ${fmt(r.p.price * r.qty)}`
+      return mixLabel(r.mix) ? [head, `    notes: ${mixLabel(r.mix)}`] : [head]
     })
-    const notes = fd.get('notes')
     return [
-      `New order ${orderNum} — Aussie Prop Notes`,
-      `Name: ${fd.get('name')}`,
-      `Email: ${fd.get('email')}`,
-      `Phone: ${fd.get('phone') || '—'}`,
-      `Delivery address: ${fd.get('address')}`,
-      `Payment: ${fd.get('payment')}`,
+      h('Items'),
+      ...(lines.length ? lines : ['(no items)']),
       '',
-      'Order:',
-      lines.length ? lines.join('\n') : '(no items)',
-      '',
-      `Subtotal: ${fmt(subtotal)}`,
-      ...(discount > 0 ? [`Crypto discount (${SITE.cryptoDiscount}%): −${fmt(discount)}`] : []),
-      `Shipping: ${shipping === 0 ? 'FREE' : fmt(shipping)}`,
-      `Total: ${fmt(total)}`,
-      ...(notes ? ['', 'Notes: ' + notes] : []),
+      `Subtotal — ${fmt(subtotal)}`,
+      ...(discount > 0 ? [`Crypto discount (${SITE.cryptoDiscount}%) — −${fmt(discount)}`] : []),
+      `Shipping — ${shipping === 0 ? 'FREE' : fmt(shipping)}`,
+      h(`Total — ${fmt(total)}`),
     ].join('\n')
   }
 
-  function postToWeb3Forms(fd, orderNum, orderText) {
-    fd.set('subject', 'New Order ' + orderNum + ' — Aussie Prop Notes')
-    fd.set('order_number', orderNum)
-    fd.set('order_summary', orderText)
+  // Full plain-text order for WhatsApp (one message carries everything).
+  function buildWhatsAppText(orderNum, fd) {
+    const notes = fd.get('Order Notes')
+    return [
+      `*New order ${orderNum}*`,
+      'Aussie Prop Notes',
+      '',
+      itemsSummary(true),
+      '',
+      '*Delivery*',
+      fd.get('Name'),
+      fd.get('Delivery Address'),
+      `Phone: ${fd.get('Phone') || '—'}`,
+      `Email: ${fd.get('Email')}`,
+      '',
+      `*Payment* — ${fd.get('Payment Method')}`,
+      ...(notes ? ['', '*Notes*', notes] : []),
+    ].join('\n')
+  }
+
+  function postToWeb3Forms(fd, orderNum) {
+    // The customer / delivery / payment fields ride to the email as their own
+    // clean rows (see the form). This adds the reference and the itemised block.
+    fd.set('subject', `New order ${orderNum} — ${fmt(total)} — Aussie Prop Notes`)
+    if (fd.get('Email')) fd.set('replyto', fd.get('Email'))
+    fd.set('Order Reference', orderNum)
+    fd.set('Order', itemsSummary(false))
     return fetch('https://api.web3forms.com/submit', {
       method: 'POST',
       headers: { 'Accept': 'application/json' },
@@ -294,7 +307,7 @@ export function Order() {
     if (!formRef.current.reportValidity() || !canSubmit) return
     const orderNum = orderNumber || genOrderNumber()
     const fd = new FormData(formRef.current)
-    const orderText = buildOrderText(orderNum, fd)
+    const orderText = buildWhatsAppText(orderNum, fd)
     const waUrl = 'https://wa.me/' + SITE.whatsapp + '?text=' + encodeURIComponent(orderText)
     setWaFallbackUrl(waUrl)
     window.open(waUrl, '_blank', 'noopener')
@@ -312,10 +325,9 @@ export function Order() {
     }
     const orderNum = orderNumber || genOrderNumber()
     const fd = new FormData(formRef.current)
-    const orderText = buildOrderText(orderNum, fd)
     setEmailErr('')
     setBusyChannel('email')
-    postToWeb3Forms(fd, orderNum, orderText).then(({ ok, data }) => {
+    postToWeb3Forms(fd, orderNum).then(({ ok, data }) => {
       if (ok) { window.location.href = '/thank-you-order/?order=' + orderNum }
       else { setBusyChannel(''); setEmailErr((data && data.message) || 'Something went wrong sending your order. Please try WhatsApp instead.') }
     }).catch(() => { setBusyChannel(''); setEmailErr('Something went wrong sending your order. Please try WhatsApp instead.') })
@@ -327,25 +339,24 @@ export function Order() {
       <h1>Place Your Order</h1>
       <p className="lead">Fill in your details, pick how you'd like to order, and we confirm stock and payment within one business day.</p>
       <div className="checkout-grid">
-        <form ref={formRef} className="checkout-form web-form" onInput={(e) => { if (e.target.type === 'email') syncReply(e) }}>
+        <form ref={formRef} className="checkout-form web-form">
           <input type="hidden" name="access_key" value={SITE.web3formsKey} />
           <input type="hidden" name="from_name" value="Aussie Prop Notes Website" />
           <input type="hidden" name="botcheck" value="" style={{ display: 'none' }} />
-          <input type="hidden" name="replyto" value="" />
 
           <h2 className="checkout-h2">Your details</h2>
           <div className="field-grid">
-            <label>Your name<input type="text" name="name" required autoComplete="name" /></label>
-            <label>Email<input type="email" name="email" required autoComplete="email" /></label>
-            <label>Phone / WhatsApp<input type="tel" name="phone" autoComplete="tel" /></label>
+            <label>Your name<input type="text" name="Name" required autoComplete="name" /></label>
+            <label>Email<input type="email" name="Email" required autoComplete="email" /></label>
+            <label>Phone / WhatsApp<input type="tel" name="Phone" autoComplete="tel" /></label>
           </div>
-          <label>Delivery address<textarea name="address" rows="3" required autoComplete="street-address" /></label>
+          <label>Delivery address<textarea name="Delivery Address" rows="3" required autoComplete="street-address" /></label>
 
           <h2 className="checkout-h2">Payment method</h2>
           <div className="pay-grid" role="radiogroup" aria-label="Preferred payment method">
             {PAYMENT_METHODS.map(m => (
               <label key={m.id} className={'pay-card' + (payment === m.id ? ' selected' : '')}>
-                <input type="radio" name="payment" value={m.value} required checked={payment === m.id} onChange={() => setPayment(m.id)} />
+                <input type="radio" name="Payment Method" value={m.value} required checked={payment === m.id} onChange={() => setPayment(m.id)} />
                 <span className="pay-icon" aria-hidden="true">{m.icon}</span>
                 <span className="pay-label">{m.label}</span>
                 <span className="pay-hint">{m.hint}</span>
@@ -353,7 +364,7 @@ export function Order() {
             ))}
           </div>
 
-          <label>Order notes (optional)<textarea name="notes" rows="3" placeholder="Deadline, custom request — anything else we should know" /></label>
+          <label>Order notes (optional)<textarea name="Order Notes" rows="3" placeholder="Deadline, custom request — anything else we should know" /></label>
 
           {emailErr && <p className="form-err" role="alert">{emailErr} <a href={waHref()} rel="nofollow noopener">Open WhatsApp</a></p>}
 

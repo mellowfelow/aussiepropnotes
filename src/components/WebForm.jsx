@@ -18,10 +18,13 @@ export default function WebForm({ subject, thankYou, children, submitLabel }) {
       return
     }
     setErr(''); setBusy(true)
+    const fd = new FormData(form)
+    // Reply-to so a reply in the inbox goes straight to the sender.
+    if (fd.get('Email')) fd.set('replyto', fd.get('Email'))
     fetch('https://api.web3forms.com/submit', {
       method: 'POST',
       headers: { 'Accept': 'application/json' },
-      body: new FormData(form)
+      body: fd
     })
       .then(r => r.json().then(d => ({ status: r.status, data: d })))
       .then(res => {
@@ -37,18 +40,12 @@ export default function WebForm({ subject, thankYou, children, submitLabel }) {
       })
   }
 
-  function syncReply(e) {
-    const r = formRef.current.querySelector('input[name="replyto"]')
-    if (r) r.value = e.target.value
-  }
-
   return (
-    <form ref={formRef} className="web-form" onSubmit={onSubmit} data-replysync onInput={(e) => { if (e.target.type === 'email') syncReply(e) }}>
+    <form ref={formRef} className="web-form" onSubmit={onSubmit}>
       <input type="hidden" name="access_key" value={SITE.web3formsKey} />
       <input type="hidden" name="subject" value={subject} />
       <input type="hidden" name="from_name" value="Aussie Prop Notes Website" />
       <input type="hidden" name="botcheck" value="" style={{ display: 'none' }} />
-      <input type="hidden" name="replyto" value="" />
       {children}
       {err && <p className="form-err" role="alert">{err} <a href={waHref()} rel="nofollow noopener">Open WhatsApp</a></p>}
       <button className="btn btn-lg" type="submit" disabled={busy}>{busy ? 'Sending…' : submitLabel}</button>
