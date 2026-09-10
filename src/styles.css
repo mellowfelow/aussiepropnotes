@@ -143,7 +143,19 @@ a:hover{color:var(--gold2)}
 .note-chip.on{background:var(--ink);color:var(--paper);border-color:var(--ink)}
 .note-chip:disabled{opacity:.38;cursor:not-allowed}
 .note-picker-hint{font-size:.78rem;color:var(--slate);margin:.75rem 0 0}
+.note-picker-hint strong{font-family:'Archivo';color:var(--ink)}
 .drawer-row-info .row-mix,.cart-row-info .row-mix,.summary-row-info .row-mix{color:var(--gold2);font-size:.75rem;font-weight:500}
+
+/* build-your-own money stack picker (PDP) */
+.stack-bar{height:6px;background:#fff;border:1px solid var(--line);border-radius:4px;overflow:hidden;margin-bottom:.9rem}
+.stack-bar-fill{height:100%;background:var(--gold);transition:width .15s}
+.stack-rows{display:flex;flex-direction:column;gap:.5rem}
+.stack-row{display:flex;align-items:center;justify-content:space-between;gap:.75rem}
+.stack-note{font-size:.9rem;font-weight:600}
+.stack-row .qty input{width:64px}
+.stack-foot{display:flex;justify-content:space-between;align-items:baseline;flex-wrap:wrap;gap:.4rem .8rem;margin-top:.85rem;font-size:.82rem;color:var(--slate)}
+.stack-reset{font:inherit;font-size:.8rem;background:none;border:0;color:var(--gold2);cursor:pointer;text-decoration:underline;padding:0}
+.stack-note-hint{color:var(--slate);font-weight:400}
 
 /* link hub (/links/) */
 .linkhub{display:flex;flex-direction:column;gap:.6rem;margin:1.4rem 0}

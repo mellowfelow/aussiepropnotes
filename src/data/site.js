@@ -40,6 +40,9 @@ export const CATEGORIES = [
   { slug: 'film-tv-props', name: 'Film & TV Props', kw: 'film props for sale Australia',
     desc: 'Film props for sale — full-print AUD prop notes, aged notes, money stacks and briefcase sets built for 4K and 8K cameras, reliable props for filming on Australian sets since 2022.',
     md: 'Film props for sale in Australia — full-print AUD prop notes, aged notes, money stacks and briefcase sets for 4K and 8K cameras. Fast Sydney dispatch.' },
+  { slug: 'money-stacks', name: 'Money Stacks', kw: 'prop money stack Australia',
+    desc: 'Build-your-own banded prop money stacks from $5,000 to $1,000,000 in screen value. Choose your denominations and the quantity of each; we print, band and dispatch from Sydney. Flat pricing, reduced scale, clearly marked props.',
+    md: 'Prop money stacks in Australia from $5,000 to $1,000,000 screen value. Choose the denominations and quantities in each stack. Flat pricing, fast Sydney dispatch.' },
   { slug: 'photography-props', name: 'Photography Props', kw: 'money props for photography Australia',
     desc: 'Flat-lay money sets, miniature scale notes and studio-ready cash stacks that photograph beautifully under professional lighting.',
     md: 'Money props for photography in Australia — flat-lay sets, 1:6 scale miniatures and matte cash stacks that shoot cleanly under studio lights.' },
@@ -70,9 +73,30 @@ export const PRODUCTS = [
   { slug: 'aged-distressed-aud-prop-notes', name: 'Aged & Distressed AUD Prop Notes', price: 139, cat: 'film-tv-props', badge: 'Premium',
     short: 'Hand-finished worn notes for period drama, crime scenes and gritty realism.',
     desc: 'A stack of 100 hand-finished aged prop notes: creased, edge-worn and tone-shifted so every note reads as circulated cash on camera. Built for period dramas, crime procedurals and any production where crisp fresh notes would break the scene.' },
-  { slug: 'money-stack-bundle-100k', name: '$100K Money Stack Bundle', price: 999, cat: 'film-tv-props', badge: 'Best Value',
-    short: 'Ten banded $10K-style stacks — the duffel-bag and table-scene workhorse.',
-    desc: 'Ten banded stacks of $100-style prop notes representing $100,000 in screen value. The workhorse bundle for duffel-bag reveals, table spreads and vault scenes. Each stack is bank-band wrapped and uniform for fast art-department dressing.' },
+  { slug: 'prop-money-stack-5k', name: '$5,000 Prop Money Stack', price: 79, cat: 'money-stacks', badge: '',
+    short: 'Fifty prop notes in the denominations you choose — the small-scene starter stack.',
+    desc: 'Fifty reduced-scale prop notes, banded, representing $5,000 of screen value in $100 style. The right size for a single wallet reveal, a register float or a close-up count. Pick the denominations and how many of each; we band it and dispatch from Sydney. Reduced scale, clearly marked props, no reproduced security features.' },
+  { slug: 'prop-money-stack-10k', name: '$10,000 Prop Money Stack', price: 129, cat: 'money-stacks', badge: '',
+    short: 'One banded strap — 100 prop notes — in your choice of denominations.',
+    desc: 'One bank-band strap of 100 prop notes, reading as $10,000 on camera in $100 style. The single most-used unit of screen money: one strap in a hand, a jacket pocket or on a table. Choose the note mix; the price is flat. Reduced scale, clearly marked, no reproduced security features.' },
+  { slug: 'prop-money-stack-25k', name: '$25,000 Prop Money Stack', price: 299, cat: 'money-stacks', badge: '',
+    short: '250 prop notes, banded, in the denomination mix you build.',
+    desc: 'Two and a half banded straps — 250 prop notes — representing $25,000 of screen value in $100 style. Enough to fill a hand basket, a small safe or a bag corner. Split the 250 notes across AUD, USD, Euro and GBP denominations however the scene needs; we print and band that exact mix.' },
+  { slug: 'prop-money-stack-50k', name: '$50,000 Prop Money Stack', price: 549, cat: 'money-stacks', badge: '',
+    short: 'Five banded straps — 500 prop notes — in your choice of denominations.',
+    desc: 'Five bank-band straps, 500 prop notes, reading as $50,000 on camera in $100 style. A convincing safe or bag fill, or a table spread with room to spare. Choose the denomination split; the price does not change. Reduced scale, clearly marked props, no reproduced security features.' },
+  { slug: 'money-stack-bundle-100k', name: '$100,000 Prop Money Stack', price: 1049, cat: 'money-stacks', badge: 'Best Value',
+    short: 'Ten banded straps — 1,000 prop notes — with the denomination mix you choose.',
+    desc: 'A thousand prop notes, bank-band wrapped into ten straps, reading as $100,000 of screen money when printed in $100 style. Choose how the thousand notes split across AUD, USD, Euro and GBP denominations — we print and band exactly that mix. The duffel-bag, table-spread and vault-scene workhorse, at a flat price whichever way you build it.' },
+  { slug: 'prop-money-stack-200k', name: '$200,000 Prop Money Stack', price: 1949, cat: 'money-stacks', badge: '',
+    short: 'Twenty banded straps — 2,000 prop notes — mixed to your denominations.',
+    desc: 'Twenty bank-band straps — 2,000 prop notes — representing $200,000 of screen value in $100 style. Fills a duffel bag or dresses a full table without gaps. Build the denomination mix across AUD, USD, Euro and GBP; we band it to match. Flat pricing, dispatched from Sydney.' },
+  { slug: 'prop-money-stack-500k', name: '$500,000 Prop Money Stack', price: 4299, cat: 'money-stacks', badge: '',
+    short: 'Fifty banded straps — 5,000 prop notes — in the mix you choose.',
+    desc: 'Fifty bank-band straps, 5,000 prop notes, reading as half a million on camera in $100 style. The scale of a filled duffel, a car boot or a stacked safe. Choose how the 5,000 notes divide across denominations; we print and band that mix. For larger or repeat orders, ask about wholesale.' },
+  { slug: 'prop-money-stack-1m', name: '$1,000,000 Prop Money Stack', price: 7699, cat: 'money-stacks', badge: 'Premium',
+    short: 'One hundred banded straps — 10,000 prop notes — built to your denominations.',
+    desc: 'One hundred bank-band straps — 10,000 prop notes — representing $1,000,000 of screen value in $100 style. The hero pile: a bed of cash, an overflowing case, a full pallet shot. Choose the denomination mix; we band all 10,000 notes to match and dispatch from Sydney. Wholesale terms available for productions ordering at this scale.' },
   { slug: 'briefcase-money-set', name: 'Briefcase Money Set', price: 1750, cat: 'film-tv-props', badge: 'Premium',
     short: 'Aluminium case fully dressed with banded prop stacks — hero-shot ready.',
     desc: 'An aluminium briefcase professionally dressed with banded prop note stacks, foam-fitted so nothing shifts between takes. Open it on camera and the shot is done: the highest-impact single prop we make. Used in heist scenes, promos and high-stakes photography.' },
@@ -154,10 +178,45 @@ export const PRODUCT_DETAILS = {
     use: 'Best for period drama, crime scenes, wallets, poker tables and any story where crisp fresh notes would break the scene.',
     faq: { q: 'How are the notes aged?', a: 'Each note is individually creased, edge-worn and tone-washed by hand so it reads as circulated cash on camera. The process is slower than a fresh run, which is why aged stacks look like money that has actually been in pockets and tills.' },
   },
+  'prop-money-stack-5k': {
+    specs: ['50 prop notes, banded', 'Represents $5,000 of screen value in $100 style', 'Denominations and quantities chosen by you', 'Matte finish, reduced scale, clearly marked props'],
+    use: 'Best for a single wallet reveal, a register float, a tip envelope or a close-up count.',
+    faq: { q: 'Is the $5,000 stack enough for a scene?', a: 'For a close-up — a wallet, a hand-off, a drawer — yes. One banded group of 50 notes fills a hand. For anything shown wide, such as a table or a bag, step up to the $25,000 or $50,000 stack.' },
+  },
+  'prop-money-stack-10k': {
+    specs: ['One strap of 100 prop notes', 'Represents $10,000 of screen value in $100 style', 'Choose the denomination', 'Matte finish, reduced scale, clearly marked props'],
+    use: 'Best for single-strap moments — cash in a hand, a pocket, an envelope or on a counter.',
+    faq: { q: 'How much screen money is one strap?', a: 'A strap of 100 notes in $100 style reads as $10,000 on camera. It is the standard unit art departments count in: a briefcase is roughly ten straps, a duffel bag forty to sixty.' },
+  },
+  'prop-money-stack-25k': {
+    specs: ['250 prop notes, banded into straps', 'Represents $25,000 of screen value in $100 style', 'Denomination split chosen by you', 'Matte finish, reduced scale, clearly marked props'],
+    use: 'Best for a small safe, a bag corner, a stack in a drawer or a modest payoff.',
+    faq: { q: 'Why would I mix denominations in the $25,000 stack?', a: 'You do not have to — 250 notes in $100 style reads as $25,000. But a mix of $100s and $50s reads as more realistic everyday cash in close-up, so the picker lets you choose. The price is flat either way.' },
+  },
+  'prop-money-stack-50k': {
+    specs: ['Five straps of 100 prop notes', 'Represents $50,000 of screen value in $100 style', 'You choose the denomination mix', 'Matte finish, reduced scale, clearly marked props'],
+    use: 'Best for a filled safe, a bag, or a table spread with depth.',
+    faq: { q: 'What does the $50,000 stack look like on camera?', a: 'Five banded straps — a solid handful, enough to fill a small safe or the base of a bag. In $100 style it reads as $50,000; build it in $50s and $20s and it reads as a deeper, more used pile for the same price.' },
+  },
   'money-stack-bundle-100k': {
-    specs: ['Ten bank-band wrapped stacks of 100 notes', 'Represents $100,000 in $100-style screen value', 'Uniform stacks for fast art-department dressing', 'Offset printed, matte finish, clearly marked props'],
+    specs: ['1,000 prop notes, bank-band wrapped into ten straps of 100', 'Represents $100,000 of screen value in $100 style', 'You choose the denomination split across AUD, USD, Euro and GBP', 'Offset printed, matte finish, reduced scale, clearly marked props'],
     use: 'Best for duffel-bag reveals, table spreads, safe and vault scenes, and ransom or payoff plot points.',
-    faq: { q: 'What does the $100K bundle look like on camera?', a: 'Ten identical banded stacks that fill a briefcase edge to edge or spread across a table as a convincing pile. Every stack is matched in height and wrap, so the bundle dresses a scene in seconds without sorting loose notes.' },
+    faq: { q: 'Can I mix denominations in the $100,000 stack?', a: 'Yes. The stack is 1,000 prop notes and you decide how they divide — all $100s for maximum screen value, or a realistic mix of $100s, $50s and $20s, across Australian, US, Euro or GBP styles. The price is the same however you split it, because it is the same number of notes printed and banded.' },
+  },
+  'prop-money-stack-200k': {
+    specs: ['Twenty straps of 100 prop notes', 'Represents $200,000 of screen value in $100 style', 'Denomination split chosen by you', 'Matte finish, reduced scale, clearly marked props'],
+    use: 'Best for a full duffel bag, a dressed table, or a safe packed edge to edge.',
+    faq: { q: 'Will the $200,000 stack fill a duffel bag?', a: 'It fills a small to mid-size duffel convincingly on camera, especially with the straps facing out. For a bag that reads as completely full in a wide shot, combine it with a second stack or step up to the $500,000.' },
+  },
+  'prop-money-stack-500k': {
+    specs: ['Fifty straps of 100 prop notes', 'Represents $500,000 of screen value in $100 style', 'You choose how the 5,000 notes divide', 'Matte finish, reduced scale, clearly marked props'],
+    use: 'Best for a filled duffel, a car boot, a stacked safe or a pallet corner.',
+    faq: { q: 'Is the $500,000 stack a wholesale order?', a: 'It is available to order directly at the flat price shown. If you need several at this scale, or repeat orders for a series, our wholesale program has tiered trade pricing — send the form and we respond within one business day.' },
+  },
+  'prop-money-stack-1m': {
+    specs: ['One hundred straps of 100 prop notes', 'Represents $1,000,000 of screen value in $100 style', 'Denomination mix built by you', 'Offset printed, matte finish, reduced scale, clearly marked props'],
+    use: 'Best for the hero pile — a bed of cash, an overflowing case, a pallet or vault-floor shot.',
+    faq: { q: 'How is a $1,000,000 prop stack shipped?', a: 'As one hundred bank-band straps, boxed, dispatched from Sydney with tracking. At this scale we confirm the denomination split and the delivery window with you directly after you order, and wholesale terms are available for productions ordering more than one.' },
   },
   'briefcase-money-set': {
     specs: ['Aluminium attach\u00e9 case, foam-fitted', 'Dressed with bank-band wrapped prop stacks', 'Nothing shifts between takes', 'Open-and-shoot hero prop, clearly marked'],
@@ -253,7 +312,7 @@ export const PRODUCT_DETAILS = {
 
 // Root /shop/ intro (rendered under the grid when no category or search is active).
 export const SHOP_INTRO = [
-  'Every prop note, money stack and money prop Aussie Prop Notes makes, in one place. The range spans six areas: full-print AUD stacks and aged notes for [film and TV](/shop/film-tv-props/), flat-lay sets and 1:6 miniatures for [photography](/shop/photography-props/), money guns and booth packs for [events](/shop/event-party-props/), [custom branded notes](/shop/custom-prop-money/) printed to your brief, [gold foil novelty sets](/shop/novelty-money/), and [USD, Euro and GBP notes](/shop/foreign-currency-props/) for international scenes.',
+  'Every prop note, money stack and money prop Aussie Prop Notes makes, in one place. The range spans seven areas: full-print AUD stacks and aged notes for [film and TV](/shop/film-tv-props/), build-your-own [money stacks](/shop/money-stacks/) from $5,000 to $1,000,000, flat-lay sets and 1:6 miniatures for [photography](/shop/photography-props/), money guns and booth packs for [events](/shop/event-party-props/), [custom branded notes](/shop/custom-prop-money/) printed to your brief, [gold foil novelty sets](/shop/novelty-money/), and [USD, Euro and GBP notes](/shop/foreign-currency-props/) for international scenes.',
   'Everything is offset printed on matte stock, reduced in scale and clearly marked as a prop in line with RBA reproduction guidelines, and dispatched from Sydney within one business day. Minimum order is $250 AUD; orders over $500 ship free Australia-wide. Not sure where to start? Read [how much prop money you need](/blog/how-much-prop-money-do-i-need/) or the [film and TV buyer’s guide](/blog/australian-prop-money-buyers-guide-film-tv/).',
 ]
 
@@ -262,7 +321,11 @@ export const SHOP_INTRO = [
 export const CATEGORY_INTRO = {
   'film-tv-props': [
     'Prop money for film and TV has one job: to read as real cash on camera while staying unmistakably a prop in the hand. Every stack in this range is offset printed on matte stock so it holds colour and detail under a 4K or 8K sensor without throwing glare under studio lighting, and every note is reduced in scale with clear prop markings so it clears production legal review without holding up the shoot.',
-    'The range covers the shots productions actually build: fresh full-print $20, $50 and $100 stacks for reveals and counts, hand-aged notes for wallets and period scenes, banded bundles for duffel bags and table spreads, and a foam-fitted briefcase set for single hero shots. Dispatch is one business day from Sydney. New to sourcing props? Start with the [film & TV buyer\u2019s guide](/blog/australian-prop-money-buyers-guide-film-tv/) or [how much prop money you need](/blog/how-much-prop-money-do-i-need/).',
+    'The range covers the shots productions actually build: fresh full-print $20, $50 and $100 stacks for reveals and counts, hand-aged notes for wallets and period scenes, build-your-own banded [money stacks](/shop/money-stacks/) from $5,000 to $1,000,000 for duffel bags and table spreads, and a foam-fitted briefcase set for single hero shots. Dispatch is one business day from Sydney. New to sourcing props? Start with the [film & TV buyer\u2019s guide](/blog/australian-prop-money-buyers-guide-film-tv/) or [how much prop money you need](/blog/how-much-prop-money-do-i-need/).',
+  ],
+  'money-stacks': [
+    'A money stack is the unit art departments think in: a bank-band strap of 100 prop notes that reads as $10,000 of screen value in $100 style. This range packages that unit into eight sizes, from a single $5,000 group for a wallet close-up to a $1,000,000 hero pile for a bed of cash or an overflowing case. Every note is offset printed on matte stock, reduced in scale and clearly marked as a prop in line with RBA reproduction guidelines.',
+    'What is different here is that you build the stack. Pick the denominations \u2014 Australian, US, Euro or GBP, from $10 to $100 \u2014 and set how many of each, up to the note count for the tier. All $100s for maximum screen value, or a realistic mix of $100s, $50s and $20s for close-ups. The price is flat, because it is the same number of notes printed and banded either way. Not sure how much you need? Read [how much prop money you need](/blog/how-much-prop-money-do-i-need/), or ask about [wholesale](/wholesale/) for larger runs.',
   ],
   'photography-props': [
     'Money photographs badly when it is real. Genuine polymer notes are glossy and throw hard highlights under softboxes and ring lights, and reproducing them at full detail carries legal restrictions. The prop notes in this range are printed on matte stock that diffuses light evenly, so cash holds its colour and detail at any angle and needs far less retouching.',
@@ -298,10 +361,38 @@ export const SET_NOTE_OPTIONS = [
 ]
 export const CONFIGURABLE_SETS = {
   'international-currency-mixed-set': { max: 4, default: ['USD $100', 'EUR €100', 'GBP £50', 'AUD $100'] },
-  'money-stack-bundle-100k':         { max: 4, default: ['AUD $100'] },
   'briefcase-money-set':             { max: 4, default: ['AUD $100'] },
   'photography-flat-lay-set':        { max: 4, default: ['AUD $100', 'AUD $50', 'AUD $20'] },
 }
+
+// Build-your-own money stacks. `notes` is the total prop-note count for the tier;
+// the buyer splits it across SET_NOTE_OPTIONS denominations in multiples of
+// `step`, and the running total must equal `notes` before the item can be added.
+// Price is flat (it is the same note count however it is split). The chosen
+// split rides on the cart line as `mix` (["300 × AUD $100", …]) and is written
+// into the order text. `value` is the headline screen value (all $100 notes).
+export const STACK_TIERS = {
+  'prop-money-stack-5k':     { notes: 50,    step: 25,  value: 5000 },
+  'prop-money-stack-10k':    { notes: 100,   step: 25,  value: 10000 },
+  'prop-money-stack-25k':    { notes: 250,   step: 25,  value: 25000 },
+  'prop-money-stack-50k':    { notes: 500,   step: 50,  value: 50000 },
+  'money-stack-bundle-100k': { notes: 1000,  step: 50,  value: 100000 },
+  'prop-money-stack-200k':   { notes: 2000,  step: 100, value: 200000 },
+  'prop-money-stack-500k':   { notes: 5000,  step: 100, value: 500000 },
+  'prop-money-stack-1m':     { notes: 10000, step: 100, value: 1000000 },
+}
+// Face value of each SET_NOTE_OPTIONS denomination, for the live "on-camera
+// value" readout in the stack picker. Currencies are treated at par — it is a
+// prop, and the tier name always assumes $100 notes.
+export const NOTE_VALUE = {
+  'AUD $100': 100, 'AUD $50': 50, 'AUD $20': 20,
+  'USD $100': 100, 'USD $50': 50, 'USD $20': 20,
+  'EUR €100': 100, 'EUR €50': 50, 'EUR €20': 20,
+  'GBP £50': 50, 'GBP £20': 20, 'GBP £10': 10,
+}
+// The default (non-custom) mix for a stack tier: the whole note count in AUD $100.
+export const stackDefaultMix = (slug) =>
+  STACK_TIERS[slug] ? [`${STACK_TIERS[slug].notes} × AUD $100`] : null
 
 export const FAQS = [
   { q: 'What is Aussie Prop Notes?', a: 'Aussie Prop Notes is a Sydney-based supplier of camera-ready prop money, operating since 2022. We design and print Australian, US, Euro and GBP prop notes, money stacks, custom notes and event props for film, TV, photography, training and events — all reduced-scale, clearly marked and shipped Australia-wide from Sydney.' },
@@ -356,7 +447,7 @@ export const POSTS = [
       ['h3','Photography and content'],
       ['p','Photographers and content creators shooting close-up or macro images should confirm prop markings are visible even when a note is cropped tight in frame — a marking that reads clearly at arm’s length can disappear in a close crop, which is fine for legality (the physical note is still marked) but worth knowing if a platform or client asks about sourcing.'],
       ['h3','Events, weddings and training'],
-      ['p','Event companies distributing prop money to guests (money guns, photo booth props) should keep in mind notes may leave the venue in guests’ pockets. Clearly marked, reduced-scale notes remain legal wherever they end up; unmarked or full-size ones do not.'],
+      ['p','Event companies distributing prop money to guests (money guns, photo booth props) should keep in mind notes may leave the venue in guests’ pockets. Clearly marked, reduced-scale notes remain legal wherever they end up; unmarked or exact-size ones do not.'],
       ['h2','What this means when buying'],
       ['p','Buy from a supplier that states its compliance approach openly. Every note we sell is reduced scale, clearly marked, and free of replicated security features, which is why productions can use our notes on set without legal review holding up the shoot. Read our full compliance statement on the [legal page](/terms/), and if you are ready to order, our [Australian prop money range](/shop/) covers film, photography and events.'],
       ['h2','Quick answers'],
@@ -808,6 +899,13 @@ export const PRODUCT_GUIDE = {
   'aud-100-full-print-prop-notes': 'prop-money-100-dollar-notes-guide',
   'aged-distressed-aud-prop-notes': 'aged-vs-fresh-prop-money',
   'money-stack-bundle-100k': 'how-much-prop-money-do-i-need',
+  'prop-money-stack-5k': 'how-much-prop-money-do-i-need',
+  'prop-money-stack-10k': 'prop-money-100-dollar-notes-guide',
+  'prop-money-stack-25k': 'how-much-prop-money-do-i-need',
+  'prop-money-stack-50k': 'how-much-prop-money-do-i-need',
+  'prop-money-stack-200k': 'prop-money-briefcase-scene',
+  'prop-money-stack-500k': 'how-much-prop-money-do-i-need',
+  'prop-money-stack-1m': 'how-much-prop-money-do-i-need',
   'briefcase-money-set': 'prop-money-briefcase-scene',
   'photography-flat-lay-set': 'best-prop-money-for-photography',
   'miniature-scale-prop-notes': 'best-prop-money-for-photography',
@@ -820,6 +918,7 @@ export const PRODUCT_GUIDE = {
 }
 export const CATEGORY_GUIDE = {
   'film-tv-props': 'australian-prop-money-buyers-guide-film-tv',
+  'money-stacks': 'how-much-prop-money-do-i-need',
   'photography-props': 'best-prop-money-for-photography',
   'event-party-props': 'prop-money-for-events-weddings',
   'custom-prop-money': 'custom-prop-money-australia',
@@ -834,6 +933,11 @@ export const CATEGORY_FAQ = {
     { q: 'Will prop money hold up in a 4K or 8K close-up?', a: 'Yes, when it is offset printed on matte stock — that combination keeps colour saturated and fine detail crisp under a modern sensor, without the banding or glare that gives cheap inkjet props away. Every note in this range is printed that way.' },
     { q: 'Should I order fresh or aged notes for a shoot?', a: 'Fresh full-print stacks suit bank scenes, briefcase reveals and anything implying new money; aged notes suit wallets, tills, crime scenes and period settings. Most productions order both and dress each scene accordingly.' },
     { q: 'How many stacks does a scene usually need?', a: 'A table spread reads with 3 to 6 banded stacks, a briefcase with 8 to 12, and a duffel bag with 40 to 60. In $100 style each stack of 100 notes represents $10,000 of screen value. See our guide on how much prop money you need.' },
+  ],
+  'money-stacks': [
+    { q: 'How much screen money is in each stack?', a: 'Each tier is named for its value in $100 style: a $50,000 stack is 500 prop notes, a $1,000,000 stack is 10,000. If you build the stack with smaller denominations the on-camera value is lower, but the note count — and the price — stays the same.' },
+    { q: 'Can I choose which denominations are in the stack?', a: 'Yes. On every stack page you set the quantity of each denomination — AUD, USD, Euro and GBP, from $10 to $100 — and the total just has to add up to the tier’s note count. We print and band exactly that split.' },
+    { q: 'Does a bigger stack cost less per note?', a: 'Yes. The per-note price falls as the stacks get larger, from about $1.58 a note on the $5,000 stack down to about $0.77 on the $1,000,000 — the same volume logic as ordering full straps individually, built in.' },
   ],
   'photography-props': [
     { q: 'Why not photograph real banknotes?', a: 'Genuine polymer notes are glossy and throw hard highlights under softboxes and ring lights, and reproducing them at full detail carries legal restrictions. Matte prop notes diffuse light evenly, so they hold colour at any angle and need far less retouching.' },

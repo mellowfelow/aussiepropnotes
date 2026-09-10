@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from 'react'
 import { Link, useLocation } from 'react-router-dom'
-import { SITE, CATEGORIES, PRODUCTS, waHref, CONFIGURABLE_SETS } from '../data/site.js'
+import { SITE, CATEGORIES, PRODUCTS, waHref, CONFIGURABLE_SETS, STACK_TIERS, stackDefaultMix } from '../data/site.js'
 
 // Entity-encoded email renderer (no plaintext emails in DOM/HTML)
 export function Email({ addr, className }) {
@@ -16,8 +16,10 @@ export const fmt = (n) => '$' + n.toLocaleString('en-AU') + ' AUD'
 // for a configured set — so a custom set and the standard set are separate lines.
 const sameMix = (a, b) => a.length === b.length && [...a].sort().join('|') === [...b].sort().join('|')
 export function isCustomMix(slug, mix) {
+  if (!mix || !mix.length) return false
+  if (STACK_TIERS[slug]) return mix.join('|') !== stackDefaultMix(slug).join('|')
   const cfg = CONFIGURABLE_SETS[slug]
-  return !!(cfg && mix && mix.length && !sameMix(mix, cfg.default))
+  return !!(cfg && !sameMix(mix, cfg.default))
 }
 export const lineKey = (slug, mix) => (mix && mix.length ? slug + '#' + [...mix].join('|') : slug)
 export const mixLabel = (mix) => (mix && mix.length ? mix.join(' · ') : null)
@@ -253,8 +255,10 @@ export function ProductCard({ p }) {
         <button type="button" className="btn btn-sm btn-full" onClick={() => { addToCart(p.slug, qty); setAdded(true); setQty(1); setTimeout(() => setAdded(false), 1600); openCartDrawer() }}>
           {added ? 'Added ✓' : 'Add to cart'}
         </button>
-        {CONFIGURABLE_SETS[p.slug] && (
-          <Link className="pcard-customise" to={'/product/' + p.slug + '/'}>Customise the note mix →</Link>
+        {(CONFIGURABLE_SETS[p.slug] || STACK_TIERS[p.slug]) && (
+          <Link className="pcard-customise" to={'/product/' + p.slug + '/'}>
+            {STACK_TIERS[p.slug] ? 'Build your denomination mix →' : 'Customise the note mix →'}
+          </Link>
         )}
       </div>
     </article>
