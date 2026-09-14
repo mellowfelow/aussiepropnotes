@@ -14,6 +14,11 @@ export const fmt = (n) => '$' + n.toLocaleString('en-AU', Number.isInteger(n)
   ? { maximumFractionDigits: 0 }
   : { minimumFractionDigits: 2, maximumFractionDigits: 2 }) + ' AUD'
 
+// Per-unit crypto price, using the same rounding as computeTotals() so a
+// product card's "pay X with crypto" line always matches what checkout
+// actually charges.
+export const cryptoPrice = (price) => price - Math.round(price * SITE.cryptoDiscount) / 100
+
 // ── Cart store (localStorage 'apn-cart') ─────────────────────────
 // A configurable set can be added with a custom `mix` (array of note types).
 // A line's identity is `key`: the slug alone for a standard item, or slug + mix
@@ -256,6 +261,7 @@ export function ProductCard({ p }) {
           <span className="price">{fmt(p.price)}</span>
           <QtyStepper qty={qty} setQty={setQty} label={p.name} />
         </div>
+        <p className="pcard-crypto">₿ Pay {fmt(cryptoPrice(p.price))} with crypto — save {SITE.cryptoDiscount}%</p>
         <button type="button" className="btn btn-sm btn-full" onClick={() => { addToCart(p.slug, qty); setAdded(true); setQty(1); setTimeout(() => setAdded(false), 1600); openCartDrawer() }}>
           {added ? 'Added ✓' : 'Add to cart'}
         </button>
