@@ -321,7 +321,7 @@ export const SHOP_INTRO = [
 export const CATEGORY_INTRO = {
   'film-tv-props': [
     'Prop money for film and TV has one job: to read as real cash on camera while staying unmistakably a prop in the hand. Every stack in this range is offset printed on matte stock so it holds colour and detail under a 4K or 8K sensor without throwing glare under studio lighting, and every note is reduced in scale with clear prop markings so it clears production legal review without holding up the shoot.',
-    'The range covers the shots productions actually build: fresh full-print $20, $50 and $100 stacks for reveals and counts, hand-aged notes for wallets and period scenes, build-your-own banded [money stacks](/shop/money-stacks/) from $5,000 to $1,000,000 for duffel bags and table spreads, and a foam-fitted briefcase set for single hero shots. Dispatch is one business day from Sydney. New to sourcing props? Start with the [film & TV buyer\u2019s guide](/blog/australian-prop-money-buyers-guide-film-tv/) or [how much prop money you need](/blog/how-much-prop-money-do-i-need/).',
+    'The range covers the shots productions actually build: fresh full-print [$20](/product/aud-20-full-print-prop-notes/), [$50](/product/aud-50-full-print-prop-notes/) and $100 stacks for reveals and counts, hand-aged notes for wallets and period scenes, build-your-own banded [money stacks](/shop/money-stacks/) from $5,000 to $1,000,000 for duffel bags and table spreads, and a foam-fitted [briefcase set](/product/briefcase-money-set/) for single hero shots. Dispatch is one business day from Sydney. New to sourcing props? Start with the [film & TV buyer\u2019s guide](/blog/australian-prop-money-buyers-guide-film-tv/) or [how much prop money you need](/blog/how-much-prop-money-do-i-need/).',
   ],
   'money-stacks': [
     'A money stack is the unit art departments think in: a bank-band strap of 100 prop notes that reads as $10,000 of screen value in $100 style. This range packages that unit into eight sizes, from a single $5,000 group for a wallet close-up to a $1,000,000 hero pile for a bed of cash or an overflowing case. Every note is offset printed on matte stock, reduced in scale and clearly marked as a prop in line with RBA reproduction guidelines.',
@@ -543,7 +543,7 @@ export const POSTS = [
       ['h2','Why creators use prop money'],
       ['p','Wealth-adjacent content — savings challenges, cash stuffing, skits, music videos, giveaways — consistently outperforms on short-form platforms. Real cash is a security risk on set and legally restricted in close-up reproduction; prop money delivers the visual without either problem.'],
       ['h2','What matters on a phone camera'],
-      ['p','Phone sensors are sharper than most creators expect, and ring lights are unforgiving. The same rules as cinema apply at smaller scale: matte stock to kill glare, colour-accurate printing, and enough volume to fill the frame. A single money gun with two hundred bills creates more usable seconds of content than any other prop we sell.'],
+      ['p','Phone sensors are sharper than most creators expect, and ring lights are unforgiving. The same rules as cinema apply at smaller scale: matte stock to kill glare, colour-accurate printing, and enough volume to fill the frame. A single money gun with two hundred bills creates more usable seconds of content than any other prop we sell, and a [$1-style stack](/product/usd-1-prop-notes/) is the cheapest way to fill a frame by hand for a scattering or counting shot that does not need a gun.'],
       ['h2','Stay on the right side of platform rules'],
       ['p','Platforms act against content that presents prop money as genuine cash in deceptive contexts — fake giveaway scams being the obvious case. Skits, storytelling and clearly staged content are fine. Never present prop notes as genuine prizes, and never take prop money into a real transaction, even as a joke for the camera. That crosses from content into crime.'],
       ['h2','Order sizing for creators'],
@@ -560,7 +560,7 @@ export const POSTS = [
       ['h2','Screen value arithmetic'],
       ['p','One stack of 100 notes in $100 style represents $10,000. Ten stacks — our $100K bundle — fills a briefcase or a table spread convincingly. A duffel bag reads right at around fifty stacks. Directors routinely over-order twenties for realism and under-order hundreds for impact; experienced art departments do the reverse.'],
       ['h2','When smaller notes win'],
-      ['p','Hundreds look wrong in everyday contexts. A wallet, a till float, a market stall or a tip jar needs $20s and $50s to feel authentic — Australian audiences know the yellow fifty is the workhorse of real wallets. For register scenes, mix denominations with the twenties on top.'],
+      ['p','Hundreds look wrong in everyday contexts. A wallet, a till float, a market stall or a tip jar needs [$20s](/product/aud-20-full-print-prop-notes/) and [$50s](/product/aud-50-full-print-prop-notes/) to feel authentic — Australian audiences know the yellow fifty is the workhorse of real wallets. For register scenes, mix denominations with the twenties on top.'],
       ['h2','Matching the note to the scene'],
       ['p','Big value reveals: fresh $100 stacks. Street-level cash: aged $50s and $20s. International plots: our USD, Euro and GBP prop notes carry the same reduced-scale compliance. If in doubt, storyboard the money the way you storyboard the actors — it is a character in the scene.'],
     ]},
@@ -620,9 +620,9 @@ export const POSTS = [
       ['h2','The compliance question'],
       ['p','Foreign prop notes sold in Australia follow the same principles as AUD props: reduced scale, clear prop markings, no replicated security features. Our USD, Euro and GBP notes are printed to that standard, so they clear production legal review exactly like our Australian range.'],
       ['h2','Which currency and denomination'],
-      ['p','The US $100 is the global shorthand for serious money and our best-selling foreign note. The Euro \u20ac100 reads instantly as continental Europe, and the British \u00a350 dresses UK scenes with its unmistakable red. All three ship as full-print stacks of one hundred double-sided notes.'],
+      ['p','The [US $100](/product/usd-100-full-print-prop-notes/) is the global shorthand for serious money and our best-selling foreign note. The Euro \u20ac100 reads instantly as continental Europe, and the British \u00a350 dresses UK scenes with its unmistakable red. For everyday European handling rather than a high-value reveal, the [Euro €50](/product/euro-50-prop-notes/) is the more-used note in real wallets. All ship as full-print stacks of one hundred double-sided notes; for throwing and volume shots there is also a [US $1 stack](/product/usd-1-prop-notes/) built for exactly that.'],
       ['h2','Mixing currencies on set'],
-      ['p','Exchange-counter scenes, smuggling plots and airport sequences often need several currencies in one frame. Order a stack of each and dress with AUD notes in the mix — the contrast itself is what sells the scene. Browse the foreign currency category alongside the film and TV range to build the set in one order.'],
+      ['p','Exchange-counter scenes, smuggling plots and airport sequences often need several currencies in one frame. Order a stack of each and dress with AUD notes in the mix — the contrast itself is what sells the scene. Browse the [foreign currency category](/shop/foreign-currency-props/) alongside the [film and TV range](/shop/film-tv-props/) to build the set in one order.'],
     ]},
   { slug: 'prop-money-for-events-weddings',
     title: 'Prop Money for Events & Weddings: Ideas That Actually Work',
