@@ -174,7 +174,7 @@ export function Cart() {
           <div className="cart-rows">
             {rows.map(r => (
               <div key={r.key} className="cart-row">
-                <img src={'/images/' + r.slug + '.webp'} alt={r.p.name} width="72" height="72" loading="lazy" />
+                <img src={'/images/' + r.slug + '-card.webp'} alt={r.p.name} width="72" height="72" loading="lazy" />
                 <div className="cart-row-info">
                   <Link to={'/product/' + r.slug + '/'}>{r.p.name}</Link>
                   {mixLabel(r.mix) && <span className="row-mix">{mixLabel(r.mix)}</span>}
@@ -390,7 +390,7 @@ export function Order() {
               <div className="summary-rows">
                 {rows.map(r => (
                   <div key={r.key} className="summary-row">
-                    <img src={'/images/' + r.slug + '.webp'} alt={r.p.name} width="60" height="60" loading="lazy" />
+                    <img src={'/images/' + r.slug + '-card.webp'} alt={r.p.name} width="60" height="60" loading="lazy" />
                     <div className="summary-row-info">
                       <Link to={'/product/' + r.slug + '/'}>{r.p.name}</Link>
                       {mixLabel(r.mix) && <span className="row-mix">{mixLabel(r.mix)}</span>}

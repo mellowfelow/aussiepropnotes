@@ -129,7 +129,7 @@ export function CartDrawer() {
   return (
     <>
       <div className={'drawer-backdrop' + (open ? ' show' : '')} onClick={() => setOpen(false)} aria-hidden="true" />
-      <aside className={'cart-drawer' + (open ? ' open' : '')} role="dialog" aria-modal="true" aria-label="Shopping cart" aria-hidden={!open}>
+      <aside className={'cart-drawer' + (open ? ' open' : '')} role="dialog" aria-modal="true" aria-label="Shopping cart" aria-hidden={!open} inert={open ? undefined : ''}>
         <div className="drawer-head">
           <strong>Your cart{count > 0 ? ` (${count})` : ''}</strong>
           <button type="button" className="drawer-close" aria-label="Close cart" onClick={() => setOpen(false)}>
@@ -146,7 +146,7 @@ export function CartDrawer() {
             <div className="drawer-rows">
               {rows.map(r => (
                 <div key={r.key} className="drawer-row">
-                  <img src={'/images/' + r.slug + '.webp'} alt={r.p.name} width="56" height="56" loading="lazy" />
+                  <img src={'/images/' + r.slug + '-card.webp'} alt={r.p.name} width="56" height="56" loading="lazy" />
                   <div className="drawer-row-info">
                     <Link to={'/product/' + r.slug + '/'} onClick={() => setOpen(false)}>{r.p.name}</Link>
                     {mixLabel(r.mix) && <span className="row-mix">{mixLabel(r.mix)}</span>}
@@ -252,7 +252,7 @@ export function ProductCard({ p }) {
     <article className="pcard">
       {p.badge && <span className={'badge badge-' + p.badge.toLowerCase().replace(/ /g, '-')}>{p.badge}</span>}
       <Link to={'/product/' + p.slug + '/'} className="pcard-img">
-        <img src={'/images/' + p.slug + '.webp'} alt={p.name + ' — Australian prop money product'} width="400" height="300" loading="lazy" />
+        <img src={'/images/' + p.slug + '-card.webp'} alt={p.name + ' — Australian prop money product'} width="400" height="300" loading="lazy" />
       </Link>
       <div className="pcard-body">
         <h3><Link to={'/product/' + p.slug + '/'}>{p.name}</Link></h3>
