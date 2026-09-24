@@ -386,18 +386,6 @@ p.pcard-crypto{flex:0 0 auto;font-size:.78rem;font-weight:650;color:var(--wa-dar
   .cart-row .rm-btn{grid-column:3;grid-row:1;justify-self:end}
   .hero-guilloche{background-size:520px;opacity:.22}
   .hero-photo{background-image:linear-gradient(180deg,var(--ink) 30%,rgba(14,27,42,.9) 60%,rgba(14,27,42,.55) 100%),url('/images/hero.jpg')}
-  .admin-cards{grid-template-columns:1fr}
-  .admin-page{padding:1rem .8rem 3rem}
-  .admin-row{grid-template-columns:1fr;text-align:left;padding:.7rem .8rem;gap:.5rem;border-radius:10px}
-  .admin-row-main{gap:.15rem}
-  .admin-row strong{font-size:.92rem}
-  .admin-row-tags{gap:.3rem}
-  .admin-tag,.admin-pill{font-size:.68rem;padding:.1rem .45rem}
-  .admin-row-sub{font-size:.72rem}
-  .admin-row-end{align-items:flex-start;flex-direction:row;justify-content:space-between;width:100%;gap:.4rem}
-  .admin-row-end strong{font-size:.9rem}
-  .admin-row-actions{width:100%;gap:.4rem}
-  .admin-row-actions .btn{flex:1 1 auto;padding:.45rem .6rem;font-size:.78rem;text-align:center}
 }
 
 /* Reply Portal admin — private operator tool, dark shell is fine here (not
@@ -464,3 +452,17 @@ p.pcard-crypto{flex:0 0 auto;font-size:.78rem;font-weight:650;color:var(--wa-dar
 .copy-field:hover{border-color:var(--gold2)}
 .copy-field-label{color:var(--slate);font-weight:650}
 .copy-field-icon{color:var(--gold2)}
+@media (max-width:700px){
+  .admin-cards{grid-template-columns:1fr}
+  .admin-page{padding:1rem .8rem 3rem}
+  .admin-row{grid-template-columns:1fr;text-align:left;padding:.7rem .8rem;gap:.5rem;border-radius:10px}
+  .admin-row-main{gap:.15rem}
+  .admin-row strong{font-size:.92rem}
+  .admin-row-tags{gap:.3rem}
+  .admin-tag,.admin-pill{font-size:.68rem;padding:.1rem .45rem}
+  .admin-row-sub{font-size:.72rem}
+  .admin-row-end{align-items:flex-start;flex-direction:row;justify-content:space-between;width:100%;gap:.4rem}
+  .admin-row-end strong{font-size:.9rem}
+  .admin-row-actions{width:100%;gap:.4rem}
+  .admin-row-actions .btn{flex:1 1 auto;padding:.45rem .6rem;font-size:.78rem;text-align:center}
+}
