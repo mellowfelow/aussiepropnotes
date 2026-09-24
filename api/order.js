@@ -40,6 +40,7 @@ export default async function handler(req, res) {
   // when there's no stored order to fetch.
   const dashboardUrl = `${SITE.url}/admin/send-payment-email/?id=${encodeURIComponent(orderNumber)}`
     + (order.customerEmail ? `&email=${encodeURIComponent(order.customerEmail)}` : '')
+    + (order.customerPhone ? `&phone=${encodeURIComponent(order.customerPhone)}` : '')
     + `&amount=${encodeURIComponent(order.amountDue)}`
 
   const adminHtml = buildEmailHtml({

@@ -387,8 +387,17 @@ p.pcard-crypto{flex:0 0 auto;font-size:.78rem;font-weight:650;color:var(--wa-dar
   .hero-guilloche{background-size:520px;opacity:.22}
   .hero-photo{background-image:linear-gradient(180deg,var(--ink) 30%,rgba(14,27,42,.9) 60%,rgba(14,27,42,.55) 100%),url('/images/hero.jpg')}
   .admin-cards{grid-template-columns:1fr}
-  .admin-row{grid-template-columns:1fr;text-align:left}
-  .admin-row-end{align-items:flex-start}
+  .admin-page{padding:1rem .8rem 3rem}
+  .admin-row{grid-template-columns:1fr;text-align:left;padding:.7rem .8rem;gap:.5rem;border-radius:10px}
+  .admin-row-main{gap:.15rem}
+  .admin-row strong{font-size:.92rem}
+  .admin-row-tags{gap:.3rem}
+  .admin-tag,.admin-pill{font-size:.68rem;padding:.1rem .45rem}
+  .admin-row-sub{font-size:.72rem}
+  .admin-row-end{align-items:flex-start;flex-direction:row;justify-content:space-between;width:100%;gap:.4rem}
+  .admin-row-end strong{font-size:.9rem}
+  .admin-row-actions{width:100%;gap:.4rem}
+  .admin-row-actions .btn{flex:1 1 auto;padding:.45rem .6rem;font-size:.78rem;text-align:center}
 }
 
 /* Reply Portal admin — private operator tool, dark shell is fine here (not
@@ -427,6 +436,12 @@ p.pcard-crypto{flex:0 0 auto;font-size:.78rem;font-weight:650;color:var(--wa-dar
 .admin-row-sub{color:var(--slate);font-size:.78rem}
 .admin-row-end{display:flex;flex-direction:column;align-items:flex-end;gap:.2rem;color:var(--paper)}
 .admin-row-actions{display:flex;gap:.5rem;flex-wrap:wrap}
+.admin-wa-btn{background:var(--wa);border-color:var(--wa);color:#fff}
+.admin-wa-btn:hover{background:#1a8f49}
+.admin-wa-panel{margin-top:1.2rem;padding:1rem 1.2rem;background:rgba(31,168,85,.08);border:1px solid rgba(31,168,85,.35);border-radius:14px;display:flex;flex-direction:column;gap:.6rem}
+.admin-wa-panel strong{color:#5FD98A;font-size:.82rem;text-transform:uppercase;letter-spacing:.03em}
+.admin-wa-panel-actions{display:flex;gap:.5rem;flex-wrap:wrap}
+.admin-wa-preview{white-space:pre-wrap;font-family:'SFMono-Regular',Consolas,monospace;font-size:.72rem;color:#9fd6b4;background:rgba(0,0,0,.2);border-radius:8px;padding:.6rem .7rem;max-height:180px;overflow-y:auto;margin:0}
 .admin-tag{background:rgba(201,162,39,.15);color:var(--gold);border-radius:6px;padding:.15rem .5rem;font-size:.72rem}
 .admin-tag.mono,.copy-field-value.mono{font-family:'SFMono-Regular',Consolas,monospace}
 .admin-pill{background:rgba(255,255,255,.08);color:var(--paper);border-radius:999px;padding:.15rem .6rem;font-size:.72rem;text-transform:capitalize}

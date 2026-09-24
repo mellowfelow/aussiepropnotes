@@ -2,6 +2,7 @@ import React, { useCallback, useEffect, useMemo, useState } from 'react'
 import { Link, useSearchParams } from 'react-router-dom'
 import { SITE } from '../data/site.js'
 import PasscodeGate from '../components/admin/PasscodeGate.jsx'
+import { waLinkTo, waPaymentDetailsLink, waPaymentDetailsMessage, waMessageText } from '../../lib/whatsapp.js'
 
 async function api(path, passcode, opts = {}) {
   const res = await fetch(path, {
@@ -116,6 +117,9 @@ function OrdersList({ passcode }) {
               </div>
               <div className="admin-row-actions">
                 <Link className="btn btn-sm" to={`/admin/send-payment-email/?id=${encodeURIComponent(o.orderNumber)}`}>Send payment</Link>
+                {o.customerPhone && (
+                  <a className="btn btn-sm admin-wa-btn" href={waLinkTo(o.customerPhone, [`Hi ${o.customerName || 'there'}, following up on your order ${o.orderNumber}.`])} target="_blank" rel="noopener noreferrer">WhatsApp</a>
+                )}
                 <button type="button" className="btn btn-sm btn-ghost" onClick={() => remove(o.orderNumber)}>Delete</button>
               </div>
             </div>
@@ -172,6 +176,9 @@ function EnquiriesList({ passcode }) {
               </div>
               <div className="admin-row-actions">
                 {e.email && <Link className="btn btn-sm" to={`/admin/reply-enquiry/?id=${encodeURIComponent(e.id)}`}>Reply</Link>}
+                {e.phone && (
+                  <a className="btn btn-sm admin-wa-btn" href={waLinkTo(e.phone, [`Hi ${e.name || 'there'}, following up on your ${e.type} enquiry.`])} target="_blank" rel="noopener noreferrer">WhatsApp</a>
+                )}
                 <button type="button" className="btn btn-sm btn-ghost" onClick={() => remove(e.id)}>Delete</button>
               </div>
             </div>
@@ -192,6 +199,8 @@ function SendPaymentComposer({ passcode }) {
   // order to fetch yet, but the email carried enough to act on directly.
   const [customEmail, setCustomEmail] = useState(() => params.get('email') || '')
   const [amountInput, setAmountInput] = useState(() => params.get('amount') || '')
+  const [customerPhone, setCustomerPhone] = useState(() => params.get('phone') || '')
+  const [waCopied, setWaCopied] = useState(false)
   const [methodId, setMethodId] = useState(SITE.reply.paymentMethods[0].id)
   const [mode, setMode] = useState('template')
   const [detail, setDetail] = useState('')
@@ -208,6 +217,7 @@ function SendPaymentComposer({ passcode }) {
         setOrder(d.order)
         if (!customEmail && d.order.customerEmail) setCustomEmail(d.order.customerEmail)
         if (!amountInput && d.order.amountDue) setAmountInput(String(d.order.amountDue))
+        if (!customerPhone && d.order.customerPhone) setCustomerPhone(d.order.customerPhone)
       })
       .catch(() => setOrderLookupFailed(true))
     // eslint-disable-next-line react-hooks/exhaustive-deps
@@ -222,6 +232,17 @@ function SendPaymentComposer({ passcode }) {
 
   const instructions = mode === 'template' ? template : [opening, detail, closing].filter(Boolean).join('\n\n')
   const to = customEmail
+
+  const waLink = customerPhone && amount && instructions.trim()
+    ? waPaymentDetailsLink(customerPhone, { orderNumber: orderId, amountDue: amount, methodLabel: method.label, instructions, methodId })
+    : null
+  const waText = amount && instructions.trim()
+    ? waMessageText(waPaymentDetailsMessage({ orderNumber: orderId, amountDue: amount, methodLabel: method.label, instructions, methodId }))
+    : ''
+
+  async function copyWaText() {
+    try { await navigator.clipboard.writeText(waText); setWaCopied(true); setTimeout(() => setWaCopied(false), 2000) } catch {}
+  }
 
   async function send() {
     setSending(true); setError(''); setSent(false)
@@ -246,6 +267,7 @@ function SendPaymentComposer({ passcode }) {
           <label>Customer email<input type="email" value={to} onChange={(e) => setCustomEmail(e.target.value)} placeholder="customer@example.com" /></label>
           <label>Amount due ({SITE.currency})<input value={amount} onChange={(e) => setAmountInput(e.target.value)} placeholder="0.00" /></label>
         </div>
+        <label>Customer phone / WhatsApp (optional)<input type="tel" value={customerPhone} onChange={(e) => setCustomerPhone(e.target.value)} placeholder="0400 000 000" /></label>
         <label>Payment method
           <select value={methodId} onChange={(e) => { setMethodId(e.target.value); setTouched(false) }}>
             {SITE.reply.paymentMethods.map((m) => <option key={m.id} value={m.id}>{m.label}</option>)}
@@ -266,6 +288,17 @@ function SendPaymentComposer({ passcode }) {
       <button type="button" className="btn btn-lg" disabled={sending || !to || !amount || !instructions.trim()} onClick={send}>
         {sending ? 'Sending…' : `Send to ${to || 'customer'}`}
       </button>
+
+      {waLink && (
+        <div className="admin-wa-panel">
+          <strong>Send via WhatsApp instead</strong>
+          <div className="admin-wa-panel-actions">
+            <a className="btn btn-sm admin-wa-btn" href={waLink} target="_blank" rel="noopener noreferrer">Open WhatsApp with message</a>
+            <button type="button" className="btn btn-sm btn-ghost" onClick={copyWaText}>{waCopied ? 'Copied!' : 'Copy message'}</button>
+          </div>
+          <pre className="admin-wa-preview">{waText}</pre>
+        </div>
+      )}
     </div>
   )
 }
