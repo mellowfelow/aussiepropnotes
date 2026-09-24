@@ -28,7 +28,7 @@ function avatarColor(name) {
 export default function ReviewsSection() {
   const [activeFilter, setActiveFilter] = useState('all')
   const [searchQuery, setSearchQuery] = useState('')
-  const [viewMode, setViewMode] = useState('grid')
+  const [viewMode, setViewMode] = useState('slider')
   const [gridLimit, setGridLimit] = useState(6)
   const [currentIndex, setCurrentIndex] = useState(0)
   const [isPaused, setIsPaused] = useState(false)

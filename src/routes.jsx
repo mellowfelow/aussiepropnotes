@@ -105,7 +105,7 @@ const websiteSchema = {
 }
 
 export const ROUTES = [
-  { path: '/', el: <Home />, title: 'Australian Prop Money for Film, TV & Events | Aussie Prop Notes',
+  { path: '/', el: <Home />, title: 'Australian Prop Money for Film & TV | Aussie Prop Notes',
     desc: 'Buy camera-ready Australian prop money — AUD prop notes, money stacks & custom prints. RBA-compliant, fast Sydney dispatch, free shipping over $500. Shop now.',
     schema: [storeSchema, websiteSchema, faqSchema(FAQS.slice(0, 4)), speakableSchema(U + '/')] },
 
@@ -158,7 +158,7 @@ export const ROUTES = [
 
   ...POSTS.map(p => ({
     path: '/blog/' + p.slug + '/', el: <BlogPost />,
-    title: p.title + ' | Aussie Prop Notes',
+    title: (p.metaTitle || p.title) + ' | Aussie Prop Notes',
     desc: p.excerpt.slice(0, 158),
     lastmod: p.modified || p.date,
     schema: [
