@@ -209,7 +209,8 @@ p.pcard-crypto{flex:0 0 auto;font-size:.78rem;font-weight:650;color:var(--wa-dar
 .cat-intro h2{font-size:1.2rem;margin-bottom:.5rem}
 
 /* authority */
-.authority p{max-width:76ch}
+.authority h2{text-align:center}
+.authority p{max-width:76ch;margin-left:auto;margin-right:auto;text-align:center}
 .auth-grid{display:grid;grid-template-columns:repeat(4,1fr);gap:1rem;margin-top:1.6rem}
 .auth-grid div{background:#fff;border:1px solid var(--line);border-radius:10px;padding:1rem;text-align:center}
 .auth-grid strong{font-family:'Archivo';font-size:1.5rem;color:var(--gold2);display:block}
