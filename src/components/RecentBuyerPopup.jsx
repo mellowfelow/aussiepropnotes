@@ -6,7 +6,7 @@ const RECENT_ORDERS = [
   { id: 2, buyer: 'Art Department', location: 'Fox Studios, Sydney NSW', product: 'Aged & Distressed AUD Prop Notes', slug: 'aged-distressed-aud-prop-notes', timeAgo: '16 mins ago' },
   { id: 3, buyer: 'Sarah J.', location: 'Fortitude Valley, Brisbane QLD', product: 'Money Stack Bundle ($100k Realistic)', slug: 'money-stack-bundle-100k', timeAgo: '28 mins ago' },
   { id: 4, buyer: 'Tyler K.', location: 'Fremantle, Perth WA', product: 'Money Gun + Prop Bills Bundle', slug: 'money-gun-prop-bills-bundle', timeAgo: '42 mins ago' },
-  { id: 5, buyer: 'Visual FX Crew', location: 'Docklands, Melbourne VIC', product: 'AUD $10k Film Prop Bank Strapped Stack', slug: 'aud-10k-film-prop-bank-strapped-stack', timeAgo: '1 hr ago' },
+  { id: 5, buyer: 'Visual FX Crew', location: 'Docklands, Melbourne VIC', product: 'AUD $10k Film Prop Bank Strapped Stack', slug: 'prop-money-stack-10k', timeAgo: '1 hr ago' },
   { id: 6, buyer: 'Marcus V.', location: 'Surry Hills, Sydney NSW', product: 'Photography Flat Lay Money Set', slug: 'photography-flat-lay-set', timeAgo: '2 hrs ago' },
   { id: 7, buyer: 'Production Coordinator', location: 'Broadbeach, Gold Coast QLD', product: 'USD $100 Prop Notes Full Print', slug: 'usd-100-full-print-prop-notes', timeAgo: '3 hrs ago' },
 ]

@@ -138,7 +138,7 @@ export const REVIEWS = [
     body: 'Great props overall for our theatre performance. Initially I had accidentally ordered blank filler stack with top/bottom print instead of full double-sided printed notes, which was my own mistake. Team responded to my email quickly and organised an exchange for the full-print batch before opening night.',
     verified: true,
     product: 'AUD $10k Film Prop Bank Strapped Stack',
-    productSlug: 'aud-10k-film-prop-bank-strapped-stack',
+    productSlug: 'prop-money-stack-10k',
     category: 'service',
     helpfulCount: 42,
     companyReply: {
@@ -235,7 +235,7 @@ export const REVIEWS = [
     body: 'Purchased multi-denomination sets for our teller staff security training seminars. Realistic handling, clear legal markings, and prompt receipt invoicing for our accounting department.',
     verified: true,
     product: 'Mixed Denomination AUD Prop Set',
-    productSlug: 'aud-mixed-denomination-prop-set',
+    productSlug: 'international-currency-mixed-set',
     category: 'service',
     helpfulCount: 14,
     companyReply: null,
