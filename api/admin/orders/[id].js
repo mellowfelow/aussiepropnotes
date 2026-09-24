@@ -1,9 +1,11 @@
 import { checkAdminPasscode } from '../../../lib/adminAuth.js'
-import { getOrder, deleteOrder, markOrderSent } from '../../../lib/orderStore.js'
+import { getOrder, deleteOrder, markOrderSent, isRedisConfigured } from '../../../lib/orderStore.js'
 
 export default async function handler(req, res) {
   if (checkAdminPasscode(req, res)) return
   const { id } = req.query
+
+  if (!isRedisConfigured()) return res.status(404).json({ error: "Storage isn't configured yet" })
 
   if (req.method === 'GET') {
     const order = await getOrder(id)

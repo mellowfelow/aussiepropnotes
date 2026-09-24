@@ -12,7 +12,8 @@ export default async function handler(req, res) {
   const { orderNumber, methodId, detail, customEmail } = req.body || {}
   if (!orderNumber || !methodId) return res.status(400).json({ error: 'orderNumber and methodId are required' })
 
-  const order = await getOrder(orderNumber)
+  let order = null
+  try { order = await getOrder(orderNumber) } catch (err) { console.error('getOrder failed:', err.message) }
   const to = customEmail || (order && order.customerEmail)
   if (!to) return res.status(400).json({ error: 'No destination email — pass customEmail or save the order first' })
 

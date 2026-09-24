@@ -186,7 +186,12 @@ function SendPaymentComposer({ passcode }) {
   const [params] = useSearchParams()
   const orderId = params.get('id') || ''
   const [order, setOrder] = useState(null)
-  const [customEmail, setCustomEmail] = useState('')
+  const [orderLookupFailed, setOrderLookupFailed] = useState(false)
+  // Prefilled from the order-notification email's link (?email=&amount=) so
+  // this composer works even before Redis is set up — there's no stored
+  // order to fetch yet, but the email carried enough to act on directly.
+  const [customEmail, setCustomEmail] = useState(() => params.get('email') || '')
+  const [amountInput, setAmountInput] = useState(() => params.get('amount') || '')
   const [methodId, setMethodId] = useState(SITE.reply.paymentMethods[0].id)
   const [mode, setMode] = useState('template')
   const [detail, setDetail] = useState('')
@@ -198,25 +203,32 @@ function SendPaymentComposer({ passcode }) {
 
   useEffect(() => {
     if (!orderId) return
-    api(`/api/admin/orders/${encodeURIComponent(orderId)}`, passcode).then((d) => setOrder(d.order)).catch(() => {})
+    api(`/api/admin/orders/${encodeURIComponent(orderId)}`, passcode)
+      .then((d) => {
+        setOrder(d.order)
+        if (!customEmail && d.order.customerEmail) setCustomEmail(d.order.customerEmail)
+        if (!amountInput && d.order.amountDue) setAmountInput(String(d.order.amountDue))
+      })
+      .catch(() => setOrderLookupFailed(true))
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [orderId, passcode])
 
   const method = SITE.reply.paymentMethods.find((m) => m.id === methodId)
-  const amount = order ? order.amountDue : ''
+  const amount = amountInput
   const opening = (method.opening || '').replace('{amount}', amount).replace('{ref}', orderId)
   const closing = (method.closing || '').replace('{amount}', amount).replace('{ref}', orderId)
 
   useEffect(() => { if (mode === 'template' && !touched) setTemplate([opening, closing].filter(Boolean).join('\n\n')) }, [mode, touched, opening, closing])
 
   const instructions = mode === 'template' ? template : [opening, detail, closing].filter(Boolean).join('\n\n')
-  const to = customEmail || (order && order.customerEmail) || ''
+  const to = customEmail
 
   async function send() {
     setSending(true); setError(''); setSent(false)
     try {
       await api('/api/admin/send-payment-email', passcode, {
         method: 'POST',
-        body: JSON.stringify({ orderNumber: orderId, methodId, detail: mode === 'paste' ? detail : '', customEmail: mode === 'template' ? undefined : undefined, amount }),
+        body: JSON.stringify({ orderNumber: orderId, methodId, detail: mode === 'paste' ? detail : '', customEmail: to, amount }),
       })
       setSent(true)
     } catch (err) { setError(err.message) } finally { setSending(false) }
@@ -226,11 +238,13 @@ function SendPaymentComposer({ passcode }) {
     <div className="admin-page">
       <AdminNav />
       <h1>Send Payment Details</h1>
-      {order && <p className="admin-sub">Order {order.orderNumber} — {order.customerName}</p>}
+      {order ? <p className="admin-sub">Order {order.orderNumber} — {order.customerName}</p> : orderId && (
+        <p className="admin-hint">{orderLookupFailed ? "No stored order found (storage isn't configured yet) — using the details from the order email link." : 'Loading order…'}</p>
+      )}
       <div className="admin-card-block">
         <div className="field-grid">
-          <label>Customer email<input type="email" value={to} onChange={(e) => setCustomEmail(e.target.value)} placeholder={order?.customerEmail || ''} /></label>
-          <label>Amount due ({SITE.currency})<input value={amount} disabled /></label>
+          <label>Customer email<input type="email" value={to} onChange={(e) => setCustomEmail(e.target.value)} placeholder="customer@example.com" /></label>
+          <label>Amount due ({SITE.currency})<input value={amount} onChange={(e) => setAmountInput(e.target.value)} placeholder="0.00" /></label>
         </div>
         <label>Payment method
           <select value={methodId} onChange={(e) => { setMethodId(e.target.value); setTouched(false) }}>

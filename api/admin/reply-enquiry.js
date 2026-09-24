@@ -13,8 +13,9 @@ export default async function handler(req, res) {
   const { enquiryId, message } = req.body || {}
   if (!enquiryId || !message) return res.status(400).json({ error: 'enquiryId and message are required' })
 
-  const enquiry = await getEnquiry(enquiryId)
-  if (!enquiry) return res.status(404).json({ error: 'Enquiry not found' })
+  let enquiry = null
+  try { enquiry = await getEnquiry(enquiryId) } catch (err) { console.error('getEnquiry failed:', err.message) }
+  if (!enquiry) return res.status(404).json({ error: "Enquiry not found — storage may not be configured yet. Use the enquiry notification email's \"Reply by Email\" link instead." })
   if (!enquiry.email) return res.status(400).json({ error: 'This enquiry has no email address to reply to' })
 
   const typeLabel = TYPE_LABEL[enquiry.type] || 'website'

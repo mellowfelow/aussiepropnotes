@@ -35,7 +35,12 @@ export default async function handler(req, res) {
   }
 
   const itemRows = items.map((i) => ({ label: `${i.quantity} × ${i.name}`, value: `${SITE.currency} $${(i.price * i.quantity).toFixed(2)} (${SITE.currency} $${i.price} ea)` }))
+  // Always link to the dashboard composer, even without Redis configured —
+  // pass email/amount as query params so it can prefill from the URL alone
+  // when there's no stored order to fetch.
   const dashboardUrl = `${SITE.url}/admin/send-payment-email/?id=${encodeURIComponent(orderNumber)}`
+    + (order.customerEmail ? `&email=${encodeURIComponent(order.customerEmail)}` : '')
+    + `&amount=${encodeURIComponent(order.amountDue)}`
 
   const adminHtml = buildEmailHtml({
     title: 'New order',
@@ -55,7 +60,7 @@ export default async function handler(req, res) {
       { label: 'Payment Method', value: order.paymentMethod },
       { label: 'Amount Due', value: `${SITE.currency} $${order.amountDue}`, highlight: true },
     ],
-    cta: isRedisConfigured() ? { label: 'Reply in Dashboard →', url: dashboardUrl } : undefined,
+    cta: { label: 'Reply in Dashboard →', url: dashboardUrl },
   })
 
   await sendMail({
