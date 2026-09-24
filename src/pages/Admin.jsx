@@ -87,7 +87,7 @@ function OrdersList({ passcode }) {
 
   async function remove(orderNumber) {
     if (!confirm(`Delete order ${orderNumber}? This can't be undone.`)) return
-    await api(`/api/admin/orders/${encodeURIComponent(orderNumber)}`, passcode, { method: 'DELETE' })
+    await api(`/api/admin/order?id=${encodeURIComponent(orderNumber)}`, passcode, { method: 'DELETE' })
     load()
   }
 
@@ -142,7 +142,7 @@ function EnquiriesList({ passcode }) {
 
   async function remove(id) {
     if (!confirm('Delete this enquiry?')) return
-    await api(`/api/admin/enquiries/${encodeURIComponent(id)}`, passcode, { method: 'DELETE' })
+    await api(`/api/admin/enquiry?id=${encodeURIComponent(id)}`, passcode, { method: 'DELETE' })
     load()
   }
 
@@ -203,7 +203,7 @@ function SendPaymentComposer({ passcode }) {
 
   useEffect(() => {
     if (!orderId) return
-    api(`/api/admin/orders/${encodeURIComponent(orderId)}`, passcode)
+    api(`/api/admin/order?id=${encodeURIComponent(orderId)}`, passcode)
       .then((d) => {
         setOrder(d.order)
         if (!customEmail && d.order.customerEmail) setCustomEmail(d.order.customerEmail)
@@ -239,7 +239,7 @@ function SendPaymentComposer({ passcode }) {
       <AdminNav />
       <h1>Send Payment Details</h1>
       {order ? <p className="admin-sub">Order {order.orderNumber} — {order.customerName}</p> : orderId && (
-        <p className="admin-hint">{orderLookupFailed ? "No stored order found (storage isn't configured yet) — using the details from the order email link." : 'Loading order…'}</p>
+        <p className="admin-hint">{orderLookupFailed ? "Couldn't load a stored order for this reference — using the details from the order email link instead." : 'Loading order…'}</p>
       )}
       <div className="admin-card-block">
         <div className="field-grid">
@@ -281,7 +281,7 @@ function ReplyEnquiryComposer({ passcode }) {
 
   useEffect(() => {
     if (!enquiryId) return
-    api(`/api/admin/enquiries/${encodeURIComponent(enquiryId)}`, passcode).then((d) => setEnquiry(d.enquiry)).catch(() => {})
+    api(`/api/admin/enquiry?id=${encodeURIComponent(enquiryId)}`, passcode).then((d) => setEnquiry(d.enquiry)).catch(() => {})
   }, [enquiryId, passcode])
 
   async function send() {
