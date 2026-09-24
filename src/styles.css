@@ -217,6 +217,7 @@ p.pcard-crypto{flex:0 0 auto;font-size:.78rem;font-weight:650;color:var(--wa-dar
 .auth-grid span{font-size:.8rem;color:var(--slate)}
 
 /* faq */
+.faq-section>h2{text-align:center}
 .faq-list{display:flex;flex-direction:column;gap:.7rem;max-width:820px}
 .faq-list details{background:#fff;border:1px solid var(--line);border-radius:10px;padding:1rem 1.2rem}
 .faq-list summary{font-weight:600;cursor:pointer;font-family:'Archivo';min-height:28px}

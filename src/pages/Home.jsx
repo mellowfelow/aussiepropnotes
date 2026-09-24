@@ -58,7 +58,7 @@ export default function Home() {
         </div>
       </section>
 
-      <section className="section section-alt">
+      <section className="section section-alt faq-section">
         <h2>Prop money questions, answered</h2>
         <div className="faq-list">
           {FAQS.slice(0, 4).map(f => (
