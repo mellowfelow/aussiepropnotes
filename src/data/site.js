@@ -17,7 +17,6 @@ export const SITE = {
   foundedPlace: 'Sydney, Australia',
   gscCode: 'InVzHA1y2jNP_PAeB-MN9jBJ2qUHMeD6TYMuw-AV4YQ',
   indexNowKey: 'a7f3c9e1b5d24680a7f3c9e1b5d24680',
-  web3formsKey: '50c0fea2-0c89-4d8c-973e-87889abb4fc2',
   payments: ['Crypto (BTC / USDT)', 'Bank Transfer', 'PayID'],
   social: {
     facebook: 'https://www.facebook.com/aussieprop/',
@@ -26,6 +25,39 @@ export const SITE = {
     tiktok: 'https://www.tiktok.com/@aussie.prop.notes',
     pinterest: 'https://www.pinterest.com/aussiepropnotes/',
     telegram: 'https://t.me/aussiepropnotes',
+  },
+  // Reply Portal config (see lib/emailTemplate.js, lib/order.js, lib/whatsapp.js,
+  // api/order.js, api/contact.js, api/admin/*). Everything brand/location/
+  // payment-specific for the admin dashboard + transactional emails lives
+  // here — never hardcode a colour, prefix, currency or method elsewhere.
+  reply: {
+    brand: { primary: '#7A5F13', headerDark: '#0E1B2A' }, // matches --gold2 / --ink in styles.css
+    currency: { code: 'AUD', symbol: '$' },
+    orderPrefix: 'APN',
+    headerTagline: 'Camera-Ready Prop Money — Sydney, Australia',
+    dispatchLine: 'Dispatched from Sydney within one business day and tracked Australia-wide.',
+    bizNumber: null,
+    channels: { email: 'info@aussiepropnotes.com', whatsapp: '+61 420 126 562', whatsappCountryCode: '61' },
+    deadlineHours: 48,
+    paymentMethods: [
+      {
+        id: 'crypto', label: 'Crypto — BTC / USDT',
+        opening: 'Please send the crypto equivalent of {amount} AUD to the wallet address below, referencing {ref} in your confirmation message.',
+        closing: 'Once the transaction is confirmed on-chain we will finalise your order for dispatch.',
+        discount: { percent: 10, label: 'crypto' },
+      },
+      {
+        id: 'bank', label: 'Bank transfer',
+        opening: 'Please transfer {amount} AUD to the account below, using {ref} as the payment reference.',
+        closing: "Once the transfer clears we'll confirm and prepare your order for dispatch.",
+      },
+      {
+        id: 'payid', label: 'PayID',
+        opening: 'Please send {amount} AUD via PayID to the details below, using {ref} as the payment reference.',
+        closing: "PayID transfers usually clear instantly, so we can confirm as soon as it lands.",
+        instantRailNote: 'Use PayID where possible — it clears instantly, so your order is confirmed fastest.',
+      },
+    ],
   },
 }
 

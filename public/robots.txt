@@ -5,6 +5,7 @@ Disallow: /order/
 Disallow: /thank-you-contact/
 Disallow: /thank-you-order/
 Disallow: /thank-you-wholesale/
+Disallow: /admin/
 
 Content-Signal: search=yes, ai-input=yes, ai-train=no
 

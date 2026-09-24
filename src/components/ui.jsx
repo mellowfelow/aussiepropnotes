@@ -311,25 +311,21 @@ export function SocialLinks({ className = 'footer-social' }) {
   )
 }
 
-// Email capture — POSTs to Web3Forms (same key as the other forms). Not a
-// managed list; addresses land in the business inbox. To connect a real ESP
-// later, swap the fetch URL + add its domain to the CSP form-action / connect-src.
+// Email capture — POSTs to /api/contact (type: 'newsletter'), same SMTP-backed
+// serverless function as the other forms. Not a managed list; addresses land
+// in the business inbox (and the Reply Portal dashboard when Redis is set up).
 export function NewsletterSignup({ compact }) {
   const [email, setEmail] = useState('')
   const [state, setState] = useState('') // '' | 'sending' | 'done' | 'error'
   function submit(e) {
     e.preventDefault()
     if (!email || state === 'sending') return
-    if (!SITE.web3formsKey || SITE.web3formsKey.startsWith('YOUR-')) { setState('done'); return }
     setState('sending')
-    const fd = new FormData()
-    fd.set('access_key', SITE.web3formsKey)
-    fd.set('subject', 'Newsletter signup — Aussie Prop Notes')
-    fd.set('from_name', 'Aussie Prop Notes Website')
-    fd.set('email', email)
-    fd.set('botcheck', '')
-    fetch('https://api.web3forms.com/submit', { method: 'POST', headers: { Accept: 'application/json' }, body: fd })
-      .then(r => r.json()).then(d => setState(d && d.success ? 'done' : 'error')).catch(() => setState('error'))
+    fetch('/api/contact', {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify({ type: 'newsletter', fields: { email } }),
+    }).then(r => r.json().then(d => ({ ok: r.ok, data: d }))).then(({ ok }) => setState(ok ? 'done' : 'error')).catch(() => setState('error'))
   }
   if (state === 'done') return <p className={'news-done' + (compact ? ' compact' : '')}>Thanks — you're on the list. We send new products, restocks and the odd prop-money guide, nothing else.</p>
   return (

@@ -1,38 +1,28 @@
 import React, { useRef, useState } from 'react'
-import { SITE, waHref } from '../data/site.js'
+import { waHref } from '../data/site.js'
 
-// The definitive Web3Forms method: FormData body, Accept header only,
-// no Content-Type, no action, no redirect field, JS redirect to thank-you.
-export default function WebForm({ subject, thankYou, children, submitLabel }) {
+// Posts JSON to /api/contact — a Vercel serverless function backed by SMTP
+// (see lib/mailer.js) and, when Upstash Redis is configured, the Reply
+// Portal dashboard. Field `name` attributes are used as-is as the email
+// labels, so keep them human ("Delivery Address", not "delivery_address").
+export default function WebForm({ type = 'contact', thankYou, children, submitLabel }) {
   const formRef = useRef(null)
   const [err, setErr] = useState('')
   const [busy, setBusy] = useState(false)
 
   function onSubmit(e) {
     e.preventDefault()
-    const form = formRef.current
-    // No Web3Forms key configured yet: record nothing, but honour the
-    // thank-you flow so ordering still completes (WhatsApp carries orders).
-    if (!SITE.web3formsKey || SITE.web3formsKey.startsWith('YOUR-')) {
-      window.location.href = thankYou
-      return
-    }
     setErr(''); setBusy(true)
-    const fd = new FormData(form)
-    // Reply-to so a reply in the inbox goes straight to the sender.
-    if (fd.get('Email')) fd.set('replyto', fd.get('Email'))
-    fetch('https://api.web3forms.com/submit', {
+    const fields = Object.fromEntries(new FormData(formRef.current).entries())
+    fetch('/api/contact', {
       method: 'POST',
-      headers: { 'Accept': 'application/json' },
-      body: fd
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify({ type, fields }),
     })
-      .then(r => r.json().then(d => ({ status: r.status, data: d })))
-      .then(res => {
-        if (res.status === 200 && res.data.success) {
-          window.location.href = thankYou
-        } else {
-          throw new Error((res.data && res.data.message) || 'Submission failed')
-        }
+      .then((r) => r.json().then((d) => ({ ok: r.ok, data: d })))
+      .then(({ ok, data }) => {
+        if (ok) window.location.href = thankYou
+        else throw new Error((data && data.error) || 'Submission failed')
       })
       .catch(() => {
         setBusy(false)
@@ -42,9 +32,6 @@ export default function WebForm({ subject, thankYou, children, submitLabel }) {
 
   return (
     <form ref={formRef} className="web-form" onSubmit={onSubmit}>
-      <input type="hidden" name="access_key" value={SITE.web3formsKey} />
-      <input type="hidden" name="subject" value={subject} />
-      <input type="hidden" name="from_name" value="Aussie Prop Notes Website" />
       <input type="hidden" name="botcheck" value="" style={{ display: 'none' }} />
       {children}
       {err && <p className="form-err" role="alert">{err} <a href={waHref()} rel="nofollow noopener">Open WhatsApp</a></p>}

@@ -4,6 +4,7 @@ import Shop from './pages/Shop.jsx'
 import Product from './pages/Product.jsx'
 import { BlogIndex, BlogPost } from './pages/Blog.jsx'
 import { About, Contact, Wholesale, Faq, Cart, Order, Shipping, Refund, Privacy, Terms, ThankYou, Links } from './pages/Static.jsx'
+import { AdminHome, AdminOrders, AdminEnquiries, AdminSendPayment, AdminReplyEnquiry } from './pages/Admin.jsx'
 import { SITE, CATEGORIES, PRODUCTS, POSTS, FAQS, PRODUCT_DETAILS, CATEGORY_FAQ, POST_CLUSTERS } from './data/site.js'
 
 const U = SITE.url
@@ -226,4 +227,11 @@ export const ROUTES = [
   { path: '/thank-you-wholesale/', el: <ThankYou kind="wholesale" />, title: 'Wholesale Enquiry Received | Aussie Prop Notes',
     desc: 'Thanks for your wholesale enquiry — our trade team replies with tiered pricing and stock confirmation within one business day.',
     schema: [crumbs([['Thank You', null]])], noindex: true },
+
+  // Reply Portal admin — passcode-gated, noindex, disallowed in robots.txt.
+  { path: '/admin/', el: <AdminHome />, title: 'Admin | Aussie Prop Notes', desc: 'Order and enquiry dashboard.', schema: [], noindex: true },
+  { path: '/admin/orders/', el: <AdminOrders />, title: 'Orders — Admin | Aussie Prop Notes', desc: 'Order dashboard.', schema: [], noindex: true },
+  { path: '/admin/enquiries/', el: <AdminEnquiries />, title: 'Enquiries — Admin | Aussie Prop Notes', desc: 'Enquiry dashboard.', schema: [], noindex: true },
+  { path: '/admin/send-payment-email/', el: <AdminSendPayment />, title: 'Send Payment Details — Admin | Aussie Prop Notes', desc: 'Payment details composer.', schema: [], noindex: true },
+  { path: '/admin/reply-enquiry/', el: <AdminReplyEnquiry />, title: 'Reply to Enquiry — Admin | Aussie Prop Notes', desc: 'Enquiry reply composer.', schema: [], noindex: true },
 ]

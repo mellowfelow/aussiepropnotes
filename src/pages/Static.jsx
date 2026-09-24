@@ -84,7 +84,7 @@ export function Contact() {
       <Breadcrumbs trail={[['Contact', null]]} />
       <h1>Contact Aussie Prop Notes</h1>
       <p className="lead">Questions about products, orders or anything else — send a message and we reply within one business day. Prefer chat? <a href={waHref()} rel="nofollow noopener">Message us on WhatsApp</a>.</p>
-      <WebForm subject="New enquiry — Aussie Prop Notes" thankYou="/thank-you-contact/" submitLabel="Send message">
+      <WebForm type="contact" thankYou="/thank-you-contact/" submitLabel="Send message">
         <label>Your name<input type="text" name="Name" required autoComplete="name" /></label>
         <label>Email<input type="email" name="Email" required autoComplete="email" /></label>
         <label>Message<textarea name="Message" rows="6" required /></label>
@@ -107,7 +107,7 @@ export function Wholesale() {
       </div>
       <h2>How wholesale works</h2>
       <p>Tell us what you need below — product types, quantities and your deadline. We reply within one business day with trade pricing and stock confirmation. Crypto payments still earn the {SITE.cryptoDiscount}% discount on top of trade rates. Custom branded runs are quoted separately with a printed proof before production.</p>
-      <WebForm subject="New wholesale enquiry — Aussie Prop Notes" thankYou="/thank-you-wholesale/" submitLabel="Request trade pricing">
+      <WebForm type="wholesale" thankYou="/thank-you-wholesale/" submitLabel="Request trade pricing">
         <label>Company / production name<input type="text" name="Company / Production" required /></label>
         <label>Contact name<input type="text" name="Contact Name" required autoComplete="name" /></label>
         <label>Email<input type="email" name="Email" required autoComplete="email" /></label>
@@ -288,18 +288,36 @@ export function Order() {
     ].join('\n')
   }
 
-  function postToWeb3Forms(fd, orderNum) {
-    // The customer / delivery / payment fields ride to the email as their own
-    // clean rows (see the form). This adds the reference and the itemised block.
-    fd.set('subject', `New order ${orderNum} — ${fmt(total)} — Aussie Prop Notes`)
-    if (fd.get('Email')) fd.set('replyto', fd.get('Email'))
-    fd.set('Order Reference', orderNum)
-    fd.set('Order', itemsSummary(false))
-    return fetch('https://api.web3forms.com/submit', {
+  // Order payload for /api/order — a Vercel serverless function that saves
+  // the order (when Upstash Redis is configured) and emails the admin +
+  // customer via SMTP. Denomination mixes ride along inside the item name
+  // since the store schema doesn't carry a separate field for them.
+  function buildOrderPayload(orderNum, fd, channel) {
+    return {
+      orderNumber: orderNum,
+      channel,
+      customerName: fd.get('Name') || '',
+      customerEmail: fd.get('Email') || '',
+      customerPhone: fd.get('Phone') || '',
+      address: fd.get('Delivery Address') || '',
+      items: rows.map(r => ({
+        name: r.p.name + (mixLabel(r.mix) ? ' — ' + mixLabel(r.mix) : ''),
+        quantity: r.qty,
+        price: r.p.price,
+      })),
+      subtotal,
+      amountDue: total,
+      paymentMethod: fd.get('Payment Method') || '',
+      notes: fd.get('Order Notes') || '',
+    }
+  }
+
+  function postOrder(payload) {
+    return fetch('/api/order', {
       method: 'POST',
-      headers: { 'Accept': 'application/json' },
-      body: fd
-    }).then(r => r.json().then(d => ({ ok: r.status === 200 && d.success, data: d })))
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify(payload),
+    }).then(r => r.json().then(d => ({ ok: r.ok, data: d })))
   }
 
   function onWhatsApp(e) {
@@ -310,26 +328,24 @@ export function Order() {
     const orderText = buildWhatsAppText(orderNum, fd)
     const waUrl = 'https://wa.me/' + SITE.whatsapp + '?text=' + encodeURIComponent(orderText)
     setWaFallbackUrl(waUrl)
+    // Open synchronously, before any await, so pop-up blockers don't trigger.
     window.open(waUrl, '_blank', 'noopener')
-    // WhatsApp-only path — no backup email. Order via email is the
-    // separate, email-only action below.
+    // Fire-and-forget: save the order + email the admin so it shows in the
+    // Reply Portal dashboard alongside email-channel orders.
+    postOrder(buildOrderPayload(orderNum, fd, 'whatsapp')).catch(() => {})
     window.location.href = '/thank-you-order/?order=' + orderNum
   }
 
   function onEmail(e) {
     e.preventDefault()
     if (!formRef.current.reportValidity() || !canSubmit) return
-    if (!SITE.web3formsKey || SITE.web3formsKey.startsWith('YOUR-')) {
-      setEmailErr('Email ordering isn’t set up yet — please use "Order via WhatsApp" instead.')
-      return
-    }
     const orderNum = orderNumber || genOrderNumber()
     const fd = new FormData(formRef.current)
     setEmailErr('')
     setBusyChannel('email')
-    postToWeb3Forms(fd, orderNum).then(({ ok, data }) => {
+    postOrder(buildOrderPayload(orderNum, fd, 'email')).then(({ ok, data }) => {
       if (ok) { window.location.href = '/thank-you-order/?order=' + orderNum }
-      else { setBusyChannel(''); setEmailErr((data && data.message) || 'Something went wrong sending your order. Please try WhatsApp instead.') }
+      else { setBusyChannel(''); setEmailErr((data && data.error) || 'Something went wrong sending your order. Please try WhatsApp instead.') }
     }).catch(() => { setBusyChannel(''); setEmailErr('Something went wrong sending your order. Please try WhatsApp instead.') })
   }
 
@@ -340,10 +356,6 @@ export function Order() {
       <p className="lead">Fill in your details, pick how you'd like to order, and we confirm stock and payment within one business day.</p>
       <div className="checkout-grid">
         <form ref={formRef} className="checkout-form web-form">
-          <input type="hidden" name="access_key" value={SITE.web3formsKey} />
-          <input type="hidden" name="from_name" value="Aussie Prop Notes Website" />
-          <input type="hidden" name="botcheck" value="" style={{ display: 'none' }} />
-
           <h2 className="checkout-h2">Your details</h2>
           <div className="field-grid">
             <label>Your name<input type="text" name="Name" required autoComplete="name" /></label>
@@ -467,7 +479,7 @@ export function Privacy() {
       <h2>What we collect</h2>
       <p>Order and enquiry forms collect your name, contact details, delivery address and message content. Our cart stores items in your own browser only. We do not run third-party advertising trackers on this site.</p>
       <h2>How we use it</h2>
-      <p>Contact and order details are used to fulfil your order, respond to enquiries and provide delivery updates. Form submissions are processed by Web3Forms and delivered to our business email. WhatsApp conversations are handled under WhatsApp's own terms.</p>
+      <p>Contact and order details are used to fulfil your order, respond to enquiries and provide delivery updates. Form submissions are sent directly to our business email and, for order tracking, stored in our order dashboard. WhatsApp conversations are handled under WhatsApp's own terms.</p>
       <h2>Retention and access</h2>
       <p>We keep order records as required for Australian tax and consumer-law purposes. You can request a copy of the personal information we hold about you, or ask us to delete it where the law allows, by <Link to="/contact/">contacting us</Link>.</p>
       <h2>Security</h2>

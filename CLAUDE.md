@@ -1,6 +1,6 @@
 # Aussie Prop Notes — project instructions
 
-Camera-ready prop money storefront. React (Vite), prerendered to static HTML, deployed on Vercel via GitHub.
+Camera-ready prop money storefront. React (Vite), prerendered to static HTML, deployed on Vercel via GitHub. Forms and the Reply Portal admin dashboard run as plain Vercel serverless functions under `api/` (Node `(req, res)` handlers, no Next.js) — see "Reply Portal" below.
 
 ## Non-negotiable: RBA compliance wording
 
@@ -29,8 +29,8 @@ There is no `.well-known/*` generator in this project — those files, `robots.t
 ## Rules
 
 - `npm run build` must succeed before every push (runs `vite build` then `scripts/prerender.mjs`, which renders every route to static HTML, generates `sitemap.xml`, generates `dist/meta-catalog.csv` — the product feed for Meta Commerce Manager / Pinterest catalogs, keyed off `PRODUCTS` — and minifies `public/js/webmcp.js`).
-- `/links/` is a `noindex` link hub for social-media bios (Instagram/TikTok allow one link). The footer + homepage carry a `NewsletterSignup` (Web3Forms-backed; swap the fetch URL + CSP to connect a real ESP).
-- Web3Forms has no HTML-email templating, so the notification email is only as tidy as the fields sent. Form `name` attributes are the email labels — keep them human ("Delivery Address", "Payment Method", "Requirements"), not `snake_case`. Each form sets `replyto` from the `Email` field at submit time (`WebForm.jsx` / `Order` in `Static.jsx`). The `/order/` email sends clean per-field rows plus an `Order` block from `itemsSummary(false)`; the WhatsApp message uses `itemsSummary(true)` (`*bold*` headers) inside `buildWhatsAppText`. `fmt()` shows cents only when the amount has them.
+- `/links/` is a `noindex` link hub for social-media bios (Instagram/TikTok allow one link). The footer + homepage carry a `NewsletterSignup` that POSTs `{type:'newsletter', fields:{email}}` to `/api/contact` — same SMTP pipe as every other form, not a managed list.
+- Form `name` attributes are the email labels — keep them human ("Delivery Address", "Payment Method", "Requirements"), not `snake_case`. `WebForm.jsx` POSTs `{type, fields}` JSON to `/api/contact`; `Order` in `Static.jsx` POSTs a structured order object to `/api/order` (see `lib/order.js`, `lib/emailTemplate.js`). The WhatsApp checkout path also fire-and-forgets a POST to `/api/order` (channel:'whatsapp') so it lands in the Reply Portal dashboard alongside email-channel orders. `fmt()` shows cents only when the amount has them.
 - Exactly one `<h1>` per page. Meta descriptions ~150 chars (Google ≤160), assembled via `clampDesc()` in `routes.jsx` so they never truncate mid-word. Titles ≤60 chars, except blog posts which append ` | Aussie Prop Notes` and may run to ~78 (deliberate — keeps `<title>` distinct from `<h1>`). On `/blog/` and its post cards the page `<h1>` is the only h1; cluster titles are `<h2>`, card titles `<h3>`.
 - Renaming a post slug: add a 301 in `vercel.json` `redirects` from the old path (the sitemap and internal links regenerate, but external links and the index don't).
 - Never emit `numberOfItems` directly on a `Store`/`Organization`/`LocalBusiness` schema block — it belongs on `OfferCatalog` (see `/shop/` route in `src/routes.jsx`).
@@ -44,4 +44,15 @@ Only state track record we can actually verify: founded Sydney 2022, ships Austr
 
 ## Live order channel
 
-`SITE.whatsapp` in `src/data/site.js` is the real number (`61420126562`) — WhatsApp is the live order channel (Web3Forms key is also set and working). Every plain "chat" link is built with `waHref()` (from `site.js`), which pre-fills `SITE.whatsappGreeting` ("Hi Aussie Prop") so incoming messages are identifiable as website enquiries; the `/order/` flow builds its own detailed order text instead. If it ever changes, update it in `src/data/site.js` AND `public/.well-known/acp.json`, `public/.well-known/agent-skills/index.json`, `public/.well-known/mcp/server-card.json`, `public/.well-known/ucp`, and `public/js/webmcp.js`.
+`SITE.whatsapp` in `src/data/site.js` is the real number (`61420126562`) — WhatsApp is a live order channel alongside email/SMTP (see Reply Portal below). Every plain "chat" link is built with `waHref()` (from `site.js`), which pre-fills `SITE.whatsappGreeting` ("Hi Aussie Prop") so incoming messages are identifiable as website enquiries; the `/order/` flow builds its own detailed order text instead. If it ever changes, update it in `src/data/site.js` AND `public/.well-known/acp.json`, `public/.well-known/agent-skills/index.json`, `public/.well-known/mcp/server-card.json`, `public/.well-known/ucp`, and `public/js/webmcp.js`.
+
+## Reply Portal (admin dashboard + transactional email)
+
+`SITE.reply` in `src/data/site.js` is the single source of truth for the admin dashboard and every outbound email (brand accent, header tagline, order prefix, payment methods, deadline hours) — never hardcode a colour, prefix or method elsewhere. Plumbing lives in `lib/` (`redis.js`, `orderStore.js`, `enquiryStore.js`, `adminAuth.js`, `mailer.js`, `emailTemplate.js`, `order.js`, `whatsapp.js`) and is invariant; only `SITE.reply` content varies. API endpoints are plain Vercel serverless functions in `api/` (`order.js`, `contact.js`, `admin/verify.js`, `admin/orders/`, `admin/enquiries/`, `admin/send-payment-email.js`, `admin/reply-enquiry.js`) — every `api/admin/*` handler calls `checkAdminPasscode(req, res)` first. The admin UI (`src/pages/Admin.jsx`, `src/components/admin/PasscodeGate.jsx`, `src/hooks/useAdminPasscode.js`) is passcode-gated client-side React reached at `/admin/`, `/admin/orders/`, `/admin/enquiries/`, `/admin/send-payment-email/?id=`, `/admin/reply-enquiry/?id=` — all `noindex`, disallowed in `robots.txt`, excluded from the public nav/footer/chat chrome in `App.jsx`, and served `Cache-Control: no-store` via `vercel.json`.
+
+**Live placeholders — nothing works until these are set as Vercel env vars (never in the repo):**
+- `EMAIL_SERVER_HOST` / `EMAIL_SERVER_PORT` / `EMAIL_SERVER_SECURE` / `EMAIL_SERVER_USER` / `EMAIL_SERVER_PASSWORD` / `EMAIL_FROM` — without these, `lib/mailer.js#sendMail()` returns `{sent:false}` and every form silently doesn't email (WhatsApp still works). Also needs SPF/DKIM/DMARC DNS records for deliverability once set.
+- `ADMIN_PASSCODE` — without it, every `/api/admin/*` route returns 503 and the dashboard is permanently locked out.
+- `UPSTASH_REDIS_REST_URL` + `UPSTASH_REDIS_REST_TOKEN` (or any of the 3 aliased pairs `lib/redis.js` accepts) — without these, orders/enquiries still email through but never appear in the dashboard.
+
+Every layer degrades gracefully in that order — the site never crashes for a missing env var, it just quietly loses the feature that depends on it. Web3Forms has been fully removed; there is no fallback form provider.
