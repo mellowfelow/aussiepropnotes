@@ -3,8 +3,8 @@ import { sendMail } from '../lib/mailer.js'
 import { buildEmailHtml } from '../lib/emailTemplate.js'
 import { saveEnquiry, generateEnquiryId, isRedisConfigured } from '../lib/enquiryStore.js'
 
-const TYPE_LABEL = { contact: 'Contact enquiry', wholesale: 'Wholesale application', newsletter: 'Newsletter signup' }
-const TYPE_DEST = { contact: () => SITE.email, wholesale: () => SITE.wholesaleEmail, newsletter: () => SITE.email }
+const TYPE_LABEL = { contact: 'Contact enquiry', wholesale: 'Wholesale application', newsletter: 'Newsletter signup', review: 'Customer review submission' }
+const TYPE_DEST = { contact: () => SITE.email, wholesale: () => SITE.wholesaleEmail, newsletter: () => SITE.email, review: () => SITE.email }
 
 export default async function handler(req, res) {
   if (req.method !== 'POST') return res.status(405).json({ error: 'Method not allowed' })

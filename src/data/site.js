@@ -1087,3 +1087,21 @@ export const CATEGORY_FAQ = {
     { q: 'Which denominations should I order for an international scene?', a: 'The US $100 is the global shorthand for serious money and the most requested. Add $20s and $50s for wallet and till realism, and consider the four-currency mixed set for exchange-counter and border scenes.' },
   ],
 }
+
+// Verified brand facts only — see CLAUDE.md "Never fabricate brand facts".
+export const BRAND = {
+  foundingYear: SITE.founded,
+  foundingLocation: SITE.foundedPlace,
+  description: 'Camera-ready Australian prop money for film, TV, photography and events.',
+  milestones: [
+    { year: '2022', event: 'Founded in Sydney supplying production props' },
+    { year: '2026', event: `Expanded range across ${PRODUCTS.length}+ camera-ready product lines` },
+  ],
+  differentiation: [
+    'RBA guideline compliance on all reproduction props',
+    'Fast Sydney dispatch within 1 business day',
+    'Discreet Australia-wide tracked shipping',
+    'Wholesale production supply with tiered volume pricing',
+  ],
+  sameAs: Object.values(SITE.social),
+}

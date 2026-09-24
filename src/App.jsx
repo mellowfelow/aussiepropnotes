@@ -2,6 +2,7 @@ import React, { useEffect } from 'react'
 import { Routes, Route, useLocation } from 'react-router-dom'
 import { ROUTES } from './routes.jsx'
 import { AnnouncementBar, Nav, Footer, CartDrawer } from './components/ui.jsx'
+import RecentBuyerPopup from './components/RecentBuyerPopup.jsx'
 import Shop from './pages/Shop.jsx'
 import Product from './pages/Product.jsx'
 import { BlogPost } from './pages/Blog.jsx'
@@ -22,6 +23,7 @@ const isParamPage = (p) =>
 export default function App() {
   const { pathname } = useLocation()
   const isAdmin = pathname.startsWith('/admin/') || pathname === '/admin'
+  const isThankYou = pathname.startsWith('/thank-you-')
   const routes = (
     <Routes>
       {ROUTES.filter(r => !isParamPage(r.path)).map(r => <Route key={r.path} path={r.path} element={r.el} />)}
@@ -41,6 +43,7 @@ export default function App() {
       <Nav />
       <CartDrawer />
       {routes}
+      {!isThankYou && <RecentBuyerPopup />}
       <Footer />
     </>
   )
