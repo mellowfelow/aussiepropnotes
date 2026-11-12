@@ -68,7 +68,7 @@ a:hover{color:var(--gold2)}
 
 /* hero */
 .hero{position:relative;background:var(--ink);color:var(--paper);overflow:hidden}
-.hero-photo{position:absolute;inset:0;background-image:linear-gradient(100deg,var(--ink) 34%,rgba(14,27,42,.86) 55%,rgba(14,27,42,.42) 100%),url('/images/hero.jpg');background-size:cover;background-position:center right;pointer-events:none}
+.hero-photo{position:absolute;inset:0;background-image:linear-gradient(100deg,var(--ink) 34%,rgba(14,27,42,.86) 55%,rgba(14,27,42,.42) 100%),url('/images/hero.jpg');background-image:linear-gradient(100deg,var(--ink) 34%,rgba(14,27,42,.86) 55%,rgba(14,27,42,.42) 100%),image-set(url('/images/hero.avif') type('image/avif'),url('/images/hero.jpg') type('image/jpeg'));background-size:cover;background-position:center right;pointer-events:none}
 .hero-guilloche{position:absolute;inset:0;opacity:.35;background-image:url('/images/guilloche.svg');background-size:900px;background-position:center right;pointer-events:none;mix-blend-mode:screen}
 .hero-inner{position:relative;max-width:1180px;margin:0 auto;padding:clamp(3.4rem,8vw,6.5rem) 1.2rem}
 .eyebrow{color:var(--gold);font-size:.8rem;letter-spacing:.16em;text-transform:uppercase;font-weight:600;margin-bottom:1rem}
@@ -387,7 +387,7 @@ p.pcard-crypto{flex:0 0 auto;font-size:.78rem;font-weight:650;color:var(--wa-dar
   .cart-row>strong{grid-column:3;grid-row:2;text-align:right;align-self:center}
   .cart-row .rm-btn{grid-column:3;grid-row:1;justify-self:end}
   .hero-guilloche{background-size:520px;opacity:.22}
-  .hero-photo{background-image:linear-gradient(180deg,var(--ink) 30%,rgba(14,27,42,.9) 60%,rgba(14,27,42,.55) 100%),url('/images/hero.jpg')}
+  .hero-photo{background-image:linear-gradient(180deg,var(--ink) 30%,rgba(14,27,42,.9) 60%,rgba(14,27,42,.55) 100%),url('/images/hero.jpg');background-image:linear-gradient(180deg,var(--ink) 30%,rgba(14,27,42,.9) 60%,rgba(14,27,42,.55) 100%),image-set(url('/images/hero.avif') type('image/avif'),url('/images/hero.jpg') type('image/jpeg'))}
 }
 
 /* Reply Portal admin — private operator tool, dark shell is fine here (not

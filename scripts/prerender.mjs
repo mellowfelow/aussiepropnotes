@@ -70,7 +70,7 @@ for (const r of ROUTES) {
     `<link rel="canonical" href="${canonical}">`,
     `<link rel="preload" href="/fonts/inter-latin.woff2" as="font" type="font/woff2" crossorigin>`,
     `<link rel="preload" href="/fonts/archivo-latin.woff2" as="font" type="font/woff2" crossorigin>`,
-    r.path === '/' ? `<link rel="preload" href="/images/hero.jpg" as="image" fetchpriority="high">` : '',
+    r.path === '/' ? `<link rel="preload" href="/images/hero.avif" as="image" type="image/avif" fetchpriority="high">` : '',
     `<link rel="icon" type="image/svg+xml" href="/images/favicon.svg">`,
     `<meta name="google-site-verification" content="${SITE.gscCode}">`,
     `<meta name="IndexNow-key" content="${SITE.indexNowKey}">`,

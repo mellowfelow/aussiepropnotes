@@ -5,6 +5,7 @@
   "cleanUrls": false,
   "trailingSlash": true,
   "redirects": [
+    { "source": "/:path*", "has": [{ "type": "host", "value": "aussiepropnotes.com" }], "destination": "https://www.aussiepropnotes.com/:path*", "permanent": true },
     { "source": "/blog/prop-money-vs-counterfeit-australia/", "destination": "/blog/how-to-check-prop-money-is-compliant/", "permanent": true },
     { "source": "/favicon.ico", "destination": "/images/favicon.svg", "permanent": false }
   ],

@@ -1010,10 +1010,20 @@ export const POST_CLUSTERS = [
 ]
 
 // Related posts for a slug: cluster siblings first, then topped up in list
-// order so short clusters still return a full set.
+// order so short clusters still return a full set. Siblings are rotated to
+// start right after this post's own position in the cluster (wrapping
+// around), not always from the front of the array — a fixed front-of-array
+// slice(0,3) meant posts near the end of a cluster larger than n+1 (e.g. the
+// 8-post "use-cases" cluster) were never chosen as a sibling by anyone and
+// got zero inbound "Related guides" links sitewide. Rotating spreads picks
+// evenly around the cluster so every member gets linked to.
 export const relatedPosts = (slug, n = 3) => {
   const cl = POST_CLUSTERS.find(c => c.posts.includes(slug))
-  const sib = cl ? cl.posts.filter(s => s !== slug) : []
+  let sib = []
+  if (cl) {
+    const i = cl.posts.indexOf(slug)
+    sib = [...cl.posts.slice(i + 1), ...cl.posts.slice(0, i)]
+  }
   const fill = POSTS.map(p => p.slug).filter(s => s !== slug && !sib.includes(s))
   return [...sib, ...fill].slice(0, n).map(s => POSTS.find(p => p.slug === s)).filter(Boolean)
 }

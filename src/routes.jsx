@@ -43,6 +43,7 @@ const clampDesc = (s, max = 157) => (s.length <= max ? s : s.slice(0, max + 1).r
 // boilerplate sentence.
 const PROD_TAIL = {
   'film-tv-props': 'Camera-ready for 4K and 8K. Fast Sydney dispatch, free AU shipping over $500.',
+  'money-stacks': 'Banded, screen-ready, dispatched from Sydney. Free AU shipping over $500.',
   'photography-props': 'Matte, glare-free stock. Fast Sydney dispatch, free AU shipping over $500.',
   'event-party-props': 'Built to last a full event. Fast Sydney dispatch, free shipping over $500.',
   'custom-prop-money': 'Designed and printed to order. Sydney dispatch, free AU shipping over $500.',
@@ -77,8 +78,9 @@ const postFaqs = (body) => {
 }
 
 const prices = PRODUCTS.map(p => p.price)
+const ORG_ID = U + '/#organization'
 const storeSchema = {
-  '@context': 'https://schema.org', '@type': ['Store', 'Organization'],
+  '@context': 'https://schema.org', '@type': ['Store', 'Organization'], '@id': ORG_ID,
   name: SITE.brand, url: U + '/', logo: U + '/images/logo.svg', image: U + '/images/og-home.png',
   description: 'Australian prop money supplier: camera-ready AUD prop notes, money stacks, custom printed notes and event money props. RBA-guideline compliant, dispatched from Sydney Australia-wide.',
   foundingDate: SITE.founded,
@@ -137,7 +139,7 @@ export const ROUTES = [
           offers: { '@type': 'Offer', url: U + '/product/' + p.slug + '/', priceCurrency: 'AUD', price: p.price,
             priceValidUntil: PRICE_VALID_UNTIL,
             availability: 'https://schema.org/InStock', itemCondition: 'https://schema.org/NewCondition',
-            seller: { '@type': 'Organization', name: SITE.brand },
+            seller: { '@type': 'Organization', '@id': ORG_ID, name: SITE.brand },
             shippingDetails: offerShipping, hasMerchantReturnPolicy: returnPolicy } },
         crumbs([['Shop', '/shop/'], [c.name, '/shop/' + c.slug + '/'], [p.name, null]]),
         ...(d ? [faqSchema([{ q: d.faq.q, a: d.faq.a }])] : [])
@@ -164,8 +166,8 @@ export const ROUTES = [
     schema: [
       { '@context': 'https://schema.org', '@type': 'Article', headline: p.title, description: p.excerpt,
         datePublished: p.date, dateModified: p.modified || p.date, inLanguage: 'en-AU',
-        author: { '@type': 'Organization', name: SITE.brand, url: U + '/' },
-        publisher: { '@type': 'Organization', name: SITE.brand, logo: { '@type': 'ImageObject', url: U + '/images/logo.svg' } },
+        author: { '@type': 'Organization', '@id': ORG_ID, name: SITE.brand, url: U + '/' },
+        publisher: { '@type': 'Organization', '@id': ORG_ID, name: SITE.brand, logo: { '@type': 'ImageObject', url: U + '/images/logo.svg' } },
         mainEntityOfPage: U + '/blog/' + p.slug + '/', image: U + '/images/og-home.png',
         about: { '@type': 'Thing', name: p.kw }, keywords: p.kw, articleSection: 'Prop money guides',
         isPartOf: { '@type': 'Blog', name: SITE.brand + ' Blog', url: U + '/blog/' } },
